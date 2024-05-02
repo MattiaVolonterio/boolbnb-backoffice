@@ -1,0 +1,21 @@
+name,n_room,n_bathroom,n_bed,square_meters,floor,address,lat,lon
+Loggia degli Osii,11,3,11,90,0,Piazza dei Mercanti 9 Milano,45.4645,9.18758
+Casa dei Morigi,4,3,6,150,1,via Morigi 8 Milano,45.46403,9.18094
+Palazzo Taverna,5,3,5,300,4,via Bigli 9 Milano,45.468301,9.191743
+Palazzo Cusani,3,4,5,140,6,via Brera 13-15 Milano,45.471003,9.187303
+Palazzo dell'Ambrosiana,9,4,9,80,0,Piazza Pio XI 2 Milano,45.4634,9.185725
+Palazzo Dal Pozzo Benni,12,4,20,350,10,corso Venezia 53 Milano,45.471735,9.199849
+Palazzo Litta Cusini Modignani,7,3,7,240,3,corso Europa 16 Milano,45.464551,9.197092
+Casa Cavalli,4,3,4,110,1,via Dante 6 Milano,45.466728,9.183902
+Palazzo Brentani,3,3,3,120,4,via Manzoni 6 Milano,45.467835,9.190696
+Casa Dugnani,7,4,7,300,8,via Saffi 9 Milano,45.468677,9.169026
+Casa Milanese,5,5,5,220,2,corso Vittorio Emanuele II 8 Milano,45.465013,9.193859
+Palazzo Argentina,12,5,19,450,2,corso Buenos Aires 36 Milano,45.478632,9.209815
+Casa Lentati,3,3,3,100,1,via Telesio 2 Milano,45.468849,9.165392
+Villino Maria Luisa,11,11,22,400,0,via Tamburini 8 Milano,45.469701,9.167795
+Palazzo Mezzanotte,8,4,10,340,5,piazza degli Affari 6 Milano,45.465203,9.1833
+Casa Galimberti,4,3,8,250,0,via Malpighi 3 Milano,45.474686,9.207017
+Palazzo Turati,8,4,12,250,3,via Meravigli 7 Milano,45.465664,9.183837
+Castello Cova,5,3,12,150,0,via Carducci 36 Milano,45.4629,9.173487
+Casa Candiani,8,3,8,260,0,via Bandello 14-20 Milano,45.4634,9.166
+Palazzo Chiesa,7,7,12,190,2,corso Venezia 36 Milano,45.471256,9.20182
