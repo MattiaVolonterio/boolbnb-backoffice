@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Apartment extends Model
+class Message extends Model
 {
     use HasFactory;
 
     // relazione 1 a n
-    public function messages()
+    public function apartment()
     {
-        return $this->hasMany(Message::class);
+        return $this->belongsTo(Apartment::class);
     }
-
 }
