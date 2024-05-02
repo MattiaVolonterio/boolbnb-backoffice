@@ -18,8 +18,8 @@ class VisitSeeder extends Seeder
     public function run()
     {
         $visit = new Visit;
-        $visit->appartment_id = 3;
-        $visit->ip_address='122.122.122.122';
+        $visit->apartment_id = 3;
+        $visit->ip_address = '122.122.122.122';
         $visit->save();
     }
 }
