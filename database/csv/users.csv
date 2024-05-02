@@ -1,4 +1,5 @@
 email,password,name,surname,birthday
+admin@admin.com,admin,admin,admin,2024-05-02
 marco.rossi@email.com,Password123,Marco,Rossi,1985-05-10
 laura.bianchi@email.com,SecurePass456,Laura,Bianchi,1990-08-15
 giovanni.verdi@email.com,StrongPassword789,Giovanni,Verdi,1982-03-20

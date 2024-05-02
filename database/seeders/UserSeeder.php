@@ -16,10 +16,24 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $user = new User;
-        $user->name = 'admin';
-        $user->email = 'admin@email.com';
-        $user->password = Hash::make('admin');
-        $user->save();
+        // Legge il file csv
+        $data = fopen(__DIR__ . '/../csv/users.csv', 'r');
+        // variabile di controllo per la prima linea del file
+        $is_first_line = true;
+
+        // ciclo while che per ogni linea del file genera un nuovo utente
+        while ($users_data = fgetcsv($data)) {
+            if (!$is_first_line) {
+                $user = new User;
+                $user->email = $users_data[0];
+                $user->password = Hash::make($users_data[1]);
+                $user->name = $users_data[2];
+                $user->surname = $users_data[3];
+                $user->birthday = $users_data[4];
+                $user->save();
+            }
+            // setta la variabile a false dopo la prima iterazione
+            $is_first_line = false;
+        }
     }
 }
