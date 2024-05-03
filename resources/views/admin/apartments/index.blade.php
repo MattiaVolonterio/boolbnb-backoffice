@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="container mt-5">
-        <h1 class="text-light text-center">Lista Appartamenti</h1>
+        <h1 class="text-center">Lista Appartamenti</h1>
 
         <a class="btn btn-primary mt-3 mb-4" href="{{ route('admin.apartments.create') }}">Crea uno nuovo</a>
 
@@ -44,7 +44,7 @@
                             <a href="{{ route('admin.apartments.edit', $apartment->id) }}" class="me-2">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a>
-                            <button type="button" class="modal-button" data-bs-toggle="modal"
+                            <button type="button" class="modal-button btn" data-bs-toggle="modal"
                                     data-bs-target="#delete-apartment-{{ $apartment->id }}">
                                 <i class="fa-solid fa-circle-xmark" style="color: red;"> </i>
                             </button>
@@ -61,7 +61,6 @@
         {{ $apartments->links() }} 
     </section>
 @endsection
-
 @section('modal')
     @foreach ($apartments as $apartment)
         <div class="modal fade" id="delete-apartment-{{ $apartment->id }}" tabindex="-1"

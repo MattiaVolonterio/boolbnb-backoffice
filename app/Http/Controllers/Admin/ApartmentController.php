@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Apartment;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 class ApartmentController extends Controller
@@ -15,7 +16,7 @@ class ApartmentController extends Controller
     public function index()
     {
         $apartments = Apartment::paginate(10);
-        return view('admin.apartmens.index', compact('apartments'));
+        return view('admin.apartments.index', compact('apartments'));
     }
 
     /**
@@ -24,7 +25,9 @@ class ApartmentController extends Controller
      */
     public function create()
     {
-        //
+        $apartment = new Apartment();
+        $services = Service::all();
+        return view('admin.apartments.create', compact('apartment', 'services'));
     }
 
     /**
@@ -34,7 +37,7 @@ class ApartmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return redirect()->route("admin.apartments.index")->with('success', 'apartamento creato con successo');
     }
 
     /**
@@ -44,7 +47,7 @@ class ApartmentController extends Controller
      */
     public function show(Apartment $apartment)
     {
-        //
+        return view('admin.apartments.show', compact('apartment'));
     }
 
     /**
@@ -65,9 +68,19 @@ class ApartmentController extends Controller
      */
     public function update(Request $request, Apartment $apartment)
     {
-        //
+        $data = $request->all();
+        $apartment->update($data);
+        return redirect()->route('admin.apartments.show' ,compact('apartment'));
     }
 
+
+
+
+
+
+
+
+    
     /**
      * Remove the specified resource from storage.
      *
@@ -75,6 +88,8 @@ class ApartmentController extends Controller
      */
     public function destroy(Apartment $apartment)
     {
-        //
+        $apartment->delete();
+        return redirect()->route('admin.apartments.index')->with('message', "$apartment->name eliminato con successo");
+
     }
 }
