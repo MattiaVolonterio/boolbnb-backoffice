@@ -11,17 +11,16 @@ class ApartmentController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $apartments = Apartment::paginate(10);
+        return view('admin.apartmens.index', compact('apartments'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -32,7 +31,6 @@ class ApartmentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -43,7 +41,6 @@ class ApartmentController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Apartment  $apartment
-     * @return \Illuminate\Http\Response
      */
     public function show(Apartment $apartment)
     {
@@ -54,7 +51,6 @@ class ApartmentController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Apartment  $apartment
-     * @return \Illuminate\Http\Response
      */
     public function edit(Apartment $apartment)
     {
@@ -66,7 +62,6 @@ class ApartmentController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Apartment  $apartment
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Apartment $apartment)
     {
@@ -77,7 +72,6 @@ class ApartmentController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Apartment  $apartment
-     * @return \Illuminate\Http\Response
      */
     public function destroy(Apartment $apartment)
     {
