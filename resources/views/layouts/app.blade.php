@@ -22,6 +22,8 @@
         </main>
 
         @include('layouts.partials.footer')
+
+        @yield('purchase-modal')
     </div>
 
     @auth
