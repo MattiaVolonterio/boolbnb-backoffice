@@ -34,8 +34,8 @@ class Apartment extends Model
     }
 
     // relazione 1 a n
-    public function apartment_images()
+    public function apartmentImages()
     {
-        return $this->hasMany(Apartment_image::class);
+        return $this->hasMany(ApartmentImage::class);
     }
 }

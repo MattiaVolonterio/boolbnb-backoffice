@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Apartment_image;
+use App\Models\ApartmentImage;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -24,8 +24,8 @@ class ApartmentImageSeeder extends Seeder
         while (!feof($file)) {
             $apartment_image_data = fgetcsv($file);
             if (!$is_first_line) {
-                // nuovo Apartment image
-                $apartment_image = new Apartment_image;
+                // nuovo ApartmentImage
+                $apartment_image = new ApartmentImage;
                 $apartment_image->url = $apartment_image_data[1];
                 // salvataggio nel db
                 $apartment_image->save();
