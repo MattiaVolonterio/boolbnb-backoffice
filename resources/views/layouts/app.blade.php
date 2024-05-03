@@ -22,6 +22,7 @@
         </main>
 
         @include('layouts.partials.footer')
+        @yield('modal')
     </div>
 
     @auth
@@ -37,6 +38,7 @@
     @endauth
 
     @yield('js')
+
 </body>
 
 </html>
