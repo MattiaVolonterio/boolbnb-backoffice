@@ -22,8 +22,14 @@ class Apartment extends Model
     }
 
     // relazione n a n
-    public function services(){
+    public function services()
+    {
         return $this->belongsToMany(Service::class);
     }
 
+    // relazione n a n
+    public function sponsorships()
+    {
+        return $this->belongsToMany(Sponsorship::class);
+    }
 }
