@@ -21,4 +21,9 @@ class Apartment extends Model
         return $this->hasMany(Visit::class);
     }
 
+    // relazione n a n
+    public function services(){
+        return $this->belongsToMany(Service::class);
+    }
+
 }
