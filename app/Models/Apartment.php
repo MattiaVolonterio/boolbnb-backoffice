@@ -21,6 +21,12 @@ class Apartment extends Model
         return $this->hasMany(Visit::class);
     }
 
+    // relazione 1 a n
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     // relazione n a n
     public function services()
     {
@@ -31,5 +37,11 @@ class Apartment extends Model
     public function sponsorships()
     {
         return $this->belongsToMany(Sponsorship::class);
+    }
+
+    // relazione 1 a n
+    public function apartmentImages()
+    {
+        return $this->hasMany(ApartmentImage::class);
     }
 }
