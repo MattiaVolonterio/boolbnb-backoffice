@@ -3,9 +3,13 @@
 namespace Database\Seeders;
 
 use App\Models\Apartment;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+
+// faker
+use Faker\Generator as Faker;
 
 class ApartmentSeeder extends Seeder
 {
@@ -14,8 +18,11 @@ class ApartmentSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(Faker $faker)
     {
+        // recupero gli ID degli utenti
+        $users = User::all()->pluck('id');
+
         // apre il file csv
         $file = fopen(__DIR__ . '/../csv/apartments.csv', 'r');
 
@@ -27,6 +34,7 @@ class ApartmentSeeder extends Seeder
             if (!$is_first_line) {
                 // nuovo apartment
                 $apartment = new Apartment;
+                $apartment->user_id = $faker->randomElement($users);
                 $apartment->name = $apartment_data[0];
                 $apartment->slug = Str::slug($apartment->name);
                 $apartment->n_room = $apartment_data[1];
