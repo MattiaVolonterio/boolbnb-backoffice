@@ -9,6 +9,8 @@ use App\Http\Controllers\Guest\DashboardController as GuestDashboardController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,8 +23,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 // # Rotte pubbliche
-Route::get('/', [GuestDashboardController::class, 'index'])
-  ->name('home');
+// Route::get('/', [GuestDashboardController::class, 'index'])
+//   ->name('home');
+
+// # Rotte pubbliche
+Route::get('/', [AuthenticatedSessionController::class, 'create'])
+  ->name('login');
 
 // # Rotte protette
 Route::middleware('auth')
@@ -38,7 +44,6 @@ Route::middleware('auth')
     Route::resource('/messages', MessageController::class);
     Route::resource('/visits', VisitController::class);
     Route::resource('/services', ServiceController::class);
-
   });
 
 require __DIR__ . '/auth.php';
