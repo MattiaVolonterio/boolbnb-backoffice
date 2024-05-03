@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('apartments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->text('name');
             $table->string('slug');
             $table->unsignedTinyInteger('n_room');
@@ -23,8 +24,8 @@ return new class extends Migration
             $table->unsignedSmallInteger('square_meters');
             $table->unsignedTinyInteger('floor');
             $table->string('address');
-            $table->decimal('lat', 10,8);
-            $table->decimal('lon', 11,8);
+            $table->decimal('lat', 10, 8);
+            $table->decimal('lon', 11, 8);
             $table->string('cover_img')->nullable();
             $table->boolean('visible')->default(true);
             $table->timestamps();
