@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\ApartmentController;
+use App\Http\Controllers\Admin\SponsorshipController;
+use App\Http\Controllers\Admin\VisitController;
+use App\Http\Controllers\Admin\MessageController;
+use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Guest\DashboardController as GuestDashboardController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +32,12 @@ Route::middleware('auth')
 
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])
       ->name('dashboard');
+
+    Route::resource('/apartments', ApartmentController::class);
+    Route::resource('/sponsorships', SponsorshipController::class);
+    Route::resource('/messages', MessageController::class);
+    Route::resource('/visits', VisitController::class);
+    Route::resource('/services', ServiceController::class);
 
   });
 

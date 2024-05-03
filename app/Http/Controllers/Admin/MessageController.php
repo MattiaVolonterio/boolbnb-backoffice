@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Sponsorship;
+use App\Http\Controllers\Controller;
+
+use App\Models\Message;
 use Illuminate\Http\Request;
 
-class SponsorshipController extends Controller
+class MessageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +43,10 @@ class SponsorshipController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Sponsorship  $sponsorship
+     * @param  \App\Models\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function show(Sponsorship $sponsorship)
+    public function show(Message $message)
     {
         //
     }
@@ -52,10 +54,10 @@ class SponsorshipController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Sponsorship  $sponsorship
+     * @param  \App\Models\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function edit(Sponsorship $sponsorship)
+    public function edit(Message $message)
     {
         //
     }
@@ -64,10 +66,10 @@ class SponsorshipController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Sponsorship  $sponsorship
+     * @param  \App\Models\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Sponsorship $sponsorship)
+    public function update(Request $request, Message $message)
     {
         //
     }
@@ -75,10 +77,10 @@ class SponsorshipController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Sponsorship  $sponsorship
+     * @param  \App\Models\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Sponsorship $sponsorship)
+    public function destroy(Message $message)
     {
         //
     }
