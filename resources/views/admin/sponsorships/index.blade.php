@@ -86,7 +86,7 @@
     </main>
 @endsection
 
-@section('purchase-modal')
+@section('modal')
     @foreach ($sponsorships as $sponsorship)
         <!-- Modal -->
         <div class="modal fade" id="purchase-modal-{{ $sponsorship->id }}" tabindex="-1"
