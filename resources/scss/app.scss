@@ -9,3 +9,20 @@
         flex-grow: 1;
     }
 }
+
+.search-container {
+    position: relative;
+
+    #suggestion {
+        background-color: white;
+        width: 100%;
+        border: 1px solid black;
+        position: absolute;
+
+        div {
+            padding-left: 10px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+    }
+}
