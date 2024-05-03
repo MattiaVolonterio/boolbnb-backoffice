@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Apartment_image extends Model
 {
     use HasFactory;
+
+    // relazione n a 1
+    public function apartment()
+    {
+        return $this->belongsTo(Apartment::class);
+    }
 }

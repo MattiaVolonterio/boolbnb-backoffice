@@ -32,4 +32,10 @@ class Apartment extends Model
     {
         return $this->belongsToMany(Sponsorship::class);
     }
+
+    // relazione 1 a n
+    public function apartment_images()
+    {
+        return $this->hasMany(Apartment_image::class);
+    }
 }
