@@ -5,9 +5,11 @@ const searchInput = document.getElementById("address");
 
 // get latitude
 const lat = document.getElementById("lat");
+const latTxt = document.getElementById("latitude");
 
 // get longitude
 const lon = document.getElementById("lon");
+const lonTxt = document.getElementById("longitude");
 
 const form = document.getElementById("form");
 
@@ -29,11 +31,38 @@ function fetchAddress() {
             const results = response.data.results;
             results.forEach((result) => {
                 const address = result.address.freeformAddress;
-                suggestion.innerHTML += `<div>${address}</div>`;
+                const latitude = result.position.lat;
+                const longitude = result.position.lon;
+                createSuggestion(address, latitude, longitude);
             });
         });
 }
 
+// function create suggestion
+function createSuggestion(address, latitude, longitude) {
+    suggestion.classList.remove("d-none");
+    const addressContainer = document.createElement("div");
+    addressContainer.classList.add("suggested-address");
+    addressContainer.innerHTML = address;
+    addressContainer.addEventListener("click", () => {
+        searchInput.value = address;
+        lat.value = latitude;
+        latTxt.innerText = `Lat: ${latitude}`;
+        lon.value = longitude;
+        lonTxt.innerText = `Lon: ${longitude}`;
+        suggestion.classList.add("d-none");
+    });
+    suggestion.append(addressContainer);
+}
+
 searchBtn.addEventListener("click", () => {
     fetchAddress();
+});
+
+searchInput.addEventListener("input", () => {
+    fetchAddress();
+});
+
+document.addEventListener("click", () => {
+    suggestion.classList.add("d-none");
 });

@@ -16,13 +16,15 @@
     #suggestion {
         background-color: white;
         width: 100%;
-        border: 1px solid black;
+        box-shadow: 0 15px 15px 0 grey;
         position: absolute;
 
-        div {
+        .suggested-address {
             padding-left: 10px;
             margin-top: 10px;
             margin-bottom: 10px;
+
+            cursor: pointer;
         }
     }
 }
