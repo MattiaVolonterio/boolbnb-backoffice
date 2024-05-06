@@ -33,12 +33,15 @@ Route::middleware('auth')
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])
       ->name('dashboard');
 
+    Route::get('/sponsorhips/payment_page', function () {
+      return view('admin.sponsorships.payment_page');
+    })->name('payment');
+
     Route::resource('/apartments', ApartmentController::class);
     Route::resource('/sponsorships', SponsorshipController::class);
     Route::resource('/messages', MessageController::class);
     Route::resource('/visits', VisitController::class);
     Route::resource('/services', ServiceController::class);
-
   });
 
 require __DIR__ . '/auth.php';
