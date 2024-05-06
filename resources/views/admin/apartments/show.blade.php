@@ -9,7 +9,7 @@
                 Torna alla lista
             </a>
         </button>
-        {{$apartment_images[0]->url}}
+        
         <h1 class="text-center m-3">{{ $apartment->name }}</h1>
         <di class="row my-3">
             <div class="col-6">

@@ -168,9 +168,14 @@ class ApartmentController extends Controller
         }
 
         // update imgs
-        if ($request->hasFile('url')) {
-            $img_url = $request->file('url')->store('uploads/apartment_images', 'public');
-            $apartmentImage->url = $img_url;
+        if ($request->hasFile('apartment_images')) {
+            foreach ($request->file('apartment_images') as $image) {
+                $path = $image->store('uploads/apartment_images', 'public');
+                ApartmentImage::create([
+                    'apartment_id' => $apartment->id,
+                    'url' => $path
+                ]);
+            }
         }
         
         $apartment->update($data);
