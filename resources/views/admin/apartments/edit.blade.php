@@ -106,20 +106,16 @@
                                     <div id="search_btn" class="btn btn-primary align-self-end w-100">Cerca</div>
                                 </div>
         
-        
-                                
-                    
                                 {{-- latitude e longitude  solo per debug--}}
-                                <div class="col-6 my-3 z-0">  
+                                <div class="col-6 my-3 z-0 d-none">  
                                     <div class="form-floating">   
                                         <input  class="form-control" id="lat" name="lat" 
                                         value="{{ old('lat', $apartment->lat) }}">
                                         <label for="lat" id="latitude">Lat</label>
-                                    </div>
-                                    
+                                    </div> 
                                 </div>
                     
-                                <div class="col-6 my-3 z-0"> 
+                                <div class="col-6 my-3 z-0 d-none"> 
                                     <div class="form-floating">   
                                         <input  class="form-control" id="lon" name="lon" 
                                         value="{{ old('lon', $apartment->lon) }}">
@@ -130,9 +126,16 @@
                             </div>
                         </div>
                         
+                        {{-- cover img --}}
                         <div class="col mb-3">
                             <label for="cover_img" class="form-label">Carica la cover</label>
                             <input class="form-control" type="file" name="cover_img" id="cover_img">
+                        </div>
+
+                        {{-- multi file --}}
+                        <div class="mb-3">
+                            <label for="apartment_images" class="form-label">Carica altre foto</label>
+                            <input class="form-control" type="file" id="apartment_images" name="apartment_images[]" multiple>
                         </div>
 
                         {{-- servizi --}}
@@ -167,6 +170,20 @@
                         @if (!empty($apartment->cover_img))
                         <img src="{{ asset('storage/' . $apartment->cover_img) }}" class="card-img-top img-fluid" style="width: 100%; height: auto;" alt="apartment cover img"  style="width: 200px; ">
                         @endif
+                    </div>
+
+                    {{-- edit carousel --}}
+                    <div class="row">
+                        <div class="row my-5">
+                            {{-- foreach --}}
+                            @foreach ($apartment_images as $img)
+                                {{-- apartment imgs --}}
+                                <div class=" mb-3 col-6">
+                                    <img src="{{ $img->url ? asset('storage/' . $img->url) : 'https://picsum.photos/200/300' }}" class="w-100">
+                                </div>
+                                    
+                            @endforeach
+                        </div>
                     </div>
                 </div>
                   
