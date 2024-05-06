@@ -127,8 +127,16 @@ class ApartmentController extends Controller
      */
     public function edit(Apartment $apartment)
     {   
+        // $userId=auth()->id();a
+
+        // tab apartment img
+        $apartment_images = $apartment->apartmentImages;
+
+        // url imgs
+        $apartment_images->url = !empty($apartment_images->url) ? asset('/storage/' . $apartment_images->url) : null;
+
         $services = Service::all();
-        return view('admin.apartments.edit', compact('apartment','services'));
+        return view('admin.apartments.edit', compact('apartment','services', 'apartment_images'));
     }
 
     /**
@@ -137,7 +145,7 @@ class ApartmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Apartment  $apartment
      */
-    public function update(Request $request, Apartment $apartment)
+    public function update(Request $request, Apartment $apartment, ApartmentImage $apartmentImage)
     {
         $data = $request->all();
         //creo slug dal nome 
@@ -155,19 +163,17 @@ class ApartmentController extends Controller
         } else {
             $apartment->services()->detach();
         }
+
+        // update imgs
+        if ($request->hasFile('url')) {
+            $img_url = $request->file('url')->store('uploads/apartment_images', 'public');
+            $apartmentImage->url = $img_url;
+        }
         
         $apartment->update($data);
-        return redirect()->route('admin.apartments.show' ,compact('apartment'));
+        return redirect()->route('admin.apartments.show' ,compact('apartment', 'apartmentImage'));
     }
 
-
-
-
-
-
-
-
-    
     /**
      * Remove the specified resource from storage.
      *
