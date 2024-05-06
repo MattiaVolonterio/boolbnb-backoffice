@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Guest\DashboardController as GuestDashboardController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,8 +34,9 @@ Route::middleware('auth')
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])
       ->name('dashboard');
 
-    Route::post('/sponsorships/payment_page', function () {
-      return view('admin.sponsorships.payment_page');
+    Route::post('/sponsorships/payment_page', function (Request $request) {
+      $payment_info = $request->all();
+      return view('admin.sponsorships.payment_page', compact('payment_info'));
     })->name('sponsorships.payment_page');
 
     Route::resource('/apartments', ApartmentController::class);

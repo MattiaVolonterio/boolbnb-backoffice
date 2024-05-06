@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Apartment;
 use App\Models\Sponsorship;
+use Carbon\Traits\Timestamp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,11 +35,25 @@ class SponsorshipController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        date_default_timezone_set('Europe/Rome');
+
+        $sponsorhip_id = $request->query()['sponsorship_id'];
+        $apartment_id = $request->query()['apartment_id'];
+        $start_date = now()->format('Y-m-d H:i:s');
+
+        $sponsorhip = Sponsorship::find($sponsorhip_id);
+        $duration = $sponsorhip->duration;
+
+        $expiration = strtotime("+" . $duration . ' Hours');
+        $end_date = date("Y-m-d H:i:s", $expiration);
+
+        $apartments = Apartment::find($apartment_id);
+        $apartments->sponsorships()->attach($sponsorhip_id, ['start_date' => $start_date, 'end_date' => $end_date]);
+
+        return redirect()->route('admin.apartments.show', $apartment_id)->with('message', 'Sottoscrizione effettuata con successo');
     }
 
     /**

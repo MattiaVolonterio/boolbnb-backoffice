@@ -12,7 +12,8 @@
 
 @section('content')
     <div class="container">
-        <form id="payment-form" action="#" method="post">
+        <form id="payment-form" action="{{ route('admin.sponsorships.store', $payment_info) }}" method="post">
+            @csrf
             <div id="dropin-container"></div>
             <button type="submit" class="btn btn-primary">Paga</button>
             <input type="hidden" id="nonce" name="payment_method_nonce">
