@@ -16,7 +16,7 @@ class SponsorshipController extends Controller
     public function index()
     {
         $sponsorships = Sponsorship::all();
-        $apartments = Apartment::select('id', 'title')->where('user_id', Auth::id());
+        $apartments = Apartment::select('id', 'name')->where('user_id', Auth::id())->get();
         return view('admin.sponsorships.index', compact('sponsorships', 'apartments'));
     }
 

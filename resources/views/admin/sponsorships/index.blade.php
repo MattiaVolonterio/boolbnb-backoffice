@@ -110,7 +110,7 @@
                         <select name="apartment_id" id="apartment_id" class="form-select">
                             <option class="d-none" selected>Seleziona un appartamento</option>
                             @forelse ($apartments as $apartment)
-                                <option value="{{ $apartment->id }}">{{ $apartment->title }}</option>
+                                <option value="{{ $apartment->id }}">{{ $apartment->name }}</option>
                             @empty
                                 <option>Nessun appartamento trovato</option>
                             @endforelse
