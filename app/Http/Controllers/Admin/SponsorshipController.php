@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Apartment;
 use App\Models\Sponsorship;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SponsorshipController extends Controller
 {
@@ -14,7 +16,8 @@ class SponsorshipController extends Controller
     public function index()
     {
         $sponsorships = Sponsorship::all();
-        return view('admin.sponsorships.index', compact('sponsorships'));
+        $apartments = Apartment::select('id', 'title')->where('user_id', Auth::id());
+        return view('admin.sponsorships.index', compact('sponsorships', 'apartments'));
     }
 
     /**

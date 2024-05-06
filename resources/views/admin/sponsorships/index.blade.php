@@ -108,11 +108,11 @@
                         <label class="form-label" for="apartment_id">Quale appartamento vuoi sponsorizzare?</label>
                         <select name="apartment_id" id="apartment_id" class="form-select">
                             <option class="d-none" selected>Seleziona un appartamento</option>
-                            <option value="1">Appartamento 1</option>
-                            <option value="2">Appartamento 2</option>
-                            <option value="3">Appartamento 3</option>
-                            <option value="4">Appartamento 4</option>
-                            <option value="5">Appartamento 5</option>
+                            @forelse ($apartments as $apartment)
+                                <option value="{{ $apartment->id }}">{{ $apartment->title }}</option>
+                            @empty
+                                <option>Nessun appartamento trovato</option>
+                            @endforelse
                         </select>
 
                         {{-- paragrafo con la data di fine sponsor --}}
@@ -123,7 +123,9 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Vai al pagamento</button>
+                        @if (!empty($apartments))
+                            <button type="submit" class="btn btn-primary">Vai al pagamento</button>
+                        @endif
                     </div>
                 </form>
             </div>
