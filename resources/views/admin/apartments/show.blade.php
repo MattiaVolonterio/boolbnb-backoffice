@@ -2,6 +2,14 @@
 
 @section('content')
     <section class="container py-3">
+
+        {{-- back to index navigation button --}}
+        <button type="button" class="btn btn-primary">
+            <a href="{{ route('admin.apartments.index') }}" class="text-decoration-none text-white">
+                Torna alla lista
+            </a>
+        </button>
+
         <h1 class="text-center m-3">{{ $apartment->name }}</h1>
         <di class="row my-3">
             <div class="col-6">

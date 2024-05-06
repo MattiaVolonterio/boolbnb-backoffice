@@ -20,7 +20,7 @@
                     <th scope="col">Lat</th>
                     <th scope="col">Lon</th>
                     <th scope="col">Cover</th>
-                    <th scope="col">Azioni</th>
+                    <th class="text-center" scope="col">Azioni</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,16 +37,22 @@
                         <td>{{ $apartment->lat }}</td>
                         <td>{{ $apartment->lon }}</td>
                         <td>{{ $apartment->cover_img }}</td>
-                        <td>
-                            <a href="{{ route('admin.apartments.show', $apartment->id) }}" class=" text-decoration-none me-2">
-                                <i class="fa-solid fa-eye"></i>
-                            </a>
-                            <a href="{{ route('admin.apartments.edit', $apartment->id) }}" class=" text-decoration-none me-2">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </a>
+                        <td class="">
+                            <button type="button" class="btn">
+                                <a href="{{ route('admin.apartments.show', $apartment->id) }}" class="text-decoration-none">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                            </button>
+                            
+                            <button type="button" class="btn">
+                                <a href="{{ route('admin.apartments.edit', $apartment->id) }}" class="text-decoration-none">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                            </button>
+                            
                             <button type="button" class="modal-button btn" data-bs-toggle="modal"
                                     data-bs-target="#delete-apartment-{{ $apartment->id }}">
-                                <i class="fa-solid fa-circle-xmark" style="color: red;"> </i>
+                                <i class="fa-solid fa-circle-xmark" style="color: red;"></i>
                             </button>
                         </td>
                     </tr>
