@@ -115,9 +115,9 @@ class ApartmentController extends Controller
     public function show(Apartment $apartment)
     {   
         $services = $apartment->services;
-        $apartment_images = $apartment->apartment_images;
+        $apartment_images = $apartment->apartmentImages;
         $apartment->cover_img = !empty($apartment->cover_img) ? asset('/storage/' . $apartment->cover_img) : null;
-        return view('admin.apartments.show', compact('apartment','services'));
+        return view('admin.apartments.show', compact('apartment','services','apartment_images'));
     }
 
     /**
