@@ -106,7 +106,7 @@ class ApartmentImageController extends Controller
         //
         $apartment= $apartment_image->apartment->id;
         $apartment_image->delete();
-        return redirect()->route('admin.apartments.edit', $apartment);
+        return back();
 
     }
 }

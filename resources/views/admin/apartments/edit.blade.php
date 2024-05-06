@@ -176,6 +176,7 @@
                         @endif
                     </div>
 
+                </form>
                     {{-- edit carousel --}}
                     <div class="row g-1 mt-3">
                         {{-- foreach --}}
@@ -188,16 +189,17 @@
                                     <form action="{{ route('admin.apartment-images.destroy', $img) }} " method="POST" id="{{ $img->id }}">
                                         @csrf
                                         @method('DELETE')
-                                    </form>
-
-                                    <button class="delete-image-button btn btn-danger position-absolute rounded-circle ms-1 mt-1" id="{{ $img->id }}">
-                                        <i class="fa-solid fa-xmark"></i>
-                                    </button>
-
                                     
-                                <img src="{{ $img->url ? asset('storage/' . $img->url) : 'https://picsum.photos/200/300' }}" 
-                                    style="width: 100%; height: 100%;" class="card-img-top img-fluid m-0 rounded" alt="">
+
+                                        <button class="delete-image-button btn btn-danger position-absolute rounded-circle ms-1 mt-1" id="{{ $img->id }}">
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </button>
+
+                                        <img src="{{ $img->url ? asset('storage/' . $img->url) : 'https://picsum.photos/200/300' }}" 
+                                            style="width: 100%; height: 100%;" class="card-img-top img-fluid m-0 rounded" alt="">
+                                    </form>
                                 </div>
+
                             </div>
 
 
@@ -207,7 +209,6 @@
                   
             </div>
                     
-        </form>
     </div>
 </div>
     
