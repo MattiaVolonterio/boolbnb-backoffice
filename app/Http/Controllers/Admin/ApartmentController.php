@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Apartment;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
@@ -43,30 +44,45 @@ class ApartmentController extends Controller
      */
     public function store(Request $request)
     {
-        // Validazione dei dati inviati dal form
-        $data = $request->validate([
-            'name' => 'required|string',
-            'n_room' => 'required|integer|min:1',
-            'n_bathroom' => 'required|integer|min:1',
-            'n_bed' => 'required|integer|min:1',
-            'square_meters' => 'required|integer|min:1',
-            'floor' => 'required|integer',
-            'address' => 'required|string',
-            'visible' => 'required|boolean', 
-            'cover_img' => 'nullable|image',  
-        ]);
+        // // Validazione dei dati inviati dal form
+        // $data = $request->validate([
+        //     'name' => 'required|string',
+        //     'n_room' => 'required|integer|min:1',
+        //     'n_bathroom' => 'required|integer|min:1',
+        //     'n_bed' => 'required|integer|min:1',
+        //     'square_meters' => 'required|integer|min:1',
+        //     'floor' => 'required|integer',
+        //     'address' => 'required|string',
+        //     'visible' => 'required|boolean', 
+        //     'cover_img' => 'nullable|image',  
+        // ]);
+
+
         // Recupro i dati dopo averli validati
         $data = $request->all();
     
         // Aggiungo l'ID dell'utente autenticato ai dati validati
-        $data['user_id'] = auth()->id();
+        $data['user_id'] = Auth::id();
         // Creazione del nuovo appartamento
 
         $new_apartment = new Apartment;
         // Gestisco l'immagine
-        $img_path = Storage::put('uploads/projects', $data['cover_img']);
-        $new_apartment->cover_img = $img_path;
+        if(isset($data['cover_img'])){
+            $img_path = Storage::put('uploads/projects', $data['cover_img']);
+            $new_apartment->cover_img = $img_path;
+        }
+        if(isset($data['visible'])){
+            $data['visible'] = 1;
+        } else {
+            $data['visible'] = 0;
+        }
+
+        $new_apartment->n_bed = 0;
+
+        $new_apartment->slug = Str::slug($data['name']);
+        
         $new_apartment->fill($data);
+        
         $new_apartment->save();
 
         if ($request->has('services')) {

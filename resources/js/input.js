@@ -55,9 +55,9 @@ function createSuggestion(address, latitude, longitude) {
     suggestion.append(addressContainer);
 }
 
-searchBtn.addEventListener("click", () => {
-    fetchAddress();
-});
+// searchBtn.addEventListener("click", () => {
+//     fetchAddress();
+// });
 
 searchInput.addEventListener("input", () => {
     fetchAddress();

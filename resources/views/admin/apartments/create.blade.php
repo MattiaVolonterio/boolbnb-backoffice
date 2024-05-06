@@ -48,9 +48,9 @@
                 </div>
             </div>
 
-            <div class="col-2 d-flex">
+            {{-- <div class="col-2 d-flex">
                 <div id="search_btn" class="btn btn-primary align-self-end w-100">Cerca</div>
-            </div>
+            </div> --}}
             <div><input type="checkbox" name="visible" checked> Visible</div>
 
             {{-- latitude e longitude --}}
@@ -80,5 +80,4 @@
 @section('js')
    @vite('resources/js/input.js')
 @endsection
-@extends('layouts.app')
 
