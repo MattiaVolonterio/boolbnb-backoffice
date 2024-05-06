@@ -67,10 +67,11 @@ class ApartmentController extends Controller
 
         $new_apartment = new Apartment;
         // Gestisco l'immagine
-        if(isset($data['cover_img'])){
-            $img_path = Storage::put('uploads/projects', $data['cover_img']);
+        if ($request->hasFile('cover_img')) {
+            $img_path = $request->file('cover_img')->store('uploads/cover', 'public');
             $new_apartment->cover_img = $img_path;
         }
+    
         if(isset($data['visible'])){
             $data['visible'] = 1;
         } else {
@@ -87,7 +88,7 @@ class ApartmentController extends Controller
             $new_apartment->services()->attach($request->input('services'));
         }
         // Reindirizzamento all'elenco degli appartamenti con un messaggio di successo
-        return redirect()->route("admin.apartments.index")->with('success', 'Appartamento creato con successo.');
+        return redirect()->route("admin.apartments.show", $new_apartment)->with('success', 'Appartamento creato con successo.');
     }
 
     /**

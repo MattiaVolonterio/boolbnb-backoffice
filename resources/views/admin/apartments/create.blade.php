@@ -5,7 +5,7 @@
         @csrf   </form> --}}
 
         <div class="container ">
-            <form class="was-validated mt-5" action="{{ route('admin.apartments.store') }}" method="POST" enctype="multipart/form-data">
+            <form class="was-validated mt-5" action="{{ route('admin.apartments.store', $apartment) }}" method="POST" enctype="multipart/form-data">
                 @csrf
     
                 <div class="row g-5">
@@ -100,7 +100,28 @@
                                     <div class="col-2 d-flex">
                                         <div id="search_btn" class="btn btn-primary align-self-end w-100">Cerca</div>
                                     </div>
+            
+            
                                     
+                        
+                                    {{-- latitude e longitude  solo per debug--}}
+                                    <div class="col-6 my-3 z-0 d-none">  
+                                        <div class="form-floating">   
+                                            <input  class="form-control" id="lat" name="lat" 
+                                            value="{{ old('lat', $apartment->lat) }}">
+                                            <label for="lat" id="latitude">Lat</label>
+                                        </div>
+                                        
+                                    </div>
+                        
+                                    <div class="col-6 my-3 z-0 d-none"> 
+                                        <div class="form-floating">   
+                                            <input  class="form-control" id="lon" name="lon" 
+                                            value="{{ old('lon', $apartment->lon) }}">
+                                            <label for="lon" id="longitude">Lon</label>
+                                        </div>
+                                    </div>
+                        
                                 </div>
                             </div>
                             
