@@ -77,8 +77,6 @@ class ApartmentController extends Controller
             $data['visible'] = 0;
         }
 
-        $new_apartment->n_bed = 0;
-
         $new_apartment->slug = Str::slug($data['name']);
         
         $new_apartment->fill($data);
