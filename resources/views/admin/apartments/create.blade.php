@@ -124,10 +124,14 @@
                         
                                 </div>
                             </div>
-                            
+                            {{-- Upload Foto --}}
                             <div class="col mb-3">
                                 <label for="cover_img" class="form-label">Carica la cover</label>
                                 <input class="form-control" type="file" name="cover_img" id="cover_img">
+                            </div>
+                            <div class="mb-3">
+                                <label for="apartment_images" class="form-label">Cariva altre foto</label>
+                                <input class="form-control" type="file" id="apartment_images" name="apartment_images[]" multiple>
                             </div>
     
                             {{-- servizi --}}

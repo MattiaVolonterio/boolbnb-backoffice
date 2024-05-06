@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Apartment;
 use App\Models\Service;
+use App\Models\ApartmentImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -34,7 +35,9 @@ class ApartmentController extends Controller
     {
         $apartment = new Apartment();
         $services = Service::all();
-        return view('admin.apartments.create', compact('apartment', 'services'));
+        $apartment_images = ApartmentImage::all();
+
+        return view('admin.apartments.create', compact('apartment', 'services','apartment_images'));
     }
 
     /**
@@ -44,6 +47,7 @@ class ApartmentController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->file('apartment_images'));
         // // Validazione dei dati inviati dal form
         // $data = $request->validate([
         //     'name' => 'required|string',
@@ -87,6 +91,18 @@ class ApartmentController extends Controller
         if ($request->has('services')) {
             $new_apartment->services()->attach($request->input('services'));
         }
+
+        //  img multiple
+        if ($request->hasFile('apartment_images')) {
+            foreach ($request->file('apartment_images') as $image) {
+                $path = $image->store('uploads/apartment_images', 'public');
+                ApartmentImage::create([
+                    'apartment_id' => $new_apartment->id,
+                    'url' => $path
+                ]);
+                
+            }
+        }
         // Reindirizzamento all'elenco degli appartamenti con un messaggio di successo
         return redirect()->route("admin.apartments.show", $new_apartment)->with('success', 'Appartamento creato con successo.');
     }
@@ -99,6 +115,7 @@ class ApartmentController extends Controller
     public function show(Apartment $apartment)
     {   
         $services = $apartment->services;
+        $apartment_images = $apartment->apartment_images;
         $apartment->cover_img = !empty($apartment->cover_img) ? asset('/storage/' . $apartment->cover_img) : null;
         return view('admin.apartments.show', compact('apartment','services'));
     }
