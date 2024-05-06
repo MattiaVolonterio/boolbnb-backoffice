@@ -135,6 +135,13 @@
                             <input class="form-control" type="file" name="cover_img" id="cover_img">
                         </div>
 
+                        {{-- Carica immagini appartamento --}}
+                        <div class="col mb-3">
+                            <label for="apartment_images" class="form-label">Carica altre immagini</label>
+                            <input class="form-control" type="file" name="apartment_images" id="apartment_images" accept="image/*" multiple>
+                        </div>
+
+
                         {{-- servizi --}}
                         <div class="row ">
                             <h3 class="text-center text-primary">Servizi</h3>

@@ -48,6 +48,10 @@
         </di>
         <div class="row my-5">
             <h1>carosello</h1>
+            <div class="col-6">
+                <img src="{{ asset($apartment_images->url) }}" class="card-img-top card-image-character" alt="">
+            </div>
+            
         </div>
     </section>
 @endsection
