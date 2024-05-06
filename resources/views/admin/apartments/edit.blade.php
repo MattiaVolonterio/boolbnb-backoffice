@@ -140,7 +140,9 @@
 
                         {{-- servizi --}}
                         <div class="row ">
-                            <h3 class="text-center text-primary">Servizi</h3>
+        
+                        <h3 class="text-center text-primary">Servizi</h3>
+
                         @foreach ($services as $service)
                             <div class="col-md-4">
                                 <div class="form-check">
@@ -166,24 +168,29 @@
                 </div>
 
                 <div class="col-6 ">
-                    <div class="card mx-auto w-75">
+                    <div class="card">
                         @if (!empty($apartment->cover_img))
-                        <img src="{{ asset('storage/' . $apartment->cover_img) }}" class="card-img-top img-fluid" style="width: 100%; height: auto;" alt="apartment cover img"  style="width: 200px; ">
+                        <img src="{{ asset('storage/' . $apartment->cover_img) }}" 
+                        class="card-img-top img-fluid rounded" style="width: 100%; height: auto;" alt="apartment cover img" 
+                        style="width: 200px;">
                         @endif
                     </div>
 
                     {{-- edit carousel --}}
-                    <div class="row">
-                        <div class="row my-5">
-                            {{-- foreach --}}
-                            @foreach ($apartment_images as $img)
-                                {{-- apartment imgs --}}
-                                <div class=" mb-3 col-6">
-                                    <img src="{{ $img->url ? asset('storage/' . $img->url) : 'https://picsum.photos/200/300' }}" class="w-100">
+                    <div class="row g-1 mt-3">
+                        {{-- foreach --}}
+                        @foreach ($apartment_images as $img)
+                            {{-- apartment imgs --}}
+                                
+                            <div class="col-4">
+                                <div class="h-100">
+                                    <img src="{{ $img->url ? asset('storage/' . $img->url) : 'https://picsum.photos/200/300' }}" 
+                                    style="width: 100%; height: 100%;" class="card-img-top img-fluid m-0 rounded" alt="">
                                 </div>
-                                    
-                            @endforeach
-                        </div>
+                            </div>
+
+
+                        @endforeach
                     </div>
                 </div>
                   
