@@ -33,9 +33,9 @@ Route::middleware('auth')
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])
       ->name('dashboard');
 
-    Route::get('/sponsorhips/payment_page', function () {
+    Route::post('/sponsorships/payment_page', function () {
       return view('admin.sponsorships.payment_page');
-    })->name('payment');
+    })->name('sponsorships.payment_page');
 
     Route::resource('/apartments', ApartmentController::class);
     Route::resource('/sponsorships', SponsorshipController::class);

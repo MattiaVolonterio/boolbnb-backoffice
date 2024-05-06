@@ -92,7 +92,8 @@
         <div class="modal fade" id="purchase-modal-{{ $sponsorship->id }}" tabindex="-1"
             aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <form class="modal-content" method="POST" action="{{ route('admin.sponsorships.create') }}">
+                <form class="modal-content" method="POST" action="{{ route('admin.sponsorships.payment_page') }}">
+                    {{ csrf_field() }}
                     <div class="modal-header">
                         {{-- titolo modale --}}
                         <h1 class="modal-title fs-5" id="exampleModalLabel">Sponsorizzazione {{ $sponsorship->tier }}</h1>
