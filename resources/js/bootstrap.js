@@ -9,7 +9,7 @@ window._ = _;
 
 import axios from "axios";
 window.axios = axios;
-
+// riga commentata a causa prob con i CORS
 // window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**

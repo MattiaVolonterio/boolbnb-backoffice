@@ -2,16 +2,45 @@
 
 @section('content')
     <section class="container py-3">
-        <h1 class="text-center">{{ $apartment->name }}</h1>
-        <di class="row">
-            <div class="col-4">
+        <h1 class="text-center m-3">{{ $apartment->name }}</h1>
+        <di class="row my-3">
+            <div class="col-6">
                 <div class="d-flex justify-content-center">
                     {{-- img cover se nn ce img placeholder dal sito picsum --}}
-                    <img src="{{ $apartment->cover_img ? asset($apartment->cover_img) : 'https://picsum.photos/200/300' }}"
+                    <img src="{{ $apartment->cover_img ? asset( $apartment->cover_img) : 'https://picsum.photos/200/300' }}"
                      class="card-img-top card-image-character" alt="{{ $apartment->name }}">
                 </div>
             </div>
+            <div class="col-4">
+                <div><strong>Nome: </strong> {{$apartment->name}}</div>
+                <div><strong>Stanze: </strong>stanze: {{$apartment->n_room}}</div>
+                <div><strong>Bagni: </strong> {{$apartment->n_bathroom}}</div>
+                <div><strong>Letti: </strong> {{$apartment->n_bed}}</div>
+                <div><strong>Superficie: </strong> {{$apartment->square_meters}}</div>
+                <div><strong>Piano: </strong> {{$apartment->floor}}</div>
+                <div><strong>Indirizzo: </strong>{{$apartment->address}}</div>
+                <div><strong>lat: </strong>{{$apartment->lat}}</div>
+                <div><strong>lon: </strong>{{$apartment->lon}}</div>
+                <div><strong>visibile: </strong>{{$apartment->visible}}</div>
+                
+            </div>
+            <div class="col-2 overflow-auto" style="height: 360px">
+                <h2 class="text-start">servizi</h2>
+                @foreach($services as $service)
+                    @if ($apartment->services->contains($service->id))
+                        <div class="form-check d-flex align-items-center p-0 " >
+                            <div class="me-2"><img src="{{asset( $service->icon)}} "alt="" style="width: 30px"></div>
+                            <label class="form-check-label" for="service_{{ $service->id }}">
+                                {{ $service->name }}
+                            </label>
+                        </div>
+                    @endif
+                @endforeach
+            </div>   
         </di>
+        <div class="row my-5">
+            <h1>carosello</h1>
+        </div>
     </section>
 @endsection
 

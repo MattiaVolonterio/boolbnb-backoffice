@@ -41,7 +41,7 @@
                             <a href="{{ route('admin.apartments.show', $apartment->id) }}" class=" text-decoration-none me-2">
                                 <i class="fa-solid fa-eye"></i>
                             </a>
-                            <a href="{{ route('admin.apartments.edit', $apartment->id) }}" class="me-2">
+                            <a href="{{ route('admin.apartments.edit', $apartment->id) }}" class=" text-decoration-none me-2">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a>
                             <button type="button" class="modal-button btn" data-bs-toggle="modal"

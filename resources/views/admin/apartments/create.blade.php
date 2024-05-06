@@ -1,30 +1,40 @@
 @extends('layouts.app')
 
 @section('content')
-    <form action="" method="POST" class="container" id="form">
+<form action="{{ route('admin.apartments.store') }}" method="POST" class="container" id="form">
         @csrf
 
-        <label for="name" class="form-label">Nome</label>
-        <input type="text" class="form-control" id="name" name="name" />
+        <div class="mb-3">
+            <label for="name" class="form-label">Nome</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
 
-        <label for="number" class="form-label">N°</label>
-        <input type="text" class="form-control" id="number" name="number" />
+        <div class="row">
+            <div class="col-6 mb-3">
+                <label for="n_room" class="form-label">Numero di Stanze</label>
+                <input type="number" class="form-control" id="n_room" name="n_room">
+            </div>
+            <div class="col-6 mb-3">
+                <label for="n_bathroom" class="form-label">Numero di Bagni</label>
+                <input type="number" class="form-control" id="n_bathroom" name="n_bathroom">
+            </div>
+        </div>
 
-        <label for="type" class="form-label">Tipo</label>
-        <select class="form-select" id="type" name="type">
-            <option value="lunga">Lunga</option>
-            <option value="corta">Corta</option>
-            <option value="cortissima">Cortissima</option>
-        </select>
 
-        <label for="weight" class="form-label">Peso (g)</label>
-        <input type="text" class="form-control" id="weight" name="weight" />
+        <div class="mb-3">
+            <label for="square_meters" class="form-label">Metri Quadrati</label>
+            <input type="number" class="form-control" id="square_meters" name="square_meters">
+        </div>
 
-        <label for="img" class="form-label">img</label>
-        <input type="text" class="form-control" id="img" name="img" />
+        <div class="mb-3">
+            <label for="floor" class="form-label">Piano</label>
+            <input type="text" class="form-control" id="floor" name="floor">
+        </div>
 
-        <label for="description" class="form-label">Descrizione</label>
-        <textarea class="form-control" id="description" name="description" rows="4"></textarea>
+        <button  class="btn btn-primary">Salva</button>
+       
+
+        
 
         {{-- ricerca indirizzo --}}
         <div class="row">
@@ -41,6 +51,7 @@
             <div class="col-2 d-flex">
                 <div id="search_btn" class="btn btn-primary align-self-end w-100">Cerca</div>
             </div>
+            <div><input type="checkbox" name="visible" checked> Visible</div>
 
             {{-- latitude e longitude --}}
             <div class="col-6 my-3">
@@ -51,7 +62,7 @@
             <div class="col-6 my-3">
                 <input type="hidden" id="lon" name="lon" value="">
                 <span id="longitude">Lon</span>
-            </div>
+            </div> 
 
         </div>
 
@@ -67,5 +78,7 @@
 @endsection
 
 @section('js')
-    @vite('resources/js/input.js')
+   @vite('resources/js/input.js')
 @endsection
+@extends('layouts.app')
+
