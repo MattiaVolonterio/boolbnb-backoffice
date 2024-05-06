@@ -9,6 +9,11 @@ class Apartment extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name', 'slug', 'n_room', 'n_bathroom', 'n_bed', 'user_id', 'square_meters', 'floor', 'address', 'lat', 'lon', 'visible',
+    ];
+
+
     // relazione 1 a n
     public function messages()
     {
@@ -19,6 +24,12 @@ class Apartment extends Model
     public function visits()
     {
         return $this->hasMany(Visit::class);
+    }
+
+    // relazione 1 a n
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     // relazione n a n
