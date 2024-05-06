@@ -3,12 +3,25 @@
 @section('content')
     <section class="container py-3">
 
-        {{-- back to index navigation button --}}
-        <button type="button" class="btn btn-primary">
-            <a href="{{ route('admin.apartments.index') }}" class="text-decoration-none text-white">
-                Torna alla lista
-            </a>
-        </button>
+        
+        <div class=" d-flex justify-content-between">
+            {{-- back to index navigation button --}}
+            <div>
+                <button type="button" class="btn btn-primary">
+                    <a href="{{ route('admin.apartments.index') }}" class="text-decoration-none text-white">
+                        Torna alla lista
+                    </a>
+                </button>
+            </div>
+            {{-- go to edit --}}
+            <div>
+                <button type="button" class="btn btn-primary">
+                    <a href="{{ route('admin.apartments.edit', $apartment->id) }}" class="text-decoration-none text-white">
+                        Modifica
+                    </a>
+                </button>
+            </div>
+        </div>
         
         <h1 class="text-center m-3">{{ $apartment->name }}</h1>
         <di class="row my-3">

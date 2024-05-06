@@ -182,11 +182,10 @@
                         {{-- foreach --}}
                         @foreach ($apartment_images as $img)
                             {{-- apartment imgs --}}
-                                
                             <div class="col-4">
                                 <div class="card h-100">
-                                    
-                                    <form action="{{ route('admin.apartment-images.destroy', $img) }} " method="POST" id="{{ $img->id }}">
+                                    {{-- form delete --}}
+                                    <form action="{{ route('admin.apartment-images.destroy', $img) }} " method="POST" id="{{ $img->id }}" class=" h-100">
                                         @csrf
                                         @method('DELETE')
                                     
@@ -222,12 +221,6 @@
 @endsection
 @section('js')
     @vite('resources/js/input.js')
-
-    <script>
-        const deleteButtons = document.querySelectorAll('delete-image-button');
-
-
-    </script>
 
 @endsection
 
