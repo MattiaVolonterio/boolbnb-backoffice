@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ApartmentController;
+use App\Http\Controllers\Admin\ApartmentImageController;
 use App\Http\Controllers\Admin\SponsorshipController;
 use App\Http\Controllers\Admin\VisitController;
 use App\Http\Controllers\Admin\MessageController;
@@ -44,6 +45,7 @@ Route::middleware('auth')
     Route::resource('/messages', MessageController::class);
     Route::resource('/visits', VisitController::class);
     Route::resource('/services', ServiceController::class);
+    Route::resource('/apartment-images', ApartmentImageController::class);
   });
 
 require __DIR__ . '/auth.php';

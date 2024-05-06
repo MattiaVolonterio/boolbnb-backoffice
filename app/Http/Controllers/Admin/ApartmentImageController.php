@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Apartment;
 use App\Models\ApartmentImage;
 use Illuminate\Http\Request;
@@ -103,5 +104,9 @@ class ApartmentImageController extends Controller
     public function destroy(ApartmentImage $apartment_image)
     {
         //
+        $apartment= $apartment_image->apartment->id;
+        $apartment_image->delete();
+        return redirect()->route('admin.apartments.edit', $apartment);
+
     }
 }
