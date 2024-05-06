@@ -75,7 +75,8 @@ class ApartmentController extends Controller
             $img_path = $request->file('cover_img')->store('uploads/cover', 'public');
             $new_apartment->cover_img = $img_path;
         }
-    
+        
+
         if(isset($data['visible'])){
             $data['visible'] = 1;
         } else {
@@ -103,6 +104,7 @@ class ApartmentController extends Controller
                 
             }
         }
+
         // Reindirizzamento all'elenco degli appartamenti con un messaggio di successo
         return redirect()->route("admin.apartments.show", $new_apartment)->with('success', 'Appartamento creato con successo.');
     }
@@ -117,6 +119,7 @@ class ApartmentController extends Controller
         $services = $apartment->services;
         $apartment_images = $apartment->apartmentImages;
         $apartment->cover_img = !empty($apartment->cover_img) ? asset('/storage/' . $apartment->cover_img) : null;
+        // $apartment->apartment_images = !empty($apartment->apartment_images) ? asset('/storage/' . $apartment->apartment_images) : null;
         return view('admin.apartments.show', compact('apartment','services','apartment_images'));
     }
 

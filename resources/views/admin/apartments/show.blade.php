@@ -48,6 +48,30 @@
         </di>
         <div class="row my-5">
             <h1>carosello</h1>
+            <div class="col-6">
+
+                <div id="carouselExample" class="carousel slide">
+                    <div class="carousel-inner ms_carousel-inner">
+                        @foreach($apartment_images as $apartment_image)
+                            <div class="carousel-item ms_carousel-item active">
+                                <img src="{{ asset('storage/' . $apartment_image->url) }}" class="d-block w-100 h-100" alt="Immagine mancante">
+                            </div>
+                        @endforeach
+                    </div>
+
+                    {{-- Sezione bottoni --}}
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+
+            </div>
+            
         </div>
     </section>
 @endsection
