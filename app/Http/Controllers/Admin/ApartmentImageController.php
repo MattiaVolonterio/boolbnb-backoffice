@@ -105,6 +105,8 @@ class ApartmentImageController extends Controller
     {
         //
         $apartment= $apartment_image->apartment->id;
+        //cancellazione delle vecchie foto
+        Storage::delete('public/'. $apartment_image->url );
         $apartment_image->delete();
         return back();
 
