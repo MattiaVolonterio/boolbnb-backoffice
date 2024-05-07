@@ -113,7 +113,7 @@
 
 
                                 {{-- latitude e longitude  solo per debug --}}
-                                <div class="col-6 my-3 z-0 d-none">
+                                <div class="col-6 my-3 z-0">
                                     <div class="form-floating">
                                         <input class="form-control" id="lat" name="lat"
                                             value="{{ old('lat', $apartment->lat) }}">
@@ -122,7 +122,7 @@
 
                                 </div>
 
-                                <div class="col-6 my-3 z-0 d-none">
+                                <div class="col-6 my-3 z-0">
                                     <div class="form-floating">
                                         <input class="form-control" id="lon" name="lon"
                                             value="{{ old('lon', $apartment->lon) }}">
