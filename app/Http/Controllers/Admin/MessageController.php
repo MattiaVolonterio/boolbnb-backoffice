@@ -15,13 +15,14 @@ class MessageController extends Controller
      *
     //  * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Apartment $apartment)
     {
-        // $apartmentId = Message::pluck('apartment_id'); 
-        $messages = Message::all();
+        // $apartmentId = Message::where('apartment_id'); 
+        $messages = Message::where('apartment_id', $apartment->id)->get();
         // dd($messages);
         return view('admin.messages.index', compact('messages'));
     }
+    
 
     /**
      * Show the form for creating a new resource.

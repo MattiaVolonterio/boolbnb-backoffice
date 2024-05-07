@@ -42,7 +42,7 @@ Route::middleware('auth')
 
     Route::resource('/apartments', ApartmentController::class);
     Route::resource('/sponsorships', SponsorshipController::class);
-    Route::resource('/messages', MessageController::class);
+    Route::get('/messages/{apartment}', [MessageController::class, 'index'])->name('messages.index');
     Route::resource('/visits', VisitController::class);
     Route::resource('/services', ServiceController::class);
     Route::resource('/apartment-images', ApartmentImageController::class);

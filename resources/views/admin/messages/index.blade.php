@@ -14,23 +14,20 @@
       </thead>
       <tbody>
 
-          @forelse ($messages as $message)
+        @forelse ($messages as $message)
+        <tr>
+          {{-- <td>{{ $message->id }}</td> --}}
+          {{-- @if($message->apartment_id == 23 )  --}}
+              <td>{{ $message->customer_email }}</td>
+              <td>{{ $message->name }}</td>
+              <td>{{ $message->content }}</td>
+          {{-- @endif --}}
+        </tr>
+        @empty
             <tr>
-                {{-- <td>{{ $message->id }}</td> --}}
-                @if(isset($message->apartment_id)) 
-                  <td>{{ $message->customer_email }}</td>
-                  <td>{{ $message->name }}</td>
-                  <td>{{ $message->content }}</td>
-                @else {
-                  <td>Non ci sono messaggi<td>
-                  }
-                @endif
+              <td colspan="3">Nessun messaggio trovato</td>
             </tr>
-          @empty
-            <tr>
-                <td colspan="12">Nessun messaggio trovato</td>
-            </tr>
-         @endforelse
+        @endforelse
 
 
       </tbody>

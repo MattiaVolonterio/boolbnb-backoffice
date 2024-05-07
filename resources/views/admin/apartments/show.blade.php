@@ -88,7 +88,7 @@
             
             <div class="col-6 text-center">
                 {{-- <div> --}}
-                    <a href="{{ route('admin.messages.index') }}" class="btn btn-success">Vai ai messaggi</a>
+                    <a href="{{ route('admin.messages.index', $apartment) }}" class="btn btn-success">Vai ai messaggi</a>
                 {{-- </div> --}}
             </div>
 
