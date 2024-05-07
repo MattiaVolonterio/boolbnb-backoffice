@@ -47,21 +47,21 @@ class ApartmentController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->file('apartment_images'));
-        // // Validazione dei dati inviati dal form
-        // $data = $request->validate([
-        //     'name' => 'required|string',
-        //     'n_room' => 'required|integer|min:1',
-        //     'n_bathroom' => 'required|integer|min:1',
-        //     'n_bed' => 'required|integer|min:1',
-        //     'square_meters' => 'required|integer|min:1',
-        //     'floor' => 'required|integer',
-        //     'address' => 'required|string',
-        //     'visible' => 'required|boolean', 
-        //     'cover_img' => 'nullable|image',  
-        // ]);
+        //dd($request);
+         // Validazione dei dati inviati dal form
+         $data = $request->validate([
+            'name' => 'required|string',
+             'n_room' => 'required|integer|min:1',
+             'n_bathroom' => 'required|integer|min:1',
+             'n_bed' => 'required|integer|min:1',
+             'square_meters' => 'required|integer|min:1',
+             'floor' => 'required|integer',
+             'address' => 'required|string',
+             'visible' => 'required', 
+             'cover_img' => 'nullable|image',  
+         ]);
 
-
+        
         // Recupro i dati dopo averli validati
         $data = $request->all();
     
