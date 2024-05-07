@@ -58,7 +58,7 @@ class ApartmentController extends Controller
              'floor' => 'required|integer',
              'address' => 'required|string',
              'visible' => 'required', 
-             'cover_img' => 'nullable|image',  
+             'cover_img' => 'nullable|image|mimes:jpeg,png|max:2048',  
          ]);
 
         

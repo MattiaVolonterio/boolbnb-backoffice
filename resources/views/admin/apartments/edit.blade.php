@@ -102,9 +102,9 @@
                                     </div>
                                 </div>
         
-                                <div class="col-2 d-flex">
+                                {{-- <div class="col-2 d-flex">
                                     <div id="search_btn" class="btn btn-primary align-self-end w-100">Cerca</div>
-                                </div>
+                                </div> --}}
         
                                 {{-- latitude e longitude  solo per debug--}}
                                 <div class="col-6 my-3 z-0 d-none">  
