@@ -86,10 +86,11 @@
 
             </div>
             
-            <div class="col-6 text-center">
-                {{-- <div> --}}
-                    <a href="{{ route('admin.messages.index', $apartment) }}" class="btn btn-success">Vai ai messaggi</a>
-                {{-- </div> --}}
+            <div class="col-md-6 col-12 text-center d-flex justify-content-center align-items-center">
+                <div class="mt-3">
+                    <i class="fa-regular fa-envelope d-block text-info" style="font-size: 6rem;"></i>
+                    <a href="{{ route('admin.messages.index', $apartment) }}" class="btn btn-info">Vai ai messaggi</a>
+                </div>
             </div>
 
         </div>
