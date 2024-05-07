@@ -65,8 +65,8 @@
 
                 <div id="carouselExample" class="carousel slide">
                     <div class="carousel-inner ms_carousel-inner">
-                        @foreach($apartment_images as $apartment_image)
-                            <div class="carousel-item ms_carousel-item active">
+                        @foreach($apartment_images as $index => $apartment_image)
+                            <div class="carousel-item ms_carousel-item {{ $index == 0 ? 'active' : '' }}">
                                 <img src="{{ asset('storage/' . $apartment_image->url) }}" class="d-block w-100 h-100" alt="Immagine mancante">
                             </div>
                         @endforeach
