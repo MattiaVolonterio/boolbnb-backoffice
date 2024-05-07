@@ -1,5 +1,9 @@
 @import "~bootstrap/scss/bootstrap";
 
+.card-container {
+    overflow: auto;
+}
+
 .bottom-page {
     height: 550px;
     // border: 1px solid black;
