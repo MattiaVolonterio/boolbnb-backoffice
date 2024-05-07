@@ -116,6 +116,9 @@ class ApartmentController extends Controller
      */
     public function show(Apartment $apartment)
     {   
+        //protezione rotte
+        if (Auth::id() != $apartment->user_id && Auth::user()->role != 'admin')
+            abort(403);
         $services = $apartment->services;
         $apartment_images = $apartment->apartmentImages;
         $apartment->cover_img = !empty($apartment->cover_img) ? asset('/storage/' . $apartment->cover_img) : null;
@@ -130,8 +133,10 @@ class ApartmentController extends Controller
      */
     public function edit(Apartment $apartment)
     {   
-        // $userId=auth()->id();a
-
+        
+        //protezione rotte
+        if (Auth::id() != $apartment->user_id && Auth::user()->role != 'admin')
+            abort(403);
         // tab apartment img
         $apartment_images = $apartment->apartmentImages;
 
@@ -150,6 +155,9 @@ class ApartmentController extends Controller
      */
     public function update(Request $request, Apartment $apartment, ApartmentImage $apartmentImage)
     {
+        //protezione rotte
+        if (Auth::id() != $apartment->user_id && Auth::user()->role != 'admin')
+            abort(403);
         $data = $request->all();
         //creo slug dal nome 
         $apartment->slug = Str::slug($data['name']);
@@ -188,7 +196,10 @@ class ApartmentController extends Controller
      * @param  \App\Models\Apartment  $apartment
      */
     public function destroy(Apartment $apartment)
-    {
+    {   
+        //protezione rotte
+        if (Auth::id() != $apartment->user_id && Auth::user()->role != 'admin')
+            abort(403);
         $apartment->delete();
         return redirect()->route('admin.apartments.index')->with('message', "$apartment->name eliminato con successo");
 

@@ -68,8 +68,8 @@
 
                             {{-- Email --}}
                             <div class="mb-4 row">
-                                <label for="email"
-                                    class="col-md-4 col-form-label text-md-right">{{ __('Indirizzo E-Mail') }}</label>
+                                <label for="email" class="col-md-4 col-form-label text-md-right">Indirizzo E-Mail<span
+                                        class="text-danger">*</span></label>
 
                                 <div class="col-md-6">
                                     <input id="email" type="email"
@@ -86,8 +86,8 @@
 
                             {{-- Password --}}
                             <div class="mb-4 row">
-                                <label for="password"
-                                    class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                                <label for="password" class="col-md-4 col-form-label text-md-right">Password<span
+                                        class="text-danger">*</span></label>
 
                                 <div class="col-md-6">
                                     <input id="password" type="password"
@@ -104,8 +104,8 @@
 
                             {{-- Conferma password --}}
                             <div class="mb-4 row">
-                                <label for="password-confirm"
-                                    class="col-md-4 col-form-label text-md-right">{{ __('Conferma Password') }}</label>
+                                <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Conferma
+                                    Password <span class="text-danger">*</span></label>
 
                                 <div class="col-md-6">
                                     <input id="password-confirm" type="password" class="form-control"
@@ -120,6 +120,8 @@
                                     </button>
                                 </div>
                             </div>
+
+                            <p class="m-0 text-danger" style="font-size: 10px">* Questi campi sono obbligatori</p>
                         </form>
                     </div>
                 </div>
