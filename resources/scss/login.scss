@@ -1,0 +1,53 @@
+@import "~bootstrap/scss/bootstrap";
+
+.login-container {
+    height: 100vh;
+    width: 100%;
+
+    background: rgb(255, 255, 255);
+    background: linear-gradient(
+        305deg,
+        rgb(255, 255, 255) 0%,
+        rgb(11, 255, 247) 40%,
+        rgb(0, 81, 255) 100%
+    );
+}
+.main-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 300px;
+    min-height: 300px;
+
+    border-radius: 20px;
+
+    background-color: rgba(255, 255, 255, 0.1);
+
+    filter: opacity(0.8);
+
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+    outline: none;
+}
+
+@media (min-width: 576px) {
+    .main-container {
+        width: 350px;
+        min-height: 350px;
+    }
+}
+
+@media (min-width: 768px) {
+    .main-container {
+        width: 450px;
+        min-height: 450px;
+    }
+}
+
+@media (min-width: 992px) {
+    .main-container {
+        width: 500px;
+        min-height: 500px;
+    }
+}
