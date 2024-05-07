@@ -1,12 +1,58 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="container mt-5">
+    <section class="container mt-5" id="index-apartment">
         <h1 class="text-center">Lista Appartamenti</h1>
 
         <a class="btn btn-primary mt-3 mb-4" href="{{ route('admin.apartments.create') }}">Crea uno nuovo</a>
 
-        <table class="table">
+        <div class="row row-cols-4">
+            @forelse ($apartments as $apartment)
+                <div class="col">
+                    <div class="card">
+                        <a href="{{ route('admin.apartments.show', $apartment) }}">
+                            <img src="{{ asset('storage/' . $apartment->cover_img) }}" alt="apartment image"
+                                class="card-img-top">
+                        </a>
+                        <div class="card-body">
+                            <h2 class="card-title mb-2 h4 fw-semibold text-primary">{{ $apartment->name }}</h2>
+                            {{-- TODO sistemare con valore reale --}}
+                            <p>Numero visite: 55</p>
+                            {{-- Switch --}}
+                            <div class="form-check form-switch mb-4">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="visible-{{ $apartment->id }}" name="visible"
+                                    @if ($apartment->visible == 1) checked @endif>
+                                <label class="form-check-label" for="visible"
+                                    id="label-visible-{{ $apartment->id }}"></label>
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <a href="{{ route('admin.apartments.show', $apartment->id) }}"
+                                        class="text-decoration-none btn btn-primary">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
+
+                                    <a href="{{ route('admin.apartments.edit', $apartment) }}" class="btn btn-warning">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                        Modifica
+                                    </a>
+                                </div>
+                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#delete-apartment-{{ $apartment->id }}">
+                                    <i class="fa-solid fa-trash"></i>
+                                    Elimina
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @empty
+            @endforelse
+        </div>
+
+        {{-- <table class="table">
             <thead>
                 <tr>
                     <th scope="col">ID</th>
@@ -62,19 +108,20 @@
                     </tr>
                 @endforelse
             </tbody>
-        </table>
+        </table> --}}
 
-        {{ $apartments->links() }} 
+        {{ $apartments->links() }}
     </section>
 @endsection
 @section('modal')
     @foreach ($apartments as $apartment)
         <div class="modal fade" id="delete-apartment-{{ $apartment->id }}" tabindex="-1"
-             aria-labelledby="deleteApartmentLabel{{ $apartment->id }}" aria-hidden="true">
+            aria-labelledby="deleteApartmentLabel{{ $apartment->id }}" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteApartmentLabel{{ $apartment->id }}">Eliminare {{ $apartment->name }}</h5>
+                        <h5 class="modal-title" id="deleteApartmentLabel{{ $apartment->id }}">Eliminare
+                            {{ $apartment->name }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -96,6 +143,26 @@
 
 @section('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-         crossorigin="anonymous" referrerpolicy="no-referrer" />
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="../../../scss/app.scss">
+@endsection
+
+@section('js')
+    <script>
+        const visibleSwitches = document.querySelectorAll('.form-check-input');
+        const visibleLabel = document.querySelectorAll('.form-check-label');
+
+
+        visibleSwitches.forEach(element => {
+            element.addEventListener('click', () => {
+                const switchId = element.getAttribute('id')
+
+                const label = document.getElementById("label-" + switchId)
+                if (element.checked) label.innerText = 'Visibile'
+                else label.innerText = 'Non Visible'
+            })
+        });
+    </script>
 @endsection

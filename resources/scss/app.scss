@@ -29,5 +29,12 @@
     }
 }
 
+#index-apartment .card-img-top{
+    height: 215px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
 //Carousel
 .ms_carousel-inner, .ms_carousel-item { height: 400px; }
