@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
+use PhpParser\Node\Expr\Cast\String_;
 
 class ApartmentController extends Controller
 {
@@ -203,5 +204,22 @@ class ApartmentController extends Controller
         $apartment->delete();
         return redirect()->route('admin.apartments.index')->with('message', "$apartment->name eliminato con successo");
 
+    }
+
+    public function switch_visible(Request $request, Apartment $apartment){
+        //protezione rotte
+        if (Auth::id() != $apartment->user_id && Auth::user()->role != 'admin')
+            abort(403);
+
+        $data = $request->only('visible'); 
+        
+        if(!empty($data)){
+            $apartment->visible = 1;
+        } else {
+            $apartment->visible = 0;
+        }
+
+        $apartment->save();
+        return redirect()->route('admin.apartments.index')->with('message-status', 'alert-success')->with('message-text', 'Visibilità modificata con successo');
     }
 }

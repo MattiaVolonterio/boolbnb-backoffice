@@ -46,6 +46,7 @@ Route::middleware('auth')
     Route::resource('/visits', VisitController::class);
     Route::resource('/services', ServiceController::class);
     Route::resource('/apartment-images', ApartmentImageController::class);
+    Route::patch('/apartments/switch-visibility/{apartment}', [ApartmentController::class, 'switch_visible'])->name('apartments.switch-visibility');
   });
 
 require __DIR__ . '/auth.php';

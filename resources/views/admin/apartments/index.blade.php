@@ -1,6 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+    @if (session('message-text'))
+        <div class="alert {{ session('message-status') }} alert-dismissible fade show container mt-5" role="alert">
+            {{ session('message-text') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <section class="container mt-5" id="index-apartment">
         <h1 class="text-center">Lista Appartamenti</h1>
 
@@ -19,13 +26,17 @@
                             {{-- TODO sistemare con valore reale --}}
                             <p>Numero visite: 55</p>
                             {{-- Switch --}}
-                            <div class="form-check form-switch mb-4">
+                            <form class="form-check form-switch mb-4"
+                                action="{{ route('admin.apartments.switch-visibility', $apartment) }}"
+                                id="form-visible-{{ $apartment->id }}" method="POST">
+                                @csrf
+                                @method('PATCH')
                                 <input class="form-check-input" type="checkbox" role="switch"
                                     id="visible-{{ $apartment->id }}" name="visible"
                                     @if ($apartment->visible == 1) checked @endif>
-                                <label class="form-check-label" for="visible"
-                                    id="label-visible-{{ $apartment->id }}"></label>
-                            </div>
+                                <label class="form-check-label" for="visible" id="label-visible-{{ $apartment->id }}">
+                                    {{ $apartment->visible == 1 ? 'Visibile' : 'Non visibile' }} </label>
+                            </form>
 
                             <div class="d-flex justify-content-between">
                                 <div>
@@ -152,16 +163,13 @@
 @section('js')
     <script>
         const visibleSwitches = document.querySelectorAll('.form-check-input');
-        const visibleLabel = document.querySelectorAll('.form-check-label');
-
+        const visibleForm = document.getElementById('visibility-form');
 
         visibleSwitches.forEach(element => {
             element.addEventListener('click', () => {
                 const switchId = element.getAttribute('id')
-
-                const label = document.getElementById("label-" + switchId)
-                if (element.checked) label.innerText = 'Visibile'
-                else label.innerText = 'Non Visible'
+                const form = document.getElementById("form-" + switchId)
+                form.submit();
             })
         });
     </script>
