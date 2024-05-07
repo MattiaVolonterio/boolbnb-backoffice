@@ -86,6 +86,12 @@
 
             </div>
             
+            <div class="col-6 text-center">
+                {{-- <div> --}}
+                    <a href="{{ route('admin.messages.index') }}" class="btn btn-success">Vai ai messaggi</a>
+                {{-- </div> --}}
+            </div>
+
         </div>
     </section>
 @endsection
