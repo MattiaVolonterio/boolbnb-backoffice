@@ -1,0 +1,11 @@
+@import "~bootstrap/scss/bootstrap";
+
+.bottom-page {
+    height: 550px;
+    // border: 1px solid black;
+}
+
+.messages-body {
+    overflow: auto;
+    height: 300px;
+}

@@ -9,7 +9,7 @@
                     <div class="card-header">{{ __('Registrazione') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('register') }}">
+                        <form id='form' method="POST" action="{{ route('register') }}">
                             @csrf
 
                             {{-- Nome --}}
@@ -99,6 +99,9 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
+
+                                    <span id="password-feedback" class="invalid-feedback" role="alert">
+                                    </span>
                                 </div>
                             </div>
 
@@ -115,7 +118,7 @@
 
                             <div class="mb-4 row mb-0">
                                 <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary" id="submit-button">
                                         {{ __('Registrati') }}
                                     </button>
                                 </div>
@@ -128,4 +131,40 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script>
+        const passwordInput = document.getElementById('password');
+        const passwordConfirmInput = document.getElementById('password-confirm');
+        const passwordFeedback = document.getElementById('password-feedback')
+        const submitButton = document.getElementById('submit-button');
+        const form = document.getElementById('form');
+
+
+
+        submitButton.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            let password = passwordInput.value;
+            let passwordConfirm = passwordConfirmInput.value;
+
+            if (!password) {
+                passwordFeedback.innerHTML = '<strong>La password non può essere vuota</strong>';
+                passwordFeedback.classList.add('d-block');
+            } else if (password.length <= 8) {
+                passwordFeedback.innerHTML = '<strong>La password deve avere minimo 8 caratteri</strong>';
+                passwordFeedback.classList.add('d-block');
+            } else if (password != passwordConfirm) {
+                passwordFeedback.innerHTML = '<strong>Le password inserite non corrispondono</strong>';
+                passwordFeedback.classList.add('d-block');
+            } else {
+                form.submit();
+            }
+        })
+
+        passwordInput.addEventListener('input', () => {
+            passwordFeedback.classList.remove('d-block');
+        })
+    </script>
 @endsection

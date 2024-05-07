@@ -10,7 +10,11 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mb-2 mb-lg-0 w-100">
                     <li class="nav-item flex-grow-1">
-                        <a @class(['nav-link', 'active' => Route::currentRouteName() == 'admin.apartments.index']) aria-current="page" href="{{ route('admin.apartments.index') }}">Apartments</a>
+                        <a @class([
+                            'nav-link',
+                            'active' => Route::currentRouteName() == 'admin.apartments.index',
+                        ]) aria-current="page"
+                            href="{{ route('admin.apartments.index') }}">Appartamenti</a>
                     </li>
 
                     @guest
