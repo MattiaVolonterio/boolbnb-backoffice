@@ -23,7 +23,8 @@
                     {{-- mail --}}
                     <div class="mb-4 row">
                         <div class="col-10 offset-1">
-                            <label for="email" class=" form-label text-md-right">{{ __('Indirizzo E-Mail') }}</label>
+                            <label for="email"
+                                class=" form-label text-md-right fw-bold">{{ __('Indirizzo E-Mail') }}</label>
                             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
                                 name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
@@ -38,7 +39,8 @@
                     {{-- password --}}
                     <div class="mb-4 row">
                         <div class="col-10 offset-1">
-                            <label for="password" class="col-4 form-label text-md-right">{{ __('Password') }}</label>
+                            <label for="password"
+                                class="col-4 form-label text-md-right fw-bold">{{ __('Password') }}</label>
                             <input id="password" type="password"
                                 class="form-control @error('password') is-invalid @enderror" name="password" required
                                 autocomplete="current-password">
@@ -73,8 +75,8 @@
                 </div>
 
                 {{-- Login button --}}
-                <div class="mb-4 row">
-                    <div class="col-10 offset-1">
+                <div class="mb-4 row justify-content-center px-3">
+                    <div class="col-10">
                         <button type="submit" class="btn btn-primary w-100">
                             {{ __('Login') }}
                         </button>
