@@ -66,3 +66,23 @@ searchInput.addEventListener("input", () => {
 document.addEventListener("click", () => {
     suggestion.classList.add("d-none");
 });
+
+// ------------------------------------------------------
+
+// get element input file
+const fileInput = document.getElementById('apartment_images');
+
+// event listener on input file
+fileInput.addEventListener('change', function() {
+    // get files list
+    const fileList = fileInput.files;
+    // get files index
+    const numFiles = fileList.length;
+
+    if (numFiles == 1) {
+        document.getElementById('files').innerHTML = numFiles + ' foto selezionata';
+    } else {
+        document.getElementById('files').innerHTML = numFiles + ' foto selezionate';
+    }
+
+});
