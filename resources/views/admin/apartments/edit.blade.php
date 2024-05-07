@@ -65,7 +65,7 @@
                             {{-- nr piano --}}
                             <div class="col-4">
                                 <div class="form-floating">
-                                    <input type="number" min="1"class="form-control" id="floor" name="floor" 
+                                    <input type="number" class="form-control" id="floor" name="floor" 
                                     value="{{ old('floor', $apartment->floor) }}" required>
                                     <label for="floor" class="form-label">Inserisci nr piano<span class="text-danger"> * </span></label>
                                     @error('floor')
@@ -76,7 +76,7 @@
                             {{-- nr superficie --}}
                             <div class="col-4">
                                 <div class="form-floating">
-                                    <input type="number" min="1" max="255" class="form-control" id="square_meters" name="square_meters" 
+                                    <input type="number" min="20" class="form-control" id="square_meters" name="square_meters" 
                                     value="{{ old('square_meters', $apartment->square_meters) }}" required>
                                     <label for="square_meters" class="form-label">superfice<span class="text-danger"> * </span></label>
                                     @error('square_meters')
