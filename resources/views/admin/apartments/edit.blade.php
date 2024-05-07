@@ -141,11 +141,11 @@
                             </div>
 
                             {{-- multi file --}}
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label for="apartment_images" class="form-label mb-1">*Carica altre foto</label>
                                 <input class="form-control" type="file" id="apartment_images"
                                     name="apartment_images[]" multiple>
-                            </div>
+                            </div> --}}
 
                             {{-- servizi --}}
                             <div class="row ">
@@ -196,7 +196,7 @@
                 @foreach ($apartment_images as $img)
                     {{-- apartment imgs --}}
                     <div class="col-4">
-                        <div class="card h-100">
+                        <div class="card" style="height: 100px;">
                             {{-- form delete --}}
                             <form action="{{ route('admin.apartment-images.destroy', $img) }} " method="POST"
                                 id="{{ $img->id }}" class=" h-100">
@@ -204,20 +204,41 @@
                                 @method('DELETE')
 
 
-                                <button
-                                    class="delete-image-button btn btn-danger position-absolute rounded-circle ms-1 mt-1"
+                                <button class="delete-image-button btn btn-danger position-absolute rounded-circle ms-1 mt-1"
                                     id="{{ $img->id }}">
                                     <i class="fa-solid fa-xmark"></i>
                                 </button>
 
-                                <img src="{{ $img->url ? asset('storage/' . $img->url) : 'https://picsum.photos/200/300' }}"
+                                <img src="{{ $img->url ? asset('storage/' . $img->url) : '' }}"
                                     style="width: 100%; height: 100%;" class="card-img-top img-fluid m-0 rounded"
-                                    alt="">
+                                    alt="" id="newImage">
                             </form>
                         </div>
-
                     </div>
                 @endforeach
+
+                
+                <div class="col-4">
+                    <div class="card d-flex justify-content-center bg-body-secondary" style="height: 100px; width:auto;">
+
+                        {{-- add files card --}}
+                        <div class="text-center">
+                            
+                            <label for="apartment_images" style="cursor:pointer;">
+                                <i class="fa-solid fa-plus text-white rounded-circle p-3 bg-secondary"></i>
+                            </label>
+                            {{-- add files input --}}
+                            <input type="file" id="apartment_images" name="apartment_images[]" multiple hidden>
+                
+                        </div>
+
+                        <div class="text-center" >
+                            {{-- files counter --}}
+                            <span id="files"></span>
+                        </div>
+                            
+                    </div>
+                </div>
             </div>
         </div>
 
