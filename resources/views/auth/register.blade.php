@@ -121,13 +121,13 @@
 
                     <div class="mb-4 row mb-0 justify-content-center">
                         <div class="col-5">
-                            <button type="submit" class="btn btn-primary  w-100" id="submit-button">
+                            <button type="submit" class="button-custom  w-100" id="submit-button">
                                 {{ __('Registrati') }}
                             </button>
                         </div>
                     </div>
 
-                    <p class="pt-4 offset-1 text-danger fw-bold" style="font-size: 12px">* Questi campi sono obbligatori</p>
+                    <p class="pt-4 offset-1 text-danger fw-bold" style="font-size: 14px">* Questi campi sono obbligatori</p>
                 </form>
             </div>
         </div>

@@ -13,7 +13,7 @@
 
         <div class="main-container py-5">
 
-            <h2 class="text-center  mb-5 fw-bold">Login</h2>
+            <h2 class="text-center mb-5 fw-bold">Login</h2>
 
             <form method="POST" action="{{ route('login') }}">
                 @csrf
@@ -77,7 +77,7 @@
                 {{-- Login button --}}
                 <div class="mb-4 row justify-content-center px-3">
                     <div class="col-10">
-                        <button type="submit" class="btn btn-primary w-100">
+                        <button type="submit" class="button-custom w-100">
                             {{ __('Login') }}
                         </button>
                     </div>
@@ -86,7 +86,7 @@
 
                 {{-- Registrati --}}
                 <div class="text-center">
-                    <a href="{{ route('register') }}">Non hai un'account? Registrati</a>
+                    <a class="register-text" href="{{ route('register') }}">Non hai un'account? Registrati</a>
                 </div>
 
             </form>
