@@ -8,8 +8,8 @@
         <a href="{{ route('admin.apartments.show', $apartment) }}" class="btn btn-primary mt-4 mb-3">Torna alla show</a>
         <a href="{{ route('admin.apartments.index') }}" class="btn btn-primary mt-4 mb-3">Torna alla lista</a>
         <div>
-            <form class="was-validated" action="{{ route('admin.apartments.update', $apartment) }}" method="POST"
-                enctype="multipart/form-data">
+            <h2 class="mb-3">Modifica Appartamento</h2>
+            <form action="{{ route('admin.apartments.update', $apartment) }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 @method('PATCH')
@@ -18,8 +18,8 @@
                     <div class="col-6">
                         {{-- nome del appartamento  --}}
                         <div class="form-floating mb-4">
-                            <input type="text" class="form-control" id="name" name="name"
-                                value="{{ old('name', $apartment->name) }}" required>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
+                                name="name" value="{{ old('name', $apartment->name) }}" required>
                             <label for="name" class="form-label">Inserisci Nome del Appartamento<span
                                     class="text-danger"> * </span></label>
                             @error('name')
@@ -31,8 +31,9 @@
                             {{--  nr stanze  --}}
                             <div class="col-4">
                                 <div class="form-floating">
-                                    <input type="number" min="1" class="form-control" id="n_room" name="n_room"
-                                        value="{{ old('n_room', $apartment->n_room) }}" required>
+                                    <input type="number" min="1"
+                                        class="form-control @error('n_room') is-invalid @enderror" id="n_room"
+                                        name="n_room" value="{{ old('n_room', $apartment->n_room) }}" required>
                                     <label for="n_room" class="form-label">Inserisci nr stanze<span class="text-danger"> *
                                         </span></label>
                                     @error('n_room')
@@ -43,7 +44,8 @@
                             <div class="col-4">
                                 {{-- nr bagni --}}
                                 <div class="form-floating">
-                                    <input type="number" min="1" class="form-control" id="n_bathroom"
+                                    <input type="number" min="1"
+                                        class="form-control @error('n_bathroom') is-invalid @enderror" id="n_bathroom"
                                         name="n_bathroom" value="{{ old('n_bathroom', $apartment->n_bathroom) }}" required>
                                     <label for="n_bathroom" class="form-label">Inserisci nr bagni<span class="text-danger">
                                             * </span></label>
@@ -55,8 +57,9 @@
                             <div class="col-4">
                                 {{-- nr letti --}}
                                 <div class="form-floating">
-                                    <input type="number" min="1" class="form-control" id="n_bed" name="n_bed"
-                                        value="{{ old('n_bed', $apartment->n_bed) }}" required>
+                                    <input type="number" min="1"
+                                        class="form-control @error('n_bed') is-invalid @enderror" id="n_bed"
+                                        name="n_bed" value="{{ old('n_bed', $apartment->n_bed) }}" required>
                                     <label for="n_bed" class="form-label">Inserisci nr letti<span class="text-danger"> *
                                         </span></label>
                                     @error('n_bed')
@@ -70,8 +73,9 @@
                             {{-- nr piano --}}
                             <div class="col-4">
                                 <div class="form-floating">
-                                    <input type="number" class="form-control" id="floor" name="floor"
-                                        value="{{ old('floor', $apartment->floor) }}" required>
+                                    <input type="number" class="form-control @error('floor') is-invalid @enderror"
+                                        id="floor" name="floor" value="{{ old('floor', $apartment->floor) }}"
+                                        required>
                                     <label for="floor" class="form-label">Inserisci nr piano<span class="text-danger"> *
                                         </span></label>
                                     @error('floor')
@@ -82,10 +86,12 @@
                             {{-- nr superficie --}}
                             <div class="col-4">
                                 <div class="form-floating">
-                                    <input type="number" min="20" class="form-control" id="square_meters"
+                                    <input type="number" min="20"
+                                        class="form-control @error('square_meters') is-invalid @enderror" id="square_meters"
                                         name="square_meters" value="{{ old('square_meters', $apartment->square_meters) }}"
                                         required>
-                                    <label for="square_meters" class="form-label">superfice<span class="text-danger"> *
+                                    <label for="square_meters" class="form-label">superfice (mq) <span class="text-danger">
+                                            *
                                         </span></label>
                                     @error('square_meters')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -103,49 +109,48 @@
                                     {{-- indirizzo --}}
                                     <div class="col-12 mb-3 z-1">
                                         <div class="search-container form-floating">
-                                            <input type="text" class="form-control" id="address" name="address"
-                                                value="{{ old('address', $apartment->address) }}" required>
+                                            <input type="text" @class([
+                                                'form-control',
+                                                'is-invalid' =>
+                                                    $errors->has('address') || $errors->has('lon') || $errors->has('lat'),
+                                            ])" id="address"
+                                                name="address" value="{{ old('address', $apartment->address) }}" required>
                                             <label for="address" class="form-label">Indirizzo</label>
                                             <div id="suggestion"></div>
+                                            @error('square_meters')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                            @error('lon')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                            @error('lat')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                     </div>
-
-                                    {{-- <div class="col-2 d-flex">
-                                    <div id="search_btn" class="btn btn-primary align-self-end w-100">Cerca</div>
-                                </div> --}}
 
                                     {{-- latitude e longitude  solo per debug --}}
-                                    <div class="col-6 my-3 z-0 d-none">
-                                        <div class="form-floating">
-                                            <input class="form-control" id="lat" name="lat"
-                                                value="{{ old('lat', $apartment->lat) }}">
-                                            <label for="lat" id="latitude">Lat</label>
-                                        </div>
+                                    <div class="col-6">
+                                        <label for="" id="latitude" class="form-label"></label>
+                                        <label for="" id="longitude" class="form-label"></label>
+                                        <input type="hidden" id="lat" name="lat"
+                                            value="{{ old('lat', $apartment->lat) }}">
+                                        <input type="hidden" id="lon" name="lon"
+                                            value="{{ old('lon', $apartment->lon) }}">
                                     </div>
 
-                                    <div class="col-6 my-3 z-0 d-none">
-                                        <div class="form-floating">
-                                            <input class="form-control" id="lon" name="lon"
-                                                value="{{ old('lon', $apartment->lon) }}">
-                                            <label for="lon" id="longitude">Lon</label>
-                                        </div>
-                                    </div>
 
                                 </div>
                             </div>
 
                             {{-- cover img --}}
                             <div class="col mb-3">
-                                <label for="cover_img" class="form-label mb-1">Carica la cover</label>
+                                <label for="cover_img"
+                                    class="form-label mb-1 @error('cover_img') is-invalid @enderror">Carica
+                                    la cover</label>
                                 <input class="form-control" type="file" name="cover_img" id="cover_img">
                             </div>
 
-                            {{-- multi file --}}
-                            {{-- <div class="mb-3">
-                                <label for="apartment_images" class="form-label mb-1">*Carica altre foto</label>
-                                <input class="form-control" type="file" id="apartment_images"
-                                    name="apartment_images[]" multiple>
-                            </div> --}}
 
                             {{-- servizi --}}
                             <div class="row ">
@@ -158,8 +163,7 @@
                                             <input class="form-check-input" type="checkbox" value="{{ $service->id }}"
                                                 id="service_{{ $service->id }}" name="services[]"
                                                 {{ $apartment->services->contains($service->id) ? 'checked' : '' }}>
-                                            <label class="form-check-label text-primary"
-                                                for="service_{{ $service->id }}">
+                                            <label class="form-check-label" for="service_{{ $service->id }}">
                                                 {{ $service->name }}
                                             </label>
                                         </div>
@@ -179,70 +183,71 @@
                         </div>
 
                     </div>
-
-                    <div class="col-6 ">
-                        <div class="card">
-                            @if (!empty($apartment->cover_img))
-                                <img src="{{ asset('storage/' . $apartment->cover_img) }}"
-                                    class="card-img-top img-fluid rounded" style="width: 100%; height: auto;"
-                                    alt="apartment cover img" style="width: 200px;">
-                            @endif
-                        </div>
-
             </form>
-            {{-- edit carousel --}}
-            <div class="row g-1 mt-3">
-                {{-- foreach --}}
-                @foreach ($apartment_images as $img)
-                    {{-- apartment imgs --}}
-                    <div class="col-4">
-                        <div class="card" style="height: 100px;">
-                            {{-- form delete --}}
-                            <form action="{{ route('admin.apartment-images.destroy', $img) }} " method="POST"
-                                id="{{ $img->id }}" class=" h-100">
-                                @csrf
-                                @method('DELETE')
-
-
-                                <button class="delete-image-button btn btn-danger position-absolute rounded-circle ms-1 mt-1"
-                                    id="{{ $img->id }}">
-                                    <i class="fa-solid fa-xmark"></i>
-                                </button>
-
-                                <img src="{{ $img->url ? asset('storage/' . $img->url) : '' }}"
-                                    style="width: 100%; height: 100%;" class="card-img-top img-fluid m-0 rounded"
-                                    alt="" id="newImage">
-                            </form>
-                        </div>
+            <div class="col-6 ">
+                @if (!empty($apartment->cover_img))
+                    <div class="card">
+                        <img src="{{ asset('storage/' . $apartment->cover_img) }}" class="card-img-top img-fluid rounded"
+                            style="width: 100%; height: auto;" alt="apartment cover img" style="width: 200px;">
                     </div>
-                @endforeach
+                @endif
 
-                
-                <div class="col-4">
-                    <div class="card d-flex justify-content-center bg-body-secondary" style="height: 100px; width:auto;">
+                {{-- edit carousel --}}
+                <div class="row g-1 mt-3">
+                    {{-- foreach --}}
+                    @foreach ($apartment_images as $img)
+                        {{-- apartment imgs --}}
+                        <div class="col-4">
+                            <div class="card" style="height: 100px;">
+                                {{-- form delete --}}
+                                <form action="{{ route('admin.apartment-images.destroy', $img) }} " method="POST"
+                                    id="{{ $img->id }}" class=" h-100">
+                                    @csrf
+                                    @method('DELETE')
 
-                        {{-- add files card --}}
-                        <div class="text-center">
-                            
-                            <label for="apartment_images" style="cursor:pointer;">
-                                <i class="fa-solid fa-plus text-white rounded-circle p-3 bg-secondary"></i>
-                            </label>
-                            {{-- add files input --}}
-                            <input type="file" id="apartment_images" name="apartment_images[]" multiple hidden>
-                
+
+                                    <button
+                                        class="delete-image-button btn btn-danger position-absolute rounded-circle ms-1 mt-1"
+                                        id="{{ $img->id }}">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </button>
+
+                                    <img src="{{ $img->url ? asset('storage/' . $img->url) : '' }}"
+                                        style="width: 100%; height: 100%;" class="card-img-top img-fluid m-0 rounded"
+                                        alt="" id="newImage">
+                                </form>
+                            </div>
                         </div>
+                    @endforeach
 
-                        <div class="text-center" >
-                            {{-- files counter --}}
-                            <span id="files"></span>
+
+                    <div class="col-4">
+                        <p class="mb-2">Ulteriori Immagini:</p>
+                        <div class="card d-flex justify-content-center bg-body-secondary"
+                            style="height: 100px; width:auto;">
+
+                            {{-- add files card --}}
+                            <div class="text-center">
+
+                                <label for="apartment_images" style="cursor:pointer;">
+                                    <i class="fa-solid fa-plus text-white rounded-circle p-3 bg-secondary"></i>
+                                </label>
+                                {{-- add files input --}}
+                                <input type="file" id="apartment_images" name="apartment_images[]" multiple hidden>
+
+                            </div>
+
+                            <div class="text-center">
+                                {{-- files counter --}}
+                                <span id="files"></span>
+                            </div>
+
                         </div>
-                            
                     </div>
                 </div>
             </div>
-        </div>
 
-    </div>
+        </div>
 
     </div>
     </div>
