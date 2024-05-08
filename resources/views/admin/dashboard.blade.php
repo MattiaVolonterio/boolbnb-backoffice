@@ -293,13 +293,13 @@
                 </ul>
 
                 <ul class="navbar-nav">
-                    <li class="nav-item mt-2">
+                    <li class="nav-item nav-link mt-2">
                         <a class="dropdown-item text-danger" href="{{ url('profile') }}">
                             <i class="fa-solid fa-trash-can me-2 fs-5"></i>
                             <span>Elimina Profilo</span>
                         </a>
                     </li>
-                    <li class="nav-item mt-3">
+                    <li class="nav-item nav-link mt-2">
                         <a class="dropdown-item" href="{{ route('logout') }}" id="logout-link">
                             <i class="fa-solid fa-right-from-bracket me-2 fs-5"></i>
                             <span>Logout</span>
