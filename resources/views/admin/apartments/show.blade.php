@@ -144,9 +144,7 @@
             </div>
         </div>
 
-
-
-        @if (!empty($apartment_images->items))
+        @if ($apartment_images->all())
             <h1 class="mt-5">Le tue foto</h1>
 
             <div class="row mb-5">
@@ -186,6 +184,8 @@
                 </div>
 
 
+
+
                 {{-- COLONNA IMMAGINI --}}
                 <div class="col-md-6 col-12">
                     {{-- TEST-------------------------- --}}
@@ -208,6 +208,7 @@
 
             </div>
         @endif
+
     </section>
 @endsection
 
