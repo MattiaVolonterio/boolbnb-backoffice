@@ -156,27 +156,34 @@
 
                 <div class="col-6">
                     <h3 class="text-center text-primary mb-3">Aggiungi Servizi<span class="text-danger">*</span></h3>
-                    <div class="row flex-column services-row">
+                    <div @class([
+                        'is-invalid' => $errors->has('services'),
+                        'd-flex',
+                        'flex-column',
+                        'services-row',
+                        'flex-wrap',
+                    ])>
                         @foreach ($services as $service)
-                            <div class="col-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="{{ $service->id }}"
-                                        id="service_{{ $service->id }}" name="services[]">
-                                    <label class="form-check-label" for="service_{{ $service->id }}">
-                                        {{ $service->name }}
-                                    </label>
-                                </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="{{ $service->id }}"
+                                    id="service_{{ $service->id }}" name="services[]">
+                                <label class="form-check-label" for="service_{{ $service->id }}">
+                                    {{ $service->name }}
+                                </label>
                             </div>
                         @endforeach
+
                     </div>
                     @error('services')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
-                </div>
 
+                </div>
             </div>
 
-        </form>
+    </div>
+
+    </form>
     </div>
 @endsection
 
