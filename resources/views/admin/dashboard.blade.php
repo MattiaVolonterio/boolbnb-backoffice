@@ -79,7 +79,7 @@
 
                 {{-- gestione account --}}
                 <div class="text-center mt-auto">
-                    <li class="nav-item dropdown-center" data-bs-theme="dark">
+                    <li class="nav-item nav-link dropdown-center" data-bs-theme="dark">
                         <a aria-expanded="false" aria-haspopup="true" class="nav-link" data-bs-toggle="dropdown"
                             href="#" id="navbarDropdown" role="button" v-pre>
                             <i class="fa-solid fa-user-gear me-lg-2 fs-5"></i>
@@ -293,18 +293,24 @@
                 </ul>
 
                 <ul class="navbar-nav">
-                    <li class="nav-item nav-link mt-2">
-                        <a class="dropdown-item text-danger" href="{{ url('profile') }}">
-                            <i class="fa-solid fa-trash-can me-2 fs-5"></i>
-                            <span>Elimina Profilo</span>
-                        </a>
-                    </li>
-                    <li class="nav-item nav-link mt-2">
-                        <a class="dropdown-item" href="{{ route('logout') }}" id="logout-link">
-                            <i class="fa-solid fa-right-from-bracket me-2 fs-5"></i>
-                            <span>Logout</span>
-                        </a>
-                    </li>
+                    <div>
+
+                        <li class="nav-item nav-link mt-2">
+                            <a class="dropdown-item text-danger" href="{{ url('profile') }}">
+                                <i class="fa-solid fa-trash-can me-2 fs-5"></i>
+                                <span>Elimina Profilo</span>
+                            </a>
+                        </li>
+                        <form action="{{ route('logout') }}" id="logout-form" method="POST">
+                            @csrf
+                            <li class="nav-item nav-link mt-2">
+                                <button class="dropdown-item" href="{{ route('logout') }}" id="logout-link">
+                                    <i class="fa-solid fa-right-from-bracket me-2 fs-5"></i>
+                                    <span>Logout</span>
+                                </button>
+                            </li>
+                        </form>
+                    </div>
                 </ul>
             </div>
         </div>
