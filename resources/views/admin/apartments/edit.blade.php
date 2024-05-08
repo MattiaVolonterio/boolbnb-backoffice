@@ -8,6 +8,7 @@
         <a href="{{ route('admin.apartments.show', $apartment) }}" class="btn btn-primary mt-4 mb-3">Torna alla show</a>
         <a href="{{ route('admin.apartments.index') }}" class="btn btn-primary mt-4 mb-3">Torna alla lista</a>
         <div>
+
             <h2 class="mb-3">Modifica Appartamento</h2>
             <form action="{{ route('admin.apartments.update', $apartment) }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -113,7 +114,7 @@
                                                 'form-control',
                                                 'is-invalid' =>
                                                     $errors->has('address') || $errors->has('lon') || $errors->has('lat'),
-                                            ])" id="address"
+                                            ]) id="address"
                                                 name="address" value="{{ old('address', $apartment->address) }}" required>
                                             <label for="address" class="form-label">Indirizzo</label>
                                             <div id="suggestion"></div>
@@ -160,7 +161,7 @@
 
                                 <h3 class="text-center text-primary">Servizi</h3>
 
-                                <div class="col-12  ">
+                                <div class="col">
 
                                     <div @class([
                                         'is-invalid' => $errors->has('services'),
@@ -186,23 +187,26 @@
                                     @error('services')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
+                                      {{-- Switch --}}
+                                    <div class="form-check form-switch m-3">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="visible"
+                                            name="visible" @if ($apartment->visible == 1) checked @endif>
+                                        <label class="form-check-label" for="visible">Visibile</label>
+                                    </div>
+
+                                    <div class="col-2">
+                                        <button class="btn btn-success">Salva</button>
+                                    </div>
 
                                 </div>
+                                
                             </div>
-                            {{-- Switch --}}
-                            <div class="form-check form-switch m-3">
-                                <input class="form-check-input" type="checkbox" role="switch" id="visible"
-                                    name="visible" @if ($apartment->visible == 1) checked @endif>
-                                <label class="form-check-label" for="visible">Visibile</label>
-                            </div>
-
-                            <div class="col-2">
-                                <button class="btn btn-success">Salva</button>
-                            </div>
+                            
                         </div>
 
                     </div>
             </form>
+            
             <div class="col-6 ">
                 @if (!empty($apartment->cover_img))
                     <div class="card">
@@ -271,7 +275,7 @@
 
         </div>
 
-    </div>
+        
     </div>
 @endsection
 
