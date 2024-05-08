@@ -2,15 +2,17 @@
 
 @section('content')
   <section class="container mt-3">
-    <h1>Index dei messaggi</h1>
+    <h1>Messaggi ricevuti</h1>
 
-    <table class="table">
+    <table class="table mt-4" style="border: 1px solid #e9e9e9">
       <thead>
           <tr>
               <th scope="col">Indirizzo email</th>
               <th scope="col">Nome</th>
               <th scope="col">Testo</th>
-              <th scope="col"></th>
+              @if(isset($messages[0]->id)) 
+                <th scope="col"></th>
+              @endif
           </tr>
       </thead>
       <tbody>

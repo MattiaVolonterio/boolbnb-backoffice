@@ -17,7 +17,8 @@ class MessageController extends Controller
      */
     public function index(Apartment $apartment)
     {   
-        $messages = Message::where('apartment_id', $apartment->id)->get(); //Ottengo i messaggi associati all'id dell'appartamento specificato
+        $messages = Message::where('apartment_id', $apartment->id)->orderBy('id', 'DESC')->get(); //Ottengo i messaggi associati all'id dell'appartamento specificato
+        // dd($messages);
         return view('admin.messages.index', compact('messages'));
     }
     
