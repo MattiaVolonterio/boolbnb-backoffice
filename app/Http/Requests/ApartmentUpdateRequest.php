@@ -34,8 +34,8 @@ class ApartmentUpdateRequest extends FormRequest
             'floor' => 'required|integer',
             'address' => 'required|string', 
             'cover_img' => 'nullable|image|mimes:jpeg,png|max:2048',
-            'apartment_images' => 'nullable|image|mimes:jpeg,png|max:9',
-            'apartment_images.*' => 'max:2048',
+            'apartment_images' => 'nullable|array|max:9',
+            'apartment_images.*' => 'nullable|image|mimes:jpeg,png|max:2048',
             'services' => 'required|min:1|exists:services,id'
         ];
     }
@@ -74,11 +74,11 @@ class ApartmentUpdateRequest extends FormRequest
             'cover_img.mimes' => 'Formato immagine non valido',
             'cover_img.max' => 'Immagine troppo grande',
 
-            'apartment_images.image' => 'Immagine di copertina non valida',
-            'apartment_images.mimes' => 'Formato immagine non valido',
-            'apartment_images.max' => 'Troppe immagini caricate',
+            'apartment_images.*.image' => "Devi inserire un'immagine",
+            'apartment_images.*.mimes' => 'Formato immagine non valido',
+            'apartment_images.*.max' => 'Immagini troppo grandi',
 
-            'apartment_images.*.max' => 'Immagine troppo grande',
+            'apartment_images.max' => 'Troppe immagini caricate',
 
             'services.required' => 'Almeno un servizio richiesto',
             'services.min' => 'Almeno un servizio richiesto',

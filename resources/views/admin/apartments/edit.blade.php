@@ -130,7 +130,7 @@
                                     </div>
 
                                     {{-- latitude e longitude  solo per debug --}}
-                                    <div class="col-6">
+                                    <div class="col-6 d-none">
                                         <label for="" id="latitude" class="form-label"></label>
                                         <label for="" id="longitude" class="form-label"></label>
                                         <input type="hidden" id="lat" name="lat"
@@ -145,35 +145,54 @@
 
                             {{-- cover img --}}
                             <div class="col mb-3">
-                                <label for="cover_img"
-                                    class="form-label mb-1 @error('cover_img') is-invalid @enderror">Carica
+                                <label for="cover_img" class="form-label mb-1">Carica
                                     la cover</label>
-                                <input class="form-control" type="file" name="cover_img" id="cover_img">
+                                <input class="form-control  @error('cover_img') is-invalid @enderror" type="file"
+                                    name="cover_img" id="cover_img">
+                                @error('cover_img')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
 
                             {{-- servizi --}}
-                            <div class="row ">
+                            <div class="row g-3">
 
                                 <h3 class="text-center text-primary">Servizi</h3>
 
-                                @foreach ($services as $service)
-                                    <div class="col-md-4">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="{{ $service->id }}"
-                                                id="service_{{ $service->id }}" name="services[]"
-                                                {{ $apartment->services->contains($service->id) ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="service_{{ $service->id }}">
-                                                {{ $service->name }}
-                                            </label>
-                                        </div>
+                                <div class="col-12  ">
+
+                                    <div @class([
+                                        'is-invalid' => $errors->has('services'),
+                                        'd-flex',
+                                        'flex-column',
+                                        'services-row',
+                                        'flex-wrap',
+                                        'align-content-between',
+                                    ])>
+                                        @foreach ($services as $service)
+                                            <div class="form-check">
+                                                <input @class(['is-invalid' => $errors->has('services'), 'form-check-input']) type="checkbox"
+                                                    value="{{ $service->id }}" id="service_{{ $service->id }}"
+                                                    name="services[]"
+                                                    {{ in_array($service->id, old('services', $apartment->services->pluck('id')->toArray())) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="service_{{ $service->id }}">
+                                                    {{ $service->name }}
+                                                </label>
+                                            </div>
+                                        @endforeach
+
                                     </div>
-                                @endforeach
+                                    @error('services')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+
+                                </div>
                             </div>
                             {{-- Switch --}}
                             <div class="form-check form-switch m-3">
                                 <input class="form-check-input" type="checkbox" role="switch" id="visible"
-                                    name="visible">
+                                    name="visible" @if ($apartment->visible == 1) checked @endif>
                                 <label class="form-check-label" for="visible">Visibile</label>
                             </div>
 
@@ -222,20 +241,23 @@
 
 
                     <div class="col-4">
-                        <p class="mb-2">Ulteriori Immagini:</p>
                         <div class="card d-flex justify-content-center bg-body-secondary"
                             style="height: 100px; width:auto;">
 
                             {{-- add files card --}}
                             <div class="text-center">
-
-                                <label for="apartment_images" style="cursor:pointer;">
-                                    <i class="fa-solid fa-plus text-white rounded-circle p-3 bg-secondary"></i>
-                                </label>
-                                {{-- add files input --}}
-                                <input type="file" id="apartment_images" name="apartment_images[]" multiple hidden>
-
+                                <div>
+                                    <label for="apartment_images" style="cursor:pointer;">
+                                        <i class="fa-solid fa-plus text-white rounded-circle p-3 bg-secondary"></i>
+                                    </label>
+                                    {{-- add files input --}}
+                                    <input type="file" id="apartment_images" name="apartment_images[]" multiple
+                                        hidden>
+                                </div>
                             </div>
+                            @error('apartment_images')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
 
                             <div class="text-center">
                                 {{-- files counter --}}
@@ -258,7 +280,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    @vite('resources/scss/ap-edit.scss')
 @endsection
 @section('js')
-    @vite('resources/js/input.js')
+    @vite('resources/js/input-edit.js')
 @endsection
