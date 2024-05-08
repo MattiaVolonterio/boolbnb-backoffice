@@ -2,6 +2,7 @@
 
 // get address
 const searchInput = document.getElementById("address");
+searchInput.value='';
 
 // get latitude
 const lat = document.getElementById("lat");

@@ -4,6 +4,7 @@
     {{-- <form action="{{ route('admin.apartments.store') }}" method="POST" class="container" id="form">
         @csrf   </form> --}}
 
+    @dump($errors->has('services'))
     <div class="container ">
 
         <form class="mt-5" action="{{ route('admin.apartments.store', $apartment) }}" method="POST"
@@ -111,7 +112,9 @@
                                 </div>
 
                                 {{-- latitude e longitude  solo per debug --}}
-                                <div class="col-6 d-none">
+                                <div class="col-6">
+                                    <label for="" id="latitude" class="form-label"></label>
+                                    <label for="" id="longitude" class="form-label"></label>
                                     <input type="hidden" id="lat" name="lat" value="{{ old('lat') }}">
                                     <input type="hidden" id="lon" name="lon" value="{{ old('lon') }}">
                                 </div>
@@ -129,15 +132,11 @@
                                 id="apartment_images" name="apartment_images[]" multiple>
                         </div>
 
-                        {{-- servizi --}}
-                        <div class="row ">
-
-                        </div>
                         {{-- Switch --}}
                         <div class="form-check form-switch m-3">
+                            <label class="form-check-label" for="visible">Visibilità:</label>
                             <input class="form-check-input @error('visible') is-invalid @enderror" type="checkbox"
-                                role="switch" id="visible" name="visible" value="on">
-                            <label class="form-check-label" for="visible">Visibile</label>
+                                role="switch" id="visible" name="visible" checked>
                         </div>
 
                         <div class="col-2">
@@ -153,13 +152,15 @@
                         @foreach ($services as $service)
                             <div class="col-md-4">
                                 <div class="form-check">
-                                    <input class="form-check-input @error('services') is-invalid @enderror"
-                                        type="checkbox" value="{{ $service->id }}" id="service_{{ $service->id }}"
-                                        name="services[]" {{ in_array($service->id, old('services')) ? 'checked' : '' }}>
+                                    <input class="form-check-input" type="checkbox" value="{{ $service->id }}"
+                                        id="service_{{ $service->id }}" name="services[]">
                                     <label class="form-check-label" for="service_{{ $service->id }}">
                                         {{ $service->name }}
                                     </label>
                                 </div>
+                                @error('services')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                         @endforeach
                     </div>
