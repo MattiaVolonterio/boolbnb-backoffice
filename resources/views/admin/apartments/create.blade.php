@@ -165,7 +165,7 @@
                     ])>
                         @foreach ($services as $service)
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="{{ $service->id }}"
+                                <input @class(['is-invalid' => $errors->has('services'), 'form-check-input']) type="checkbox" value="{{ $service->id }}"
                                     id="service_{{ $service->id }}" name="services[]">
                                 <label class="form-check-label" for="service_{{ $service->id }}">
                                     {{ $service->name }}
