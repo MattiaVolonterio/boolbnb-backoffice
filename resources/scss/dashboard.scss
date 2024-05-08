@@ -7,15 +7,10 @@
 }
 
 .side-bar {
-    width: 235px;
+    width: 80px;
     height: 100vh;
 
-    // background-color: #353c68;
-
     background-color: rgb(0, 42, 56);
-
-    // background: rgb(255, 255, 255);
-    // background: linear-gradient(305deg, #66c98f 0%, #41b06e 55%, #141e46 100%);
 
     h2 {
         color: #ececec;
@@ -23,7 +18,7 @@
 }
 
 .logo-img {
-    height: 135px;
+    height: 70px;
     aspect-ratio: 1;
     overflow: hidden;
 
@@ -31,7 +26,7 @@
 }
 
 .main-content {
-    width: calc(100% - 235px);
+    width: calc(100% - 80px);
     height: 100vh;
 }
 
@@ -62,7 +57,9 @@
 
     padding: 0.6rem 2.5rem;
 
-    min-width: 400px;
+    min-width: 280px;
+
+    font-size: 0.8rem;
 
     text-decoration: none;
 
@@ -82,10 +79,11 @@
 .button-container {
     display: flex;
 
-    justify-content: center;
+    flex-direction: column;
+
+    align-items: center;
 
     margin: 4rem 0;
-    // margin-left: 1rem;
 
     gap: 30px;
 }
@@ -96,10 +94,45 @@
 
 .bottom-page {
     height: 550px;
-    // border: 1px solid black;
 }
 
 .messages-body {
     overflow: auto;
     height: 300px;
+}
+
+@media (min-width: 480px) {
+    .button-gradient {
+        min-width: 350px;
+    }
+}
+
+@media (min-width: 768px) {
+}
+
+@media (min-width: 992px) {
+    .side-bar {
+        width: 235px;
+    }
+
+    .logo-img {
+        height: 135px;
+        aspect-ratio: 1;
+        overflow: hidden;
+
+        background-size: cover;
+    }
+
+    .main-content {
+        width: calc(100% - 235px);
+    }
+    .button-container {
+        flex-direction: row;
+
+        justify-content: center;
+    }
+
+    .button-gradient {
+        min-width: 300px;
+    }
 }

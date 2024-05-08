@@ -16,32 +16,71 @@
         <div class="side-bar">
             {{-- side title --}}
             <div class="text-center pt-2 title-container fw-semibold">
-                <div class="logo-container">
-                    <img class="logo-img" src="{{ asset('img/logos/boolbnb-logo.png') }}" alt="logo">
+                <div class="logo-container pt-3 pt-lg-0">
+                    <img class="logo-img" src="{{ asset('img/logos/boolbnb-logo-2.png') }}" alt="logo">
                 </div>
             </div>
 
 
             <div class="d-flex flex-column link-container">
                 {{-- Navigation Link --}}
-                <div class="text-center">
+                <div class="d-flex flex-column align-items-center">
                     <ul class="navbar-nav mt-5">
+                        <li class="nav-item ">
+                            <a @class([
+                                'nav-link',
+                                'active' => Route::currentRouteName() == 'admin.dashboard',
+                            ]) aria-current="page" href="{{ route('admin.dashboard') }}">
+                                <div class="d-flex d-lg-block justify-content-center">
+                                    <i class="fa-solid fa-house me-lg-2 mt-lg-4 fs-5"></i>
+                                    <span class="d-none d-lg-inline-block">Home</span>
+                                </div>
+                            </a>
+                        </li>
                         <li class="nav-item ">
                             <a @class([
                                 'nav-link',
                                 'active' => Route::currentRouteName() == 'admin.apartments.index',
                             ]) aria-current="page"
-                                href="{{ route('admin.apartments.index') }}"> <i
-                                    class="fa-solid fa-house me-2"></i>Appartamenti</a>
+                                href="{{ route('admin.apartments.index') }}">
+                                <div class="d-flex d-lg-block justify-content-center">
+                                    <i class="fa-solid fa-building me-lg-2 mt-lg-1 fs-5"></i>
+                                    <span class="d-none d-lg-inline-block">Appartamenti</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a @class([
+                                'nav-link',
+                                'active' => Route::currentRouteName() == 'admin.sponsorships.index',
+                            ]) aria-current="page"
+                                href="{{ route('admin.sponsorships.index') }}">
+                                <div class="d-flex d-lg-block justify-content-center">
+                                    <i class="fa-solid fa-money-check-dollar me-lg-2 mt-lg-1 fs-5"></i>
+                                    <span class="d-none d-lg-inline-block">Sponsorship</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a @class([
+                                'nav-link',
+                                'active' => Route::currentRouteName() == 'admin.messages.index',
+                            ]) aria-current="page" href="{{ route('admin.messages.index') }}">
+                                <div class="d-flex d-lg-block justify-content-center">
+                                    <i class="fa-solid fa-message me-lg-2 mt-lg-1 fs-5"></i>
+                                    <span class="d-none d-lg-inline-block">Messaggi</span>
+                                </div>
+                            </a>
                         </li>
                 </div>
 
                 {{-- gestione account --}}
                 <div class="text-center mt-auto">
                     <li class="nav-item dropdown-center" data-bs-theme="dark">
-                        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle"
-                            data-bs-toggle="dropdown" href="#" id="navbarDropdown" role="button" v-pre>
-                            {{ Auth::user()->name }}
+                        <a aria-expanded="false" aria-haspopup="true" class="nav-link" data-bs-toggle="dropdown"
+                            href="#" id="navbarDropdown" role="button" v-pre>
+                            <i class="fa-solid fa-user-gear me-lg-2 fs-5"></i>
+                            <span class="d-none d-lg-inline-block">{{ Auth::user()->name }}</span>
                         </a>
 
                         <div aria-labelledby="navbarDropdown" class="dropdown-menu dropdown-menu-right">
