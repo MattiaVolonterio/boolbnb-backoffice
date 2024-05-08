@@ -62,7 +62,7 @@
                     </div>
 
                     <img src="{{ $apartment->cover_img ? asset($apartment->cover_img) : 'https://picsum.photos/200/300' }}"
-                        class="card-img-bottom h-100" alt="{{ $apartment->name }}">
+                        class="card-img-bottom" alt="{{ $apartment->name }}"  style="min-height: 400px; max-height: 400px">
                 </div>
 
             </div>
@@ -70,11 +70,11 @@
             {{-- DATI --}}
             <div class="col-md-3 col-6">
 
-                <div class="card h-100">
+                <div class="card">
                     <div class="card-header">
                         Dati
                     </div>
-                    <div class="card-body">
+                    <div class="card-body"  style="min-height: 400px; max-height: 400px">
                         <ul class=" list-unstyled">
                             <li>
                                 <div><strong>Nome: </strong>{{ $apartment->name }}</div>
@@ -115,14 +115,14 @@
             </div>
 
             {{-- SERVIZI --}}
-            <div class="col-md-3 col-6"">
+            <div class="col-md-3 col-6">
 
                 <div class="card overflow-auto">
                     <div class="card-header position-relative">
                         Servizi
                     </div>
 
-                    <div class="card-body overflow-auto" style="max-height: 400px">
+                    <div class="card-body overflow-auto" style="min-height: 400px; max-height: 400px">
                         <ul class=" list-unstyled">
                             <li class="">
                                 @foreach ($services as $service)
