@@ -11,9 +11,9 @@
     <section class="container mt-5" id="index-apartment">
         <h1 class="text-center">Lista Appartamenti</h1>
 
-        <a class="btn btn-primary mt-3 mb-4" href="{{ route('admin.apartments.create') }}">Crea uno nuovo</a>
+        <a class="btn btn-primary mt-3" href="{{ route('admin.apartments.create') }}">Crea uno nuovo</a>
 
-        <div class="row row-cols-4">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-5 g-md-3 py-4">
             @forelse ($apartments as $apartment)
                 <div class="col">
                     <div class="card">
@@ -39,21 +39,21 @@
                             </form>
 
                             <div class="d-flex justify-content-between">
-                                <div>
-                                    <a href="{{ route('admin.apartments.show', $apartment->id) }}"
-                                        class="text-decoration-none btn btn-primary">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
 
-                                    <a href="{{ route('admin.apartments.edit', $apartment) }}" class="btn btn-warning">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                        Modifica
-                                    </a>
-                                </div>
+                                <a href="{{ route('admin.apartments.show', $apartment->id) }}"
+                                    class="text-decoration-none btn btn-primary">
+                                    <i class="fa-solid fa-eye"></i>
+                                    Dettagli
+                                </a>
+
+                                <a href="{{ route('admin.apartments.edit', $apartment) }}" class="btn btn-warning">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    Modifica
+                                </a>
+
                                 <button class="btn btn-danger" data-bs-toggle="modal"
                                     data-bs-target="#delete-apartment-{{ $apartment->id }}">
                                     <i class="fa-solid fa-trash"></i>
-                                    Elimina
                                 </button>
                             </div>
                         </div>
