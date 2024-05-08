@@ -4,14 +4,15 @@
     {{-- <form action="{{ route('admin.apartments.store') }}" method="POST" class="container" id="form">
         @csrf   </form> --}}
 
-    @dump($errors->has('services'))
     <div class="container ">
 
         <form class="mt-5" action="{{ route('admin.apartments.store', $apartment) }}" method="POST"
             enctype="multipart/form-data">
             @csrf
             <h1 class="mb-3">Creazione Appartamento</h1>
-            <div class="row g-5">
+            <span class="text-danger">* Campi obbligatori</span>
+
+            <div class="row g-5 -bottom-3">
                 <div class="col-6">
                     {{-- nome del appartamento  --}}
                     <div class="form-floating mb-4">
@@ -106,7 +107,8 @@
                                     <div class="search-container form-floating">
                                         <input type="text" class="form-control @error('address') is-invalid @enderror"
                                             id="address" name="address" value="{{ old('address') }}" required>
-                                        <label for="address" class="form-label">Indirizzo</label>
+                                        <label for="address" class="form-label">Indirizzo<span class="text-danger"> *
+                                            </span></label>
                                         <div id="suggestion"></div>
                                     </div>
                                 </div>
@@ -122,32 +124,38 @@
                         </div>
                         {{-- Upload Foto --}}
                         <div class="col mb-3">
-                            <label for="cover_img" class="form-label mb-1">Carica la cover</label>
+                            <label for="cover_img" class="form-label mb-1">Carica la cover<span class="text-danger"> *
+                                </span></label>
                             <input class="form-control @error('cover_img') is-invalid @enderror" type="file"
-                                name="cover_img" id="cover_img">
+                                name="cover_img" id="cover_img" required>
                         </div>
-                        <div class="mb-3">
+                        <div class="col-12 mb-3">
                             <label for="apartment_images" class="form-label mb-1">*Carica altre foto</label>
                             <input class="form-control @error('apartment_images') is-invalid @enderror" type="file"
                                 id="apartment_images" name="apartment_images[]" multiple>
                         </div>
 
                         {{-- Switch --}}
-                        <div class="form-check form-switch m-3">
+                        <div class="col-12 mb-3">
                             <label class="form-check-label" for="visible">Visibilità:</label>
-                            <input class="form-check-input @error('visible') is-invalid @enderror" type="checkbox"
-                                role="switch" id="visible" name="visible" checked>
+                            <div class="form-check form-switch m-3">
+                                <input class="form-check-input @error('visible') is-invalid @enderror" type="checkbox"
+                                    role="switch" id="visible" name="visible" checked>
+                            </div>
                         </div>
 
                         <div class="col-2">
-                            <button class="btn btn-success">Salva</button>
+                            <div class="d-flex gap-5">
+                                <button class="btn btn-success">Salva</button>
+                                <button type="reset" class="btn btn-warning">Reset</button>
+                            </div>
                         </div>
                     </div>
 
                 </div>
 
                 <div class="col-6">
-                    <h3 class="text-center text-primary mb-3">Aggiungi Servizi</h3>
+                    <h3 class="text-center text-primary mb-3">Aggiungi Servizi<span class="text-danger">*</span></h3>
                     <div class="row flex-column services-row">
                         @foreach ($services as $service)
                             <div class="col-md-4">
@@ -158,12 +166,12 @@
                                         {{ $service->name }}
                                     </label>
                                 </div>
-                                @error('services')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
                             </div>
                         @endforeach
                     </div>
+                    @error('services')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
             </div>
