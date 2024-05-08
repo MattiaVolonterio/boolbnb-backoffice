@@ -16,10 +16,8 @@ class MessageController extends Controller
     //  * @return \Illuminate\Http\Response
      */
     public function index(Apartment $apartment)
-    {
-        // $apartmentId = Message::where('apartment_id'); 
-        $messages = Message::where('apartment_id', $apartment->id)->get();
-        // dd($messages);
+    {   
+        $messages = Message::where('apartment_id', $apartment->id)->get(); //Ottengo i messaggi associati all'id dell'appartamento specificato
         return view('admin.messages.index', compact('messages'));
     }
     
@@ -87,6 +85,7 @@ class MessageController extends Controller
      */
     public function destroy(Message $message)
     {
-        //
+        $message->delete();
+        return back();
     }
 }

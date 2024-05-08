@@ -10,18 +10,21 @@
               <th scope="col">Indirizzo email</th>
               <th scope="col">Nome</th>
               <th scope="col">Testo</th>
+              <th scope="col"></th>
           </tr>
       </thead>
       <tbody>
 
         @forelse ($messages as $message)
         <tr>
-          {{-- <td>{{ $message->id }}</td> --}}
-          {{-- @if($message->apartment_id == 23 )  --}}
-              <td>{{ $message->customer_email }}</td>
-              <td>{{ $message->name }}</td>
-              <td>{{ $message->content }}</td>
-          {{-- @endif --}}
+          <td>{{ $message->customer_email }}</td>
+          <td>{{ $message->name }}</td>
+          <td>{{ $message->content }}</td>
+          <td>
+            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-message-{{ $message->id }}">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </td>
         </tr>
         @empty
             <tr>
@@ -36,6 +39,34 @@
   </section>
 
 
+@endsection
+
+@section('modal')
+    @foreach ($messages as $message)
+        <div class="modal fade" id="delete-message-{{ $message->id }}" tabindex="-1"
+            aria-labelledby="deleteMessageLabel{{ $message->id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteMessageLabel{{ $message->id }}">Eliminare
+                            {{ $message->name }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Premendo elimina l'azione sarà irreversibile. Procedere?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                        <form action="{{ route('admin.messages.destroy', $message->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Elimina</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
 @endsection
 
 @section('css')
