@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ApartmentStoreRequest;
 use App\Models\Apartment;
 use App\Models\Service;
 use App\Models\ApartmentImage;
@@ -46,22 +47,11 @@ class ApartmentController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      */
-    public function store(Request $request)
+    public function store(ApartmentStoreRequest $request)
     {
         //dd($request);
          // Validazione dei dati inviati dal form
-         $data = $request->validate([
-            'name' => 'required|string',
-             'n_room' => 'required|integer|min:1',
-             'n_bathroom' => 'required|integer|min:1',
-             'n_bed' => 'required|integer|min:1',
-             'square_meters' => 'required|integer|min:1',
-             'floor' => 'required|integer',
-             'address' => 'required|string',
-             'visible' => 'required', 
-             'cover_img' => 'nullable|image|mimes:jpeg,png|max:2048',  
-         ]);
-
+        $request->validated();
         
         // Recupro i dati dopo averli validati
         $data = $request->all();
