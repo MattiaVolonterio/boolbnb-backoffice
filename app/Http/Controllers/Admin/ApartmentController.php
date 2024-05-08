@@ -127,7 +127,7 @@ class ApartmentController extends Controller
     {   
         
         //protezione rotte
-        if (Auth::id() != $apartment->user_id && Auth::user()->role != 'admin')
+        if (Auth::id() != $apartment->user_id)
             abort(403);
         // tab apartment img
         $apartment_images = $apartment->apartmentImages;
