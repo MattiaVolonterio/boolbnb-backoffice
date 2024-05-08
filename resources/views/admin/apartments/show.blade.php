@@ -35,7 +35,7 @@
             <div>
                 {{-- MESSAGES INDEX BUTTON --}}
                 <button type="button" class="btn btn-success">
-                    <a href="{{ route('admin.messages.index') }}" class="text-decoration-none text-white pe-2">
+                    <a href="{{ route('admin.messages.index', $apartment) }}" class="text-decoration-none text-white pe-2">
                         Vai ai messaggi
                     </a>
 
@@ -212,6 +212,5 @@
 @endsection
 
 @section('js')
-    <script>
-    </script>
+    <script></script>
 @endsection
