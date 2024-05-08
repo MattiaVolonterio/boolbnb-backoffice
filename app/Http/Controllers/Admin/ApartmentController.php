@@ -25,7 +25,7 @@ class ApartmentController extends Controller
         //prendo l'íd del utente loggato 
         $userId = auth()->id(); 
         //filtro per user_id
-        $apartments = Apartment::where('user_id', $userId)->paginate(10);
+        $apartments = Apartment::where('user_id', $userId)->orderBy('created_at', 'desc')->paginate(8);
         return view('admin.apartments.index', compact('apartments'));
     }
 
@@ -36,7 +36,7 @@ class ApartmentController extends Controller
     public function create()
     {
         $apartment = new Apartment();
-        $services = Service::all();
+        $services = Service::orderBy('name', 'asc')->get();
         $apartment_images = ApartmentImage::all();
 
         return view('admin.apartments.create', compact('apartment', 'services','apartment_images'));
@@ -133,7 +133,7 @@ class ApartmentController extends Controller
         // url imgs
         $apartment_images->url = !empty($apartment_images->url) ? asset('/storage/' . $apartment_images->url) : null;
 
-        $services = Service::all();
+        $services = Service::orderBy('name', 'asc')->get();
         return view('admin.apartments.edit', compact('apartment','services', 'apartment_images'));
     }
 
