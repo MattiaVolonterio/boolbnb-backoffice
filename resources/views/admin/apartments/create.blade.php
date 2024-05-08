@@ -84,7 +84,7 @@
                         {{-- nr superficie --}}
                         <div class="col-4">
                             <div class="form-floating">
-                                <input type="number" min="1" max="255"
+                                <input type="number" min="20"
                                     class="form-control @error('square_meters') is-invalid @enderror" id="square_meters"
                                     name="square_meters" value="{{ old('square_meters') }}" required>
                                 <label for="square_meters" class="form-label">superfice (mq) <span class="text-danger"> *
@@ -105,12 +105,23 @@
                                 {{-- indirizzo --}}
                                 <div class="col-12 mb-3 z-1">
                                     <div class="search-container form-floating">
-                                        <input type="text" class="form-control @error('address') is-invalid @enderror"
-                                            id="address" name="address" value="{{ old('address') }}" required>
+                                        <input type="text" @class([
+                                            'form-control',
+                                            'is-invalid' =>
+                                                $errors->has('address') || $errors->has('lat') || $errors->has('lon'),
+                                        ]) id="address" name="address"
+                                            value="{{ old('address') }}" required>
                                         <label for="address" class="form-label">Indirizzo<span class="text-danger"> *
                                             </span></label>
                                         <div id="suggestion"></div>
+                                        @error('address')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                        @error('lat')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
+
                                 </div>
 
                                 {{-- latitude e longitude  solo per debug --}}
@@ -128,11 +139,17 @@
                                 </span></label>
                             <input class="form-control @error('cover_img') is-invalid @enderror" type="file"
                                 name="cover_img" id="cover_img" required>
+                            @error('cover_img')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="col-12 mb-3">
                             <label for="apartment_images" class="form-label mb-1">*Carica altre foto</label>
                             <input class="form-control @error('apartment_images') is-invalid @enderror" type="file"
                                 id="apartment_images" name="apartment_images[]" multiple>
+                            @error('apartment_images')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         {{-- Switch --}}

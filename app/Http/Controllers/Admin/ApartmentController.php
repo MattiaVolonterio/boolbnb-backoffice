@@ -49,6 +49,7 @@ class ApartmentController extends Controller
      */
     public function store(ApartmentStoreRequest $request)
     {
+
          // Validazione dei dati inviati dal form
         $request->validated();
         

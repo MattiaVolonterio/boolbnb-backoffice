@@ -28,12 +28,14 @@ class ApartmentStoreRequest extends FormRequest
             'n_room' => 'required|integer|min:1',
             'n_bathroom' => 'required|integer|min:1',
             'n_bed' => 'required|integer|min:1',
+            'lat' => 'required',
+            'lon' => 'required',
             'square_meters' => 'required|integer|min:20',
             'floor' => 'required|integer',
             'address' => 'required|string', 
             'cover_img' => 'nullable|image|mimes:jpeg,png|max:2048',
-            'apartment_img' => 'nullable|image|mimes:jpeg,png|max:9',
-            'apartment_img.*' => 'max:2048',
+            'apartment_images' => 'nullable|image|mimes:jpeg,png|max:9',
+            'apartment_images.*' => 'max:2048',
             'services' => 'required|min:1|exists:services,id'
         ];
     }
@@ -42,6 +44,9 @@ class ApartmentStoreRequest extends FormRequest
         return[
             'name.required' => "Il nome dell'appartamento è obbligatorio",
             'name.string' => "Il Nome dell'appartamento non può essere un numero",
+
+            'lat.required' => "L'indirizzo inserito non è valido selezionare uno tra quelli consigliati",
+            'lon.required' => "L'indirizzo inserito non è valido selezionare uno tra quelli consigliati",
             
             'n_bathroom.required' => 'Ci deve essere almeno un bagno', 
             'n_bathroom.min' => 'Ci deve essere almeno un bagno',
@@ -62,18 +67,18 @@ class ApartmentStoreRequest extends FormRequest
             'floor.required' => "Numero piano non inserito",
             'floor.integer' => "Il numero del piano deve essere un valore numerico",
             
-            'address.required' => "Indirizzo non inserito",
+            'address.required' => "L'indirizzo inserito non è valido selezionare uno tra quelli consigliati",
             'address.string' => "L'indirizzo non può essere un numero",
 
             'cover_img.image' => 'Immagine di copertina non valida',
             'cover_img.mimes' => 'Formato immagine non valido',
             'cover_img.max' => 'Immagine troppo grande',
 
-            'apartment_img.image' => 'Immagine di copertina non valida',
-            'apartment_img.mimes' => 'Formato immagine non valido',
-            'apartment_img.max' => 'Troppe immagini caricate',
+            'apartment_images.image' => 'Immagine di copertina non valida',
+            'apartment_images.mimes' => 'Formato immagine non valido',
+            'apartment_images.max' => 'Troppe immagini caricate',
 
-            'apartment_img.*.max' => 'Immagine troppo grande',
+            'apartment_images.*.max' => 'Immagine troppo grande',
 
             'services.required' => 'Almeno un servizio richiesto',
             'services.min' => 'Almeno un servizio richiesto',
