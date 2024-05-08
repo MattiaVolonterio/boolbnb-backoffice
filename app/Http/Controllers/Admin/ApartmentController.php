@@ -107,7 +107,7 @@ class ApartmentController extends Controller
         }
 
         // Reindirizzamento all'elenco degli appartamenti con un messaggio di successo
-        return redirect()->route("admin.apartments.show", $new_apartment)->with('success', 'Appartamento creato con successo.');
+        return redirect()->route("admin.apartments.show", $new_apartment)->with('message-status', 'alert-success')->with('message-text', 'Appartamento creato con successo');;
     }
 
     /**
@@ -188,7 +188,7 @@ class ApartmentController extends Controller
         }
         
         $apartment->update($data);
-        return redirect()->route('admin.apartments.show' ,compact('apartment', 'apartmentImage'));
+        return redirect()->route('admin.apartments.show' ,compact('apartment', 'apartmentImage'))->with('message-status', 'alert-success')->with('message-text', 'Appartamento modificato con successo');
     }
 
     /**
@@ -202,7 +202,7 @@ class ApartmentController extends Controller
         if (Auth::id() != $apartment->user_id && Auth::user()->role != 'admin')
             abort(403);
         $apartment->delete();
-        return redirect()->route('admin.apartments.index')->with('message', "$apartment->name eliminato con successo");
+        return redirect()->route('admin.apartments.index')->with('message-status', 'alert-danger')->with('message-text', 'Appartamento eliminato con successo');;
 
     }
 
