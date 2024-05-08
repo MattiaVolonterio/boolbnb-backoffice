@@ -36,7 +36,7 @@ class ApartmentController extends Controller
     public function create()
     {
         $apartment = new Apartment();
-        $services = Service::all();
+        $services = Service::orderBy('name', 'asc')->get();
         $apartment_images = ApartmentImage::all();
 
         return view('admin.apartments.create', compact('apartment', 'services','apartment_images'));

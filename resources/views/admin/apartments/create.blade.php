@@ -148,7 +148,7 @@
 
                 <div class="col-6">
                     <h3 class="text-center text-primary mb-3">Aggiungi Servizi</h3>
-                    <div class="row">
+                    <div class="row flex-column services-row">
                         @foreach ($services as $service)
                             <div class="col-md-4">
                                 <div class="form-check">
@@ -176,6 +176,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    @vite('resources/scss/ap-create.scss')
 @endsection
 
 @section('js')
