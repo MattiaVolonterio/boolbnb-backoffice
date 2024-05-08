@@ -25,7 +25,7 @@ class ApartmentController extends Controller
         //prendo l'íd del utente loggato 
         $userId = auth()->id(); 
         //filtro per user_id
-        $apartments = Apartment::where('user_id', $userId)->paginate(10);
+        $apartments = Apartment::where('user_id', $userId)->orderBy('created_at', 'desc')->paginate(8);
         return view('admin.apartments.index', compact('apartments'));
     }
 
