@@ -62,7 +62,7 @@
                     </div>
 
                     <img src="{{ $apartment->cover_img ? asset($apartment->cover_img) : 'https://picsum.photos/200/300' }}"
-                        class="card-img-bottom" alt="{{ $apartment->name }}"  style="min-height: 400px; max-height: 400px">
+                        class="card-img-bottom" alt="{{ $apartment->name }}" style="min-height: 400px; max-height: 400px">
                 </div>
 
             </div>
@@ -74,7 +74,7 @@
                     <div class="card-header">
                         Dati
                     </div>
-                    <div class="card-body"  style="min-height: 400px; max-height: 400px">
+                    <div class="card-body" style="min-height: 400px; max-height: 400px">
                         <ul class=" list-unstyled">
                             <li>
                                 <div><strong>Nome: </strong>{{ $apartment->name }}</div>
@@ -144,63 +144,70 @@
             </div>
         </div>
 
-        <h1 class="mt-5">Le tue foto</h1>
 
-        <div class="row mb-5">
 
-            {{-- COLONNA CAROSELLO --}}
-            <div class="col-md-6 col-12">
-                {{-- <h2 class="mb-3">Immagini dell'appartamento</h2> --}}
+        @if (!empty($apartment_images->items))
+            <h1 class="mt-5">Le tue foto</h1>
 
-                <div id="carouselExample" class="card carousel slide">
+            <div class="row mb-5">
 
-                    {{-- Carosello Immagini --}}
-                    <div class="carousel-inner ms_carousel-inner">
-                        @foreach ($apartment_images as $index => $apartment_image)
-                            <div class="carousel-item ms_carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                <img src="{{ asset('storage/' . $apartment_image->url) }}"
-                                    class="slide d-block w-100 h-100 object-fit-cover rounded-3" alt="Immagine mancante"
-                                    style="max-height: 400px">
-                            </div>
-                        @endforeach
+                {{-- COLONNA CAROSELLO --}}
+                <div class="col-md-6 col-12">
+                    {{-- <h2 class="mb-3">Immagini dell'appartamento</h2> --}}
+
+                    <div id="carouselExample" class="card carousel slide">
+
+                        {{-- Carosello Immagini --}}
+                        <div class="carousel-inner ms_carousel-inner">
+                            @foreach ($apartment_images as $index => $apartment_image)
+                                <div class="carousel-item ms_carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                    <img src="{{ asset('storage/' . $apartment_image->url) }}"
+                                        class="slide d-block w-100 h-100 object-fit-cover rounded-3" alt="Immagine mancante"
+                                        style="max-height: 400px">
+                                </div>
+                            @endforeach
+                        </div>
+
+                        {{-- Sezione bottoni --}}
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"
+                                style="background-color: #333;"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"
+                                style="background-color: #333;"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
 
-                    {{-- Sezione bottoni --}}
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
-                        data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: #333;"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
-                        data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true" style="background-color: #333;"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
                 </div>
 
-            </div>
 
-            {{-- COLONNA IMMAGINI --}}
-            <div class="col-md-6 col-12">
-                {{-- TEST-------------------------- --}}
-                <div class="row g-1" style="max-height: 400px;">
+                {{-- COLONNA IMMAGINI --}}
+                <div class="col-md-6 col-12">
+                    {{-- TEST-------------------------- --}}
+                    <div class="row g-1" style="max-height: 400px;">
 
-                    {{-- DA FIXARE --}}
-                    @foreach ($apartment_images as $index => $apartment_image)
-                        <div class="col-4">
-                            <div class="card h-100">
-                                <img src="{{ asset('storage/' . $apartment_image->url) }}"
-                                    class="thumb_img p-slide d-block w-100 h-100 object-fit-cover rounded-3"
-                                    alt="Immagine mancante">
+                        {{-- DA FIXARE --}}
+                        @foreach ($apartment_images as $index => $apartment_image)
+                            <div class="col-4">
+                                <div class="card h-100">
+                                    <img src="{{ asset('storage/' . $apartment_image->url) }}"
+                                        class="thumb_img p-slide d-block w-100 h-100 object-fit-cover rounded-3"
+                                        alt="Immagine mancante">
+                                </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
 
+                    </div>
+                    {{-- END TEST---------------------- --}}
                 </div>
-                {{-- END TEST---------------------- --}}
-            </div>
 
-        </div>
+            </div>
+        @endif
     </section>
 @endsection
 
