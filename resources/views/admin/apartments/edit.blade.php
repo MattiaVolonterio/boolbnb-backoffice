@@ -179,70 +179,70 @@
                         </div>
 
                     </div>
-
-                    <div class="col-6 ">
-                        <div class="card">
-                            @if (!empty($apartment->cover_img))
-                                <img src="{{ asset('storage/' . $apartment->cover_img) }}"
-                                    class="card-img-top img-fluid rounded" style="width: 100%; height: auto;"
-                                    alt="apartment cover img" style="width: 200px;">
-                            @endif
-                        </div>
-
             </form>
-            {{-- edit carousel --}}
-            <div class="row g-1 mt-3">
-                {{-- foreach --}}
-                @foreach ($apartment_images as $img)
-                    {{-- apartment imgs --}}
-                    <div class="col-4">
-                        <div class="card" style="height: 100px;">
-                            {{-- form delete --}}
-                            <form action="{{ route('admin.apartment-images.destroy', $img) }} " method="POST"
-                                id="{{ $img->id }}" class=" h-100">
-                                @csrf
-                                @method('DELETE')
-
-
-                                <button class="delete-image-button btn btn-danger position-absolute rounded-circle ms-1 mt-1"
-                                    id="{{ $img->id }}">
-                                    <i class="fa-solid fa-xmark"></i>
-                                </button>
-
-                                <img src="{{ $img->url ? asset('storage/' . $img->url) : '' }}"
-                                    style="width: 100%; height: 100%;" class="card-img-top img-fluid m-0 rounded"
-                                    alt="" id="newImage">
-                            </form>
-                        </div>
+            <div class="col-6 ">
+                @if (!empty($apartment->cover_img))
+                    <div class="card">
+                        <img src="{{ asset('storage/' . $apartment->cover_img) }}" class="card-img-top img-fluid rounded"
+                            style="width: 100%; height: auto;" alt="apartment cover img" style="width: 200px;">
                     </div>
-                @endforeach
+                @endif
 
-                
-                <div class="col-4">
-                    <div class="card d-flex justify-content-center bg-body-secondary" style="height: 100px; width:auto;">
+                {{-- edit carousel --}}
+                <div class="row g-1 mt-3">
+                    {{-- foreach --}}
+                    @foreach ($apartment_images as $img)
+                        {{-- apartment imgs --}}
+                        <div class="col-4">
+                            <div class="card" style="height: 100px;">
+                                {{-- form delete --}}
+                                <form action="{{ route('admin.apartment-images.destroy', $img) }} " method="POST"
+                                    id="{{ $img->id }}" class=" h-100">
+                                    @csrf
+                                    @method('DELETE')
 
-                        {{-- add files card --}}
-                        <div class="text-center">
-                            
-                            <label for="apartment_images" style="cursor:pointer;">
-                                <i class="fa-solid fa-plus text-white rounded-circle p-3 bg-secondary"></i>
-                            </label>
-                            {{-- add files input --}}
-                            <input type="file" id="apartment_images" name="apartment_images[]" multiple hidden>
-                
+
+                                    <button
+                                        class="delete-image-button btn btn-danger position-absolute rounded-circle ms-1 mt-1"
+                                        id="{{ $img->id }}">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </button>
+
+                                    <img src="{{ $img->url ? asset('storage/' . $img->url) : '' }}"
+                                        style="width: 100%; height: 100%;" class="card-img-top img-fluid m-0 rounded"
+                                        alt="" id="newImage">
+                                </form>
+                            </div>
                         </div>
+                    @endforeach
 
-                        <div class="text-center" >
-                            {{-- files counter --}}
-                            <span id="files"></span>
+
+                    <div class="col-4">
+                        <div class="card d-flex justify-content-center bg-body-secondary"
+                            style="height: 100px; width:auto;">
+
+                            {{-- add files card --}}
+                            <div class="text-center">
+
+                                <label for="apartment_images" style="cursor:pointer;">
+                                    <i class="fa-solid fa-plus text-white rounded-circle p-3 bg-secondary"></i>
+                                </label>
+                                {{-- add files input --}}
+                                <input type="file" id="apartment_images" name="apartment_images[]" multiple hidden>
+
+                            </div>
+
+                            <div class="text-center">
+                                {{-- files counter --}}
+                                <span id="files"></span>
+                            </div>
+
                         </div>
-                            
                     </div>
                 </div>
             </div>
-        </div>
 
-    </div>
+        </div>
 
     </div>
     </div>

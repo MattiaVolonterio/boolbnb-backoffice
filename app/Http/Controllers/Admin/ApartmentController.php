@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ApartmentStoreRequest;
+use App\Http\Requests\ApartmentUpdateRequest;
 use App\Models\Apartment;
 use App\Models\Service;
 use App\Models\ApartmentImage;
@@ -144,11 +145,14 @@ class ApartmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Apartment  $apartment
      */
-    public function update(Request $request, Apartment $apartment, ApartmentImage $apartmentImage)
+    public function update(ApartmentUpdateRequest $request, Apartment $apartment, ApartmentImage $apartmentImage)
     {
         //protezione rotte
         if (Auth::id() != $apartment->user_id && Auth::user()->role != 'admin')
             abort(403);
+
+        $request->validated();
+
         $data = $request->all();
         //creo slug dal nome 
         $apartment->slug = Str::slug($data['name']);
