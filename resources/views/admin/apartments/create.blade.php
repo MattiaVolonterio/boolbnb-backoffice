@@ -155,8 +155,7 @@
                                 <div class="form-check">
                                     <input class="form-check-input @error('services') is-invalid @enderror"
                                         type="checkbox" value="{{ $service->id }}" id="service_{{ $service->id }}"
-                                        name="services[]"
-                                        {{ $apartment->services->contains($service->id) ? 'checked' : '' }}>
+                                        name="services[]" {{ in_array($service->id, old('services')) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="service_{{ $service->id }}">
                                         {{ $service->name }}
                                     </label>
