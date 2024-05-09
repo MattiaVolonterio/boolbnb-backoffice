@@ -53,9 +53,7 @@ class ApartmentController extends Controller
 
         $filtered_apartments = [];
 
-        $apartments = Apartment::all();
-
-        // $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address', 'lat', 'lon')->get();
+        $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address', 'lat', 'lon')->where('visible', 1)->get();
 
         foreach ($apartments as $apartment) {
             $lat2 = floatval($apartment->lat);
@@ -68,8 +66,8 @@ class ApartmentController extends Controller
                 $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
                 $dist = acos($dist);
                 $dist = rad2deg($dist);
-                $km = $dist * 60 * 1.1515 * 1.609344;
-                if ($km <= $radiusInt) {
+                $m = $dist * 60 * 1.1515 * 1.609344 * 1000;
+                if ($m <= $radiusInt) {
                     $filtered_apartments[] = $apartment;
                 }
             }
@@ -78,6 +76,3 @@ class ApartmentController extends Controller
         return response()->json($filtered_apartments);
     }
 }
-
-
-// http://127.0.0.1:8000/api/research/45.46450000&9.18758000&10
