@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Apartment;
 use Illuminate\Http\Request;
 
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
+
 class ApartmentController extends Controller
 {
     public function index()
@@ -55,7 +59,7 @@ class ApartmentController extends Controller
 
         $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address', 'lat', 'lon')->where('visible', 1)->get();
 
-        foreach($apartments as $apartment){
+        foreach ($apartments as $apartment) {
             $apartment->cover_img = $apartment->cover_img ? asset('storage/' . $apartment->cover_img) : 'https://placehold.co/600x400';
         }
 
@@ -77,6 +81,21 @@ class ApartmentController extends Controller
             }
         }
 
-        return response()->json($filtered_apartments);
+
+
+        $filtered_apartments_paginated = $this->paginate($filtered_apartments, 8);
+
+        return response()->json($filtered_apartments_paginated);
+    }
+
+
+    public function paginate($items, $perPage = 5, $page = null)
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $total = count($items);
+        $currentpage = $page;
+        $offset = ($currentpage * $perPage) - $perPage;
+        $itemstoshow = array_slice($items, $offset, $perPage);
+        return new LengthAwarePaginator($itemstoshow, $total, $perPage);
     }
 }
