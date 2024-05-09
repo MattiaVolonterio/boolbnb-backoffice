@@ -16,7 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('research/{lat}&{lon}&{radius}', [ApartmentController::class, 'research']);
 Route::apiResource('apartments', ApartmentController::class)->only('index', 'show');
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
