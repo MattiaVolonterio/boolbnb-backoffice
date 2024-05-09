@@ -10,8 +10,8 @@ class ApartmentController extends Controller
 {
     public function index()
     {
-        // selezione di tutti gli appartmenti
-        $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address')->get();
+        // selezione di tutti gli appartmenti con visibilità attiva
+        $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address')->where('visible', 1)->get();
 
         // sistemazione path assoluto cover img
         foreach ($apartments as $apartment) {
@@ -52,7 +52,9 @@ class ApartmentController extends Controller
 
         $filtered_apartments = [];
 
-        $apartments = Apartment::all();
+        // $apartments = Apartment::all();
+
+        $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address')->where('visible', 1)->get();
 
         foreach ($apartments as $apartment) {
             $lat2 = $apartment->lat;
