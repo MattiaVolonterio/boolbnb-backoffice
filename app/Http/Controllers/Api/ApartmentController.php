@@ -55,6 +55,10 @@ class ApartmentController extends Controller
 
         $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address', 'lat', 'lon')->where('visible', 1)->get();
 
+        foreach($apartments as $apartment){
+            $apartment->cover_img = $apartment->cover_img ? asset('storage/' . $apartment->cover_img) : 'https://placehold.co/600x400';
+        }
+
         foreach ($apartments as $apartment) {
             $lat2 = floatval($apartment->lat);
             $lon2 = floatval($apartment->lon);
