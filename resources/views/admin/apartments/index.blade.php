@@ -63,63 +63,7 @@
             @endforelse
         </div>
 
-        {{-- <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Slug</th>
-                    <th scope="col">Stanze</th>
-                    <th scope="col">Bagni</th>
-                    <th scope="col">Metri Quadrati</th>
-                    <th scope="col">Piano</th>
-                    <th scope="col">Indirizzo</th>
-                    <th scope="col">Lat</th>
-                    <th scope="col">Lon</th>
-                    <th scope="col">Cover</th>
-                    <th class="text-center" scope="col">Azioni</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($apartments as $apartment)
-                    <tr>
-                        <td>{{ $apartment->id }}</td>
-                        <td>{{ $apartment->name }}</td>
-                        <td>{{ $apartment->slug }}</td>
-                        <td>{{ $apartment->n_room }}</td>
-                        <td>{{ $apartment->n_bathroom }}</td>
-                        <td>{{ $apartment->square_meters }}</td>
-                        <td>{{ $apartment->floor }}</td>
-                        <td>{{ $apartment->address }}</td>
-                        <td>{{ $apartment->lat }}</td>
-                        <td>{{ $apartment->lon }}</td>
-                        <td>{{ $apartment->cover_img }}</td>
-                        <td class="">
-                            <button type="button" class="btn">
-                                <a href="{{ route('admin.apartments.show', $apartment->id) }}" class="text-decoration-none">
-                                    <i class="fa-solid fa-eye"></i>
-                                </a>
-                            </button>
-                            
-                            <button type="button" class="btn">
-                                <a href="{{ route('admin.apartments.edit', $apartment->id) }}" class="text-decoration-none">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
-                            </button>
-                            
-                            <button type="button" class="modal-button btn" data-bs-toggle="modal"
-                                    data-bs-target="#delete-apartment-{{ $apartment->id }}">
-                                <i class="fa-solid fa-circle-xmark" style="color: red;"></i>
-                            </button>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="12">Nessun appartamento trovato</td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table> --}}
+
 
         {{ $apartments->links() }}
     </section>
