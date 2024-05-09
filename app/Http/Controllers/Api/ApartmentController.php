@@ -24,7 +24,7 @@ class ApartmentController extends Controller
     public function show($id){
 
         // selezione dell'appartmamento con id corrispondente
-        $apartment = Apartment::select('id', 'name', 'slug', 'cover_img', 'address')->with(['apartmentImages:id,url', 'services:id,name,icon'])->where('id', $id)->first();
+        $apartment = Apartment::select('id', 'name', 'slug', 'cover_img', 'address')->with(['apartmentImages:apartment_id,url', 'services:id,name,icon'])->where('id', $id)->first();
         
         // sistemazione path assoluto cover img
         $apartment->cover_img = $apartment->cover_img ? asset('storage/' . $apartment->cover_img) : 'https://placehold.co/600x400';
@@ -32,6 +32,11 @@ class ApartmentController extends Controller
         // sistemazione path assoluto icona servizi
         foreach($apartment->services as $service ){
             $service->icon = asset($service->icon);
+        }
+
+        // sistemazione path assoluto immagini per il carosello
+        foreach($apartment->apartmentImages as $image){
+            $image->url = asset('storage/' . $image->url);
         }
 
         // return api
