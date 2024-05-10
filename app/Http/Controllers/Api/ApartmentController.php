@@ -124,30 +124,30 @@ class ApartmentController extends Controller
         
         $query_raw = Apartment::select('id', 'name', 'slug', 'cover_img', 'address', 'lat', 'lon', 'n_room', 'n_bed', 'n_bathroom', 'floor', 'square_meters')->with('services:id,name,icon')->where('visible', 1);
         
-        if($n_room != null){
+        if($n_room != 'null'){
             $query_raw = $query_raw->where('n_room', '>=', $n_room);
         }
 
-        if($n_bathrooom != null){
+        if($n_bathrooom != 'null'){
             $query_raw = $query_raw->where('n_bathroom', '>=', $n_bathrooom);
         }
 
-        if($n_bed != null){
+        if($n_bed != 'null'){
             $query_raw = $query_raw->where('n_bed', '>=', $n_bed);
         }
 
-        if($square_meters != null){
+        if($square_meters != 'null'){
             $query_raw = $query_raw->where('square_meters', '>=', $square_meters);
         }
 
-        if($floor != null){
+        if($floor != 'null'){
             $query_raw = $query_raw->where('floor', '>=', $floor);
         }
 
         $apartments = $query_raw->get();
         
 
-        if ($services != null) {
+        if ($services != 'null') {
             $apartments_filtered = [];
             $services = explode(',', $services);
             for ($i = 0; $i < count($services); $i++) {
@@ -165,7 +165,7 @@ class ApartmentController extends Controller
             }
         }
 
-        if($services != null){
+        if($services != 'null'){
         return response()->json($apartments_filtered);
         } else {
         return response()->json($apartments);
