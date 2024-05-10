@@ -44,7 +44,7 @@ class ApartmentController extends Controller
         // sistemazione path assoluto immagini per il carosello
         if ($apartment->apartmentImages) {
             foreach ($apartment->apartmentImages as $image) {
-                $image->url = asset('storage/' . $image->url);
+                $image->url = asset('storage' . $image->url);
             }
         }
 
@@ -122,131 +122,135 @@ class ApartmentController extends Controller
     public function filterApartments($lat, $lon, $radius, $n_room = null, $n_bathrooom = null, $n_bed = null, $square_meters = null, $floor = null, $services = null)
     {
 
-        $services_num = explode(',', $services);
-        $apartments_filtered = [];
+        // $services_num = explode(',', $services);
+        // $apartments_filtered = [];
 
-        for ($i = 0; $i < count($services_num); $i++) {
-            $services_num[$i] = intval($services_num[$i]);
-        }
+        // for ($i = 0; $i < count($services_num); $i++) {
+        //     $services_num[$i] = intval($services_num[$i]);
+        // }
 
-        $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address', 'lat', 'lon', 'n_room', 'n_bed', 'n_bathroom', 'floor', 'square_meters')->where('visible', 1)->with('services:id,name,icon')->get();
-
-
-        // filtro per numero di stanze
-        if ($n_room != null) {
-            $n_room = intval($n_room);
-            if (!$apartments_filtered) {
-                foreach ($apartments as $apartment) {
-                    if ($apartment->n_room >= $n_room) {
-                        $apartments_filtered[] = $apartment;
-                    }
-                }
-            }
-        }
+        // $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address', 'lat', 'lon', 'n_room', 'n_bed', 'n_bathroom', 'floor', 'square_meters')->where('visible', 1)->with('services:id,name,icon')->get();
 
 
-        // filtro per numero di bagno 
-        if ($n_bathrooom != null) {
-            $n_bathrooom = intval($n_bathrooom);
-
-            $bathrooom = $n_bathrooom;
-
-            if (empty($apartments_filtered)) {
-
-                foreach ($apartments as $apartment) {
-                    if ($apartment->n_bathrooom >= $n_bathrooom) {
-                        $apartments_filtered[] = $apartment;
-                    }
-                }
-            } else {
-                $apartments_filtered = array_filter($apartments_filtered, function ($apartment) use ($bathrooom) {
-                    return $apartment->n_bathroom >= $bathrooom;
-                });
-            }
-        }
+        // // filtro per numero di stanze
+        // if ($n_room != null) {
+        //     $n_room = intval($n_room);
+        //     if (!$apartments_filtered) {
+        //         foreach ($apartments as $apartment) {
+        //             if ($apartment->n_room >= $n_room) {
+        //                 $apartments_filtered[] = $apartment;
+        //             }
+        //         }
+        //     }
+        // }
 
 
+        // // filtro per numero di bagno 
+        // if ($n_bathrooom != null) {
+        //     $n_bathrooom = intval($n_bathrooom);
 
-        // filtro per numero di letti
-        if ($n_bed != null) {
+        //     $bathrooom = $n_bathrooom;
 
-            $n_bed = intval($n_bed);
+        //     if (empty($apartments_filtered)) {
 
-            $bed = $n_bed;
-
-            if (!$apartments_filtered) {
-                foreach ($apartments as $apartment) {
-                    if ($apartment->n_bed >= $n_bed) {
-                        $apartments_filtered[] = $apartment;
-                    }
-                }
-            } else {
-                $apartments_filtered = array_filter($apartments_filtered, function ($apartment) use ($bed) {
-                    return $apartment->n_bed >= $bed;
-                });
-            }
-        }
+        //         foreach ($apartments as $apartment) {
+        //             if ($apartment->n_bathrooom >= $n_bathrooom) {
+        //                 $apartments_filtered[] = $apartment;
+        //             }
+        //         }
+        //     } else {
+        //         $apartments_filtered = array_filter($apartments_filtered, function ($apartment) use ($bathrooom) {
+        //             return $apartment->n_bathroom >= $bathrooom;
+        //         });
+        //     }
+        // }
 
 
-        // filtro per metri quadrati
-        if ($square_meters != null) {
 
-            $square_meters = intval($square_meters);
+        // // filtro per numero di letti
+        // if ($n_bed != null) {
 
-            $mq = $square_meters;
+        //     $n_bed = intval($n_bed);
 
-            if (!$apartments_filtered) {
-                foreach ($apartments as $apartment) {
-                    if ($apartment->square_meters >= $square_meters) {
-                        $apartments_filtered[] = $apartment;
-                    }
-                }
-            } else {
-                $apartments_filtered = array_filter($apartments_filtered, function ($apartment) use ($mq) {
-                    return $apartment->square_meters >= $mq;
-                });
-            }
-        }
+        //     $bed = $n_bed;
 
-        // filtro per piano
-        if ($floor != null) {
+        //     if (!$apartments_filtered) {
+        //         foreach ($apartments as $apartment) {
+        //             if ($apartment->n_bed >= $n_bed) {
+        //                 $apartments_filtered[] = $apartment;
+        //             }
+        //         }
+        //     } else {
+        //         $apartments_filtered = array_filter($apartments_filtered, function ($apartment) use ($bed) {
+        //             return $apartment->n_bed >= $bed;
+        //         });
+        //     }
+        // }
 
-            $floor = intval($floor);
 
-            $n_floor = $floor;
+        // // filtro per metri quadrati
+        // if ($square_meters != null) {
 
-            if (!$apartments_filtered) {
-                foreach ($apartments as $apartment) {
-                    if ($apartment->floor >= $floor) {
-                        $apartments_filtered[] = $apartment;
-                    }
-                }
-            } else {
-                $apartments_filtered = array_filter($apartments_filtered, function ($apartment) use ($n_floor) {
-                    return $apartment->floor >= $n_floor;
-                });
-            }
-        }
+        //     $square_meters = intval($square_meters);
 
-        // filtro per servizi
-        if ($services != null) {
-            $value = 0;
-            foreach ($apartments as $apartment) {
-                $value = 0;
-                foreach ($services_num as $service) {
-                    if (in_array($service, $apartment->services->pluck('id')->toArray())) {
-                        $value++;
-                    }
-                }
-                if ($value == count($services_num)) $apartments_filtered[] = $apartment;
-            }
-        }
+        //     $mq = $square_meters;
 
-        if ($apartments_filtered) {
+        //     if (!$apartments_filtered) {
+        //         foreach ($apartments as $apartment) {
+        //             if ($apartment->square_meters >= $square_meters) {
+        //                 $apartments_filtered[] = $apartment;
+        //             }
+        //         }
+        //     } else {
+        //         $apartments_filtered = array_filter($apartments_filtered, function ($apartment) use ($mq) {
+        //             return $apartment->square_meters >= $mq;
+        //         });
+        //     }
+        // }
 
-            return response()->json($apartments_filtered);
-        } else {
-            return response()->json($apartments);
-        }
+        // // filtro per piano
+        // if ($floor != null) {
+
+        //     $floor = intval($floor);
+
+        //     $n_floor = $floor;
+
+        //     if (!$apartments_filtered) {
+        //         foreach ($apartments as $apartment) {
+        //             if ($apartment->floor >= $floor) {
+        //                 $apartments_filtered[] = $apartment;
+        //             }
+        //         }
+        //     } else {
+        //         $apartments_filtered = array_filter($apartments_filtered, function ($apartment) use ($n_floor) {
+        //             return $apartment->floor >= $n_floor;
+        //         });
+        //     }
+        // }
+
+        // // filtro per servizi
+        // if ($services != null) {
+        //     $value = 0;
+        //     foreach ($apartments as $apartment) {
+        //         $value = 0;
+        //         foreach ($services_num as $service) {
+        //             if (in_array($service, $apartment->services->pluck('id')->toArray())) {
+        //                 $value++;
+        //             }
+        //         }
+        //         if ($value == count($services_num)) $apartments_filtered[] = $apartment;
+        //     }
+        // }
+
+        // if ($apartments_filtered) {
+
+        //     return response()->json($apartments_filtered);
+        // } else {
+        //     return response()->json($apartments);
+        // }
+
+        $query_raw = Apartment::select('id', 'name', 'slug', 'cover_img', 'address', 'lat', 'lon', 'n_room', 'n_bed', 'n_bathroom', 'floor', 'square_meters')->with('services:id,name,icon')->where('visible', 1);
+        if()
+
     }
 }
