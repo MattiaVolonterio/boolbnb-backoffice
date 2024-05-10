@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Apartment;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 use Illuminate\Pagination\Paginator;
@@ -99,5 +100,17 @@ class ApartmentController extends Controller
         $offset = ($currentpage * $perPage) - $perPage;
         $itemstoshow = array_slice($items, $offset, $perPage);
         return new LengthAwarePaginator($itemstoshow, $total, $perPage);
+    }
+
+    public function getServices(){
+        // recupero tutti i servizi dal  database
+        $services = Service::select('id', 'icon', 'name')->get();
+
+         // sistemazione path assoluto icona servizi
+         foreach ($services as $service) {
+            $service->icon = asset($service->icon);
+        }
+
+        return response()->json($services);
     }
 }
