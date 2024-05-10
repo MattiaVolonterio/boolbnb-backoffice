@@ -250,7 +250,6 @@ class ApartmentController extends Controller
         // }
 
         $query_raw = Apartment::select('id', 'name', 'slug', 'cover_img', 'address', 'lat', 'lon', 'n_room', 'n_bed', 'n_bathroom', 'floor', 'square_meters')->with('services:id,name,icon')->where('visible', 1);
-        if()
 
     }
 }
