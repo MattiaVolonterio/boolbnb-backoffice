@@ -44,7 +44,7 @@ class ApartmentController extends Controller
         // sistemazione path assoluto immagini per il carosello
         if ($apartment->apartmentImages) {
             foreach ($apartment->apartmentImages as $image) {
-                $image->url = asset('storage' . $image->url);
+                $image->url = asset('storage/' . $image->url);
             }
         }
 
@@ -248,8 +248,40 @@ class ApartmentController extends Controller
         // } else {
         //     return response()->json($apartments);
         // }
-
+        
         $query_raw = Apartment::select('id', 'name', 'slug', 'cover_img', 'address', 'lat', 'lon', 'n_room', 'n_bed', 'n_bathroom', 'floor', 'square_meters')->with('services:id,name,icon')->where('visible', 1);
+        dd($n_room);
 
+
+        if($n_room != null){
+            $query_raw = $query_raw->where('n_room', '>=', $n_room);
+        }
+
+        if($n_bathrooom != null){
+            $query_raw = $query_raw->where('n_bathroom', '>=', $n_bathrooom);
+        }
+
+        if($n_bed != null){
+            $query_raw = $query_raw->where('n_bed', '>=', $n_bed);
+        }
+
+        if($square_meters != null){
+            $query_raw = $query_raw->where('square_meters', '>=', $square_meters);
+        }
+
+        if($floor != null){
+            $query_raw = $query_raw->where('floor', '>=', $floor);
+        }
+
+        $apartments = $query_raw->get()->toArray();
+
+        if ($services != null) {
+            $apartments = array_filter($apartments, function($apartment) use($services){
+                count(array_intersect($services, $apartment->services->pluck('id')->toArray()));
+            });
+        }
+
+        return response()->json($apartments);
+        
     }
 }
