@@ -146,6 +146,7 @@ class ApartmentController extends Controller
 
         // filtro per numero di bagno 
         if($n_bathrooom != 'null'){
+            $bathrooom = $n_bathrooom; 
 
             $n_bathrooom = intval($n_bathrooom);
             
@@ -157,15 +158,13 @@ class ApartmentController extends Controller
                     }
                 }
             } else {
-            
-                foreach($apartments_filtered as $index => $apartment){
-                    if($apartment->n_bathroom < $n_bathrooom){
-                        (array_splice($apartments_filtered, $index, 1));
-                        
-                    }
-                }
+                $apartments_filtered = array_filter($apartments_filtered, function($apartment) use($bathrooom){
+                    return $apartment->n_bathroom >= $bathrooom;
+                });
             }
         }
+
+        dd($apartments_filtered);
 
 
 
