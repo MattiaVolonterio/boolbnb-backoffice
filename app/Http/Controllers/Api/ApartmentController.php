@@ -41,8 +41,10 @@ class ApartmentController extends Controller
         }
 
         // sistemazione path assoluto immagini per il carosello
-        foreach ($apartment->apartmentImages as $image) {
-            $image->url = asset('storage/' . $image->url);
+        if($apartment->apartmentImages){
+            foreach ($apartment->apartmentImages as $image) {
+                $image->url = asset('storage/' . $image->url);
+            }
         }
 
         // return api
