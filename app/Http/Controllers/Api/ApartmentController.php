@@ -104,7 +104,7 @@ class ApartmentController extends Controller
 
     public function getServices(){
         // recupero tutti i servizi dal  database
-        $services = Service::select('id', 'icon', 'name')->get();
+        $services = Service::select('id', 'icon', 'name')->orderBy('name', 'ASC')->get();
 
          // sistemazione path assoluto icona servizi
          foreach ($services as $service) {
