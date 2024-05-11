@@ -33,6 +33,8 @@
                         class="fa-solid fa-bars fa-xl"></i></button>
             </div>
             @yield('content')
+
+            @yield('modal')
         </main>
     </div>
 

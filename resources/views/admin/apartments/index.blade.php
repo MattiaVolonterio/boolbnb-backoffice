@@ -1,4 +1,5 @@
-@extends('layouts.app')
+@extends('layouts.side-bar-layout')
+@section('title', 'Appartamenti')
 
 @section('content')
     @if (session('message-text'))
