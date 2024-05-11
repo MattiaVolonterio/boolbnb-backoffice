@@ -127,6 +127,11 @@
                         </div>
                     </div>
 
+                    {{-- Registrati --}}
+                    <div class="text-center">
+                        <a class="login-text" href="{{ route('login') }}">Sei già registrato? Login</a>
+                    </div>
+
                     <p class="pt-4 offset-1 text-danger fw-bold" style="font-size: 14px">* Questi campi sono obbligatori</p>
                 </form>
             </div>
