@@ -1,7 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.side-bar-layout')
 @section('title')
-    {{ $apartment->title }}
+    {{ $apartment->name }}
 @endsection
+
 @section('content')
     <div class="container">
         <h1 class="text-center text-primary my-3">{{ $apartment->name }}</h1>
@@ -16,12 +17,12 @@
                 @method('PATCH')
 
                 <div class="row g-5">
-                    <div class="col-6">
+                    <div class="col-lg-6">
                         {{-- nome del appartamento  --}}
                         <div class="form-floating mb-4">
                             <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
                                 name="name" value="{{ old('name', $apartment->name) }}" required>
-                            <label for="name" class="form-label">Inserisci Nome del Appartamento<span
+                            <label for="name" class="form-label z-0">Inserisci nome dell'appartamento<span
                                     class="text-danger"> * </span></label>
                             @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -35,7 +36,8 @@
                                     <input type="number" min="1"
                                         class="form-control @error('n_room') is-invalid @enderror" id="n_room"
                                         name="n_room" value="{{ old('n_room', $apartment->n_room) }}" required>
-                                    <label for="n_room" class="form-label">Inserisci nr stanze<span class="text-danger"> *
+                                    <label for="n_room" class="form-label z-0">Inserisci nr stanze<span
+                                            class="text-danger"> *
                                         </span></label>
                                     @error('n_room')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -48,7 +50,8 @@
                                     <input type="number" min="1"
                                         class="form-control @error('n_bathroom') is-invalid @enderror" id="n_bathroom"
                                         name="n_bathroom" value="{{ old('n_bathroom', $apartment->n_bathroom) }}" required>
-                                    <label for="n_bathroom" class="form-label">Inserisci nr bagni<span class="text-danger">
+                                    <label for="n_bathroom" class="form-label z-0">Inserisci nr bagni<span
+                                            class="text-danger">
                                             * </span></label>
                                     @error('n_bathroom')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -61,7 +64,8 @@
                                     <input type="number" min="1"
                                         class="form-control @error('n_bed') is-invalid @enderror" id="n_bed"
                                         name="n_bed" value="{{ old('n_bed', $apartment->n_bed) }}" required>
-                                    <label for="n_bed" class="form-label">Inserisci nr letti<span class="text-danger"> *
+                                    <label for="n_bed" class="form-label z-0">Inserisci nr letti<span
+                                            class="text-danger"> *
                                         </span></label>
                                     @error('n_bed')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -77,7 +81,8 @@
                                     <input type="number" class="form-control @error('floor') is-invalid @enderror"
                                         id="floor" name="floor" value="{{ old('floor', $apartment->floor) }}"
                                         required>
-                                    <label for="floor" class="form-label">Inserisci nr piano<span class="text-danger"> *
+                                    <label for="floor" class="form-label z-0">Inserisci nr piano<span
+                                            class="text-danger"> *
                                         </span></label>
                                     @error('floor')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -91,7 +96,8 @@
                                         class="form-control @error('square_meters') is-invalid @enderror" id="square_meters"
                                         name="square_meters" value="{{ old('square_meters', $apartment->square_meters) }}"
                                         required>
-                                    <label for="square_meters" class="form-label">superfice (mq) <span class="text-danger">
+                                    <label for="square_meters" class="form-label z-0">superfice (mq) <span
+                                            class="text-danger">
                                             *
                                         </span></label>
                                     @error('square_meters')
@@ -108,14 +114,14 @@
                                 <div class="row">
 
                                     {{-- indirizzo --}}
-                                    <div class="col-12 mb-3 z-1">
+                                    <div class="col-12 mb-3 z-0">
                                         <div class="search-container form-floating">
                                             <input type="text" @class([
                                                 'form-control',
                                                 'is-invalid' =>
                                                     $errors->has('address') || $errors->has('lon') || $errors->has('lat'),
-                                            ]) id="address"
-                                                name="address" value="{{ old('address', $apartment->address) }}" required>
+                                            ]) id="address" name="address"
+                                                value="{{ old('address', $apartment->address) }}" required>
                                             <label for="address" class="form-label">Indirizzo</label>
                                             <div id="suggestion"></div>
                                             @error('square_meters')
@@ -146,7 +152,7 @@
 
                             {{-- cover img --}}
                             <div class="col mb-3">
-                                <label for="cover_img" class="form-label mb-1">Carica
+                                <label for="cover_img" class="form-label mb-1 z-0">Carica
                                     la cover</label>
                                 <input class="form-control  @error('cover_img') is-invalid @enderror" type="file"
                                     name="cover_img" id="cover_img">
@@ -187,7 +193,7 @@
                                     @error('services')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                      {{-- Switch --}}
+                                    {{-- Switch --}}
                                     <div class="form-check form-switch m-3">
                                         <input class="form-check-input" type="checkbox" role="switch" id="visible"
                                             name="visible" @if ($apartment->visible == 1) checked @endif>
@@ -199,15 +205,15 @@
                                     </div>
 
                                 </div>
-                                
+
                             </div>
-                            
+
                         </div>
 
                     </div>
             </form>
-            
-            <div class="col-6 ">
+
+            <div class="col-lg-6 pb-4 pb-lg-0">
                 @if (!empty($apartment->cover_img))
                     <div class="card">
                         <img src="{{ asset('storage/' . $apartment->cover_img) }}" class="card-img-top img-fluid rounded"
@@ -275,7 +281,7 @@
 
         </div>
 
-        
+
     </div>
 @endsection
 
