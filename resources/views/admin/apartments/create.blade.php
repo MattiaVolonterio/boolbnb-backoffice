@@ -1,4 +1,5 @@
-@extends('layouts.app')
+@extends('layouts.side-bar-layout')
+@section('title', 'Crea Nuovo')
 
 @section('content')
     {{-- <form action="{{ route('admin.apartments.store') }}" method="POST" class="container" id="form">
@@ -13,12 +14,13 @@
             <span class="text-danger">* Campi obbligatori</span>
 
             <div class="row g-5 -bottom-3">
-                <div class="col-6">
+                <div class="col-lg-6">
                     {{-- nome del appartamento  --}}
                     <div class="form-floating mb-4">
                         <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
                             name="name" value="{{ old('name') }}" required>
-                        <label for="name" class="form-label">Inserisci Nome del Appartamento<span class="text-danger"> *
+                        <label for="name" class="form-label z-0">Inserisci Nome del Appartamento<span
+                                class="text-danger"> *
                             </span></label>
                         @error('name')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -32,7 +34,7 @@
                                 <input type="number" min="1"
                                     class="form-control @error('n_room') is-invalid @enderror" id="n_room" name="n_room"
                                     value="{{ old('n_room') }}" required>
-                                <label for="n_room" class="form-label">Inserisci nr stanze<span class="text-danger"> *
+                                <label for="n_room" class="form-label z-0">Inserisci nr stanze<span class="text-danger"> *
                                     </span></label>
                                 @error('n_room')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -45,7 +47,8 @@
                                 <input type="number" min="1"
                                     class="form-control @error('n_bathroom') is-invalid @enderror" id="n_bathroom"
                                     name="n_bathroom" value="{{ old('n_bathroom') }}" required>
-                                <label for="n_bathroom" class="form-label">Inserisci nr bagni<span class="text-danger"> *
+                                <label for="n_bathroom" class="form-label z-0">Inserisci nr bagni<span class="text-danger">
+                                        *
                                     </span></label>
                                 @error('n_bathroom')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -58,7 +61,7 @@
                                 <input type="number" min="1"
                                     class="form-control @error('n_bed') is-invalid @enderror" id="n_bed" name="n_bed"
                                     value="{{ old('n_bed') }}" required>
-                                <label for="n_bed" class="form-label">Inserisci nr letti<span class="text-danger"> *
+                                <label for="n_bed" class="form-label z-0">Inserisci nr letti<span class="text-danger"> *
                                     </span></label>
                                 @error('n_bed')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -74,7 +77,7 @@
                                 <input type="number"
                                     min="1"class="form-control @error('floor') is-invalid @enderror" id="floor"
                                     name="floor" value="{{ old('floor') }}" required>
-                                <label for="floor" class="form-label">Inserisci nr piano<span class="text-danger"> *
+                                <label for="floor" class="form-label z-0">Inserisci nr piano<span class="text-danger"> *
                                     </span></label>
                                 @error('floor')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -87,7 +90,8 @@
                                 <input type="number" min="20"
                                     class="form-control @error('square_meters') is-invalid @enderror" id="square_meters"
                                     name="square_meters" value="{{ old('square_meters') }}" required>
-                                <label for="square_meters" class="form-label">superfice (mq) <span class="text-danger"> *
+                                <label for="square_meters" class="form-label z-0">superfice (mq) <span class="text-danger">
+                                        *
                                     </span></label>
                                 @error('square_meters')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -96,14 +100,14 @@
                         </div>
 
                     </div>
-                    {{-- indirizzo e servizzi  --}}
+                    {{-- indirizzo e immagini  --}}
                     <div class="row mb-3">
 
                         <div class="col-12">
                             <div class="row">
 
                                 {{-- indirizzo --}}
-                                <div class="col-12 mb-3 z-1">
+                                <div class="col-12 mb-3 z-0">
                                     <div class="search-container form-floating">
                                         <input type="text" @class([
                                             'form-control',
@@ -111,7 +115,7 @@
                                                 $errors->has('address') || $errors->has('lat') || $errors->has('lon'),
                                         ]) id="address" name="address"
                                             value="{{ old('address') }}" required>
-                                        <label for="address" class="form-label">Indirizzo<span class="text-danger"> *
+                                        <label for="address" class="form-label z-0">Indirizzo<span class="text-danger"> *
                                             </span></label>
                                         <div id="suggestion"></div>
                                         @error('address')
@@ -135,7 +139,8 @@
                         </div>
                         {{-- Upload Foto --}}
                         <div class="col mb-3">
-                            <label for="cover_img" class="form-label mb-1">Carica la cover<span class="text-danger"> *
+                            <label for="cover_img" class="form-label z-0 mb-1">Carica la cover<span class="text-danger">
+                                    *
                                 </span></label>
                             <input class="form-control @error('cover_img') is-invalid @enderror" type="file"
                                 name="cover_img" id="cover_img" required>
@@ -161,17 +166,12 @@
                             </div>
                         </div>
 
-                        <div class="col-2">
-                            <div class="d-flex gap-5">
-                                <button class="btn btn-success">Salva</button>
-                                <button type="reset" class="btn btn-warning">Reset</button>
-                            </div>
-                        </div>
+
                     </div>
 
                 </div>
 
-                <div class="col-6">
+                <div class="col-lg-6 mt-0">
                     <h3 class="text-center text-primary mb-3">Aggiungi Servizi<span class="text-danger">*</span></h3>
                     <div @class([
                         'is-invalid' => $errors->has('services'),
@@ -198,7 +198,16 @@
                 </div>
             </div>
 
+            <div class="col-2 mt-5 mt-md-4 mt-lg-0">
+                <div class="d-flex gap-5">
+                    <button class="btn btn-success">Salva</button>
+                    <button type="reset" class="btn btn-warning">Reset</button>
+                </div>
+            </div>
     </div>
+
+
+
 
     </form>
     </div>
