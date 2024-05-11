@@ -19,6 +19,19 @@
     <div class="main-container">
         @include('layouts.partials.side-bar')
         <main class="main-content">
+            {{-- navbar small --}}
+            <div class="top-nav-small">
+                <div class="logo-container-small">
+                    <a href="{{ route('admin.dashboard') }}">
+                        <img class="logo-img-small" src="{{ asset('img/logos/boolbnb-logo-2.png') }}" alt="logo">
+                    </a>
+                </div>
+
+                {{-- offcanvas --}}
+                <button class="offcanvas-button" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"><i
+                        class="fa-solid fa-bars fa-xl"></i></button>
+            </div>
             @yield('content')
         </main>
     </div>

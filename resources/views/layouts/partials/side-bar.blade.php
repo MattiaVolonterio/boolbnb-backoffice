@@ -30,8 +30,8 @@
                         'active' => Route::currentRouteName() == 'admin.apartments.index',
                     ]) aria-current="page" href="{{ route('admin.apartments.index') }}">
                         <div class="d-flex d-lg-block justify-content-center">
-                            <i class="fa-solid fa-building me-lg-2 mt-lg-1 fs-5"></i>
-                            <span class="d-none d-lg-inline-block">Appartamenti</span>
+                            <i class="fa-solid fa-building ms-lg-1 me-lg-2 mt-lg-1 fs-5"></i>
+                            <span class="d-none d-lg-inline-block ms-1">Appartamenti</span>
                         </div>
                     </a>
                 </li>
@@ -61,10 +61,11 @@
         </div>
 
         {{-- gestione account --}}
-        <div class="text-center mt-auto">
+        <div class="mt-auto">
             <li class="nav-item nav-link dropdown-center" data-bs-theme="dark">
-                <a aria-expanded="false" aria-haspopup="true" class="nav-link" data-bs-toggle="dropdown" href="#"
-                    id="navbarDropdown" role="button" v-pre>
+                <a aria-expanded="false" aria-haspopup="true"
+                    class="nav-link d-flex justify-content-center d-lg-block ms-lg-5" data-bs-toggle="dropdown"
+                    href="#" id="navbarDropdown" role="button" v-pre>
                     <i class="fa-solid fa-user-gear me-lg-2 fs-5"></i>
                     <span class="d-none d-lg-inline-block">{{ Auth::user()->name }}</span>
                 </a>

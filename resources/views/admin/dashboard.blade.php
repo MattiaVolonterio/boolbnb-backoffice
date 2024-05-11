@@ -12,215 +12,114 @@
 @endsection
 
 @section('content')
-    {{-- <div class="main-container"> --}}
+    <div class="card border-bottom-0">
 
+        <div class="card-header welcome-header rounded-0">
+            {{ __('Benvenuto ' . Auth::user()->name) }}
+        </div>
 
-    {{-- <div class="main-content"> --}}
+        <div class="main-content-container">
 
-    <div class="col">
-        <div class="card border-bottom-0">
+            {{-- Bottoni --}}
+            <div class="button-container">
+                <a href="{{ route('admin.apartments.create') }}" class="button-gradient">
+                    Inserisci un nuovo appartamento
+                </a>
 
-            {{-- navbar small --}}
-            <div class="top-nav-small">
-                <div class="logo-container-small">
-                    <a href="{{ route('admin.dashboard') }}">
-                        <img class="logo-img-small" src="{{ asset('img/logos/boolbnb-logo-2.png') }}" alt="logo">
-                    </a>
-                </div>
-
-                {{-- offcanvas --}}
-                <button class="offcanvas-button" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-                    aria-controls="offcanvasRight"><i class="fa-solid fa-bars fa-xl"></i></button>
+                <a href="{{ route('admin.apartments.index') }}"
+                    class="button-gradient {{ Auth::user()->apartments->isEmpty() ? 'd-none' : 'd-block' }}">
+                    Gestisci i tuoi appartamenti
+                </a>
             </div>
+            <div class="card-body card-container pt-0">
+                @if (session('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
+                @endif
 
 
-            <div class="card-header welcome-header rounded-0">
-                {{ __('Benvenuto ' . Auth::user()->name) }}
-            </div>
+                <div class="row bottom-page pt-3">
 
-            <div class="main-content-container">
+                    {{-- accordion con i messaggi ricevuti dall'utente --}}
+                    <div class="col-md-6 pb-3 pb-md-0">
 
-
-
-                {{-- Bottoni --}}
-                <div class="button-container">
-                    <a href="{{ route('admin.apartments.create') }}" class="button-gradient">
-                        Inserisci un nuovo appartamento
-                    </a>
-
-                    <a href="{{ route('admin.apartments.index') }}"
-                        class="button-gradient {{ Auth::user()->apartments->isEmpty() ? 'd-none' : 'd-block' }}">
-                        Gestisci i tuoi appartamenti
-                    </a>
-                </div>
-                <div class="card-body card-container pt-0">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <h2 class="h3 text-center mb-3">Messaggi ricevuti per i tuoi appartamenti</h2>
+                            </div>
+                            <div class="card-body messages-body">
+                                <div class="accordion accordion-flush" id="accordionFlushExample">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
+                                                aria-expanded="false" aria-controls="flush-collapseOne">
+                                                Appartamento interessato - indirizzo email mittente
+                                            </button>
+                                        </h2>
+                                        <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                            data-bs-parent="#accordionFlushExample">
+                                            <div class="accordion-body">Testo del messaggio.</div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo"
+                                                aria-expanded="false" aria-controls="flush-collapseTwo">
+                                                Appartamento interessato - indirizzo email mittente
+                                            </button>
+                                        </h2>
+                                        <div id="flush-collapseTwo" class="accordion-collapse collapse"
+                                            data-bs-parent="#accordionFlushExample">
+                                            <div class="accordion-body">Testo del messaggio..</div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#flush-collapseThree"
+                                                aria-expanded="false" aria-controls="flush-collapseThree">
+                                                Appartamento interessato - indirizzo email mittente
+                                            </button>
+                                        </h2>
+                                        <div id="flush-collapseThree" class="accordion-collapse collapse"
+                                            data-bs-parent="#accordionFlushExample">
+                                            <div class="accordion-body">Testo del messaggio.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    @endif
 
-
-                    <div class="row bottom-page pt-3">
-
-                        {{-- accordion con i messaggi ricevuti dall'utente --}}
-                        <div class="col-md-6 pb-3 pb-md-0">
-
+                    </div>
+                    <div class="col-md-6">
+                        {{-- Appartamenti sponsorizzati --}}
+                        <div class="col-12 h-50">
                             <div class="card h-100">
                                 <div class="card-header">
-                                    <h2 class="h3 text-center mb-3">Messaggi ricevuti per i tuoi appartamenti</h2>
+                                    Le tue sponsorizzazioni
                                 </div>
-                                <div class="card-body messages-body">
-                                    <div class="accordion accordion-flush" id="accordionFlushExample">
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header">
-                                                <button class="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
-                                                    aria-expanded="false" aria-controls="flush-collapseOne">
-                                                    Appartamento interessato - indirizzo email mittente
-                                                </button>
-                                            </h2>
-                                            <div id="flush-collapseOne" class="accordion-collapse collapse"
-                                                data-bs-parent="#accordionFlushExample">
-                                                <div class="accordion-body">Testo del messaggio.</div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header">
-                                                <button class="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo"
-                                                    aria-expanded="false" aria-controls="flush-collapseTwo">
-                                                    Appartamento interessato - indirizzo email mittente
-                                                </button>
-                                            </h2>
-                                            <div id="flush-collapseTwo" class="accordion-collapse collapse"
-                                                data-bs-parent="#accordionFlushExample">
-                                                <div class="accordion-body">Testo del messaggio..</div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header">
-                                                <button class="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#flush-collapseThree"
-                                                    aria-expanded="false" aria-controls="flush-collapseThree">
-                                                    Appartamento interessato - indirizzo email mittente
-                                                </button>
-                                            </h2>
-                                            <div id="flush-collapseThree" class="accordion-collapse collapse"
-                                                data-bs-parent="#accordionFlushExample">
-                                                <div class="accordion-body">Testo del messaggio.</div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="card-body">
+                                    Carosello immagini
                                 </div>
                             </div>
-
                         </div>
-                        <div class="col-md-6">
-                            {{-- Appartamenti sponsorizzati --}}
-                            <div class="col-12 h-50">
-                                <div class="card h-100">
-                                    <div class="card-header">
-                                        Le tue sponsorizzazioni
-                                    </div>
-                                    <div class="card-body">
-                                        Carosello immagini
-                                    </div>
-                                </div>
-                            </div>
 
-                            {{-- Statistiche --}}
-                            <div class="col-12 h-50 pt-3">
-                                <div class="card h-100">
-                                    <div class="card-header">
-                                        Le tue statistiche
-                                    </div>
-                                    <div class="card-body">
-                                        Stats
-                                    </div>
+                        {{-- Statistiche --}}
+                        <div class="col-12 h-50 pt-3">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    Le tue statistiche
+                                </div>
+                                <div class="card-body">
+                                    Stats
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-
-    {{-- </div> --}}
-    {{-- </div> --}}
-
-
-    {{-- Offcanvas show --}}
-    <div class="offcanvas offcanvas-end show-fade" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header d-flex justify-content-between align-items-center">
-            <h5 class="offcanvas-title" id="offcanvas-title" id="offcanvasRightLabel">Menù</h5>
-            <button type="button" id="button-close-offcanvas" data-bs-dismiss="offcanvas" aria-label="Close"><i
-                    class="fa-solid fa-xmark fa-xl"></i></button>
-        </div>
-        <div class="offcanvas-body" id="offcanvas-body">
-            <div class="d-flex flex-column">
-                <ul class="navbar-nav">
-                    <li class="nav-item mt-2">
-                        <a @class([
-                            'nav-link',
-                            'active' => Route::currentRouteName() == 'admin.dashboard',
-                        ]) aria-current="page" href="{{ route('admin.dashboard') }}">
-                            <i class="fa-solid fa-house me-2 fs-5"></i>
-                            <span>Home</span>
-                        </a>
-                    </li>
-                    <li class="nav-item mt-2">
-                        <a @class([
-                            'nav-link',
-                            'active' => Route::currentRouteName() == 'admin.apartments.index',
-                        ]) aria-current="page" href="{{ route('admin.apartments.index') }}">
-                            <i class="fa-solid fa-building me-2 fs-5"></i>
-                            <span>Appartamenti</span>
-                        </a>
-                    </li>
-                    <li class="nav-item mt-2">
-                        <a @class([
-                            'nav-link',
-                            'active' => Route::currentRouteName() == 'admin.sponsorships.index',
-                        ]) aria-current="page"
-                            href="{{ route('admin.sponsorships.index') }}">
-                            <i class="fa-solid fa-money-check-dollar me-2 fs-5"></i>
-                            <span>Sponsorship</span>
-                        </a>
-                    </li>
-                    <li class="nav-item mt-2">
-                        <a @class([
-                            'nav-link',
-                            // 'active' => Route::currentRouteName() == 'admin.messages.index',
-                        ]) aria-current="page" href="#">
-                            <i class="fa-solid fa-message me-2 fs-5"></i>
-                            <span>Messaggi</span>
-                        </a>
-                    </li>
-                </ul>
-
-                <ul class="navbar-nav">
-                    <div>
-
-                        <li class="nav-item nav-link mt-2">
-                            <a class="dropdown-item text-danger" href="{{ url('profile') }}">
-                                <i class="fa-solid fa-trash-can me-2 fs-5"></i>
-                                <span>Elimina Profilo</span>
-                            </a>
-                        </li>
-                        <form action="{{ route('logout') }}" id="logout-form" method="POST">
-                            @csrf
-                            <li class="nav-item nav-link mt-2">
-                                <button class="dropdown-item" href="{{ route('logout') }}" id="logout-link">
-                                    <i class="fa-solid fa-right-from-bracket me-2 fs-5"></i>
-                                    <span>Logout</span>
-                                </button>
-                            </li>
-                        </form>
-                    </div>
-                </ul>
             </div>
         </div>
     </div>
