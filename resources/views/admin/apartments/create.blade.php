@@ -5,7 +5,15 @@
     {{-- <form action="{{ route('admin.apartments.store') }}" method="POST" class="container" id="form">
         @csrf   </form> --}}
 
-    <div class="container ">
+    <div class="container py-3">
+
+        {{-- BACK TO APARTMENTS INDEX BUTTON --}}
+        <button type="button" class="btn btn-primary me-3">
+            <i class="fa-solid fa-arrow-left me-1"></i>
+            <a href="{{ route('admin.apartments.index') }}" class="text-decoration-none text-white">
+                Torna alla lista
+            </a>
+        </button>
 
         <form class="mt-5" action="{{ route('admin.apartments.store', $apartment) }}" method="POST"
             enctype="multipart/form-data">

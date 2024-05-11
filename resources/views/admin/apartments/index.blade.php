@@ -61,6 +61,7 @@
                     </div>
                 </div>
             @empty
+                <div class="col-12">Nessun appartamento</div>
             @endforelse
         </div>
 
