@@ -6,7 +6,8 @@
 @section('content')
     <div class="container">
         <h1 class="text-center text-primary my-3">{{ $apartment->name }}</h1>
-        <a href="{{ route('admin.apartments.show', $apartment) }}" class="btn btn-primary mt-4 mb-3">Torna alla show</a>
+        <a href="{{ route('admin.apartments.show', $apartment) }}" class="btn btn-primary mt-4 mb-3">Torna
+            all'appartamento</a>
         <a href="{{ route('admin.apartments.index') }}" class="btn btn-primary mt-4 mb-3">Torna alla lista</a>
         <div>
 
@@ -15,6 +16,19 @@
                 @csrf
 
                 @method('PATCH')
+
+                <div class="d-flex align-items-center mb-3">
+                    {{-- Switch --}}
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="visible" name="visible"
+                            @if ($apartment->visible == 1) checked @endif>
+                        <label class="form-check-label" for="visible">Visibile</label>
+                    </div>
+
+                    <div class="ms-3">
+                        <button class="btn btn-success">Salva</button>
+                    </div>
+                </div>
 
                 <div class="row g-5">
                     <div class="col-lg-6">
@@ -120,8 +134,9 @@
                                                 'form-control',
                                                 'is-invalid' =>
                                                     $errors->has('address') || $errors->has('lon') || $errors->has('lat'),
-                                            ]) id="address" name="address"
-                                                value="{{ old('address', $apartment->address) }}" required>
+                                            ]) id="address"
+                                                name="address" value="{{ old('address', $apartment->address) }}"
+                                                required>
                                             <label for="address" class="form-label">Indirizzo</label>
                                             <div id="suggestion"></div>
                                             @error('square_meters')
@@ -193,16 +208,6 @@
                                     @error('services')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
-                                    {{-- Switch --}}
-                                    <div class="form-check form-switch m-3">
-                                        <input class="form-check-input" type="checkbox" role="switch" id="visible"
-                                            name="visible" @if ($apartment->visible == 1) checked @endif>
-                                        <label class="form-check-label" for="visible">Visibile</label>
-                                    </div>
-
-                                    <div class="col-2">
-                                        <button class="btn btn-success">Salva</button>
-                                    </div>
 
                                 </div>
 
