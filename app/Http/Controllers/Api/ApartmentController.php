@@ -102,10 +102,10 @@ class ApartmentController extends Controller
         $total = count($items);
         $currentpage = $page;
         $offset = ($currentpage * $perPage) - $perPage;
-        if ($offset == 0) {
-            $itemstoshow = $items;
-        } else {
+        if ($total >= $perPage) {
             $itemstoshow = array_slice($items, $offset, $perPage);
+        } else {
+            $itemstoshow = $items;
         }
         return new LengthAwarePaginator($itemstoshow, $total, $perPage);
     }
@@ -173,13 +173,13 @@ class ApartmentController extends Controller
             foreach ($apartments_filtered as $apartment) {
                 $apartment->cover_img = $apartment->cover_img ? asset('storage/' . $apartment->cover_img) : 'https://placehold.co/600x400';
             }
-            $filtered_apartments_paginated = $this->paginate($apartments_filtered);
+            $filtered_apartments_paginated = $this->paginate($apartments_filtered, 12);
             return response()->json($filtered_apartments_paginated);
         } else {
             foreach ($apartments as $apartment) {
                 $apartment->cover_img = $apartment->cover_img ? asset('storage/' . $apartment->cover_img) : 'https://placehold.co/600x400';
             }
-            $filtered_apartments_paginated = $this->paginate($apartments, 12);
+            $filtered_apartments_paginated = $this->paginate($apartments->toArray(), 12);
             return response()->json($filtered_apartments_paginated);
         }
     }
