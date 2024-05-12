@@ -254,33 +254,34 @@
                         </div>
                     @endforeach
 
+                    @if (count($apartment_images) < 9)
+                        <div class="col-4">
+                            <div class="card d-flex justify-content-center bg-body-secondary"
+                                style="height: 100px; width:auto;">
 
-                    <div class="col-4">
-                        <div class="card d-flex justify-content-center bg-body-secondary"
-                            style="height: 100px; width:auto;">
-
-                            {{-- add files card --}}
-                            <div class="text-center">
-                                <div>
-                                    <label for="apartment_images" style="cursor:pointer;">
-                                        <i class="fa-solid fa-plus text-white rounded-circle p-3 bg-secondary"></i>
-                                    </label>
-                                    {{-- add files input --}}
-                                    <input type="file" id="apartment_images" name="apartment_images[]" multiple
-                                        hidden>
+                                {{-- add files card --}}
+                                <div class="text-center">
+                                    <div>
+                                        <label for="apartment_images" style="cursor:pointer;">
+                                            <i class="fa-solid fa-plus text-white rounded-circle p-3 bg-secondary"></i>
+                                        </label>
+                                        {{-- add files input --}}
+                                        <input type="file" id="apartment_images" name="apartment_images[]" multiple
+                                            hidden>
+                                    </div>
                                 </div>
-                            </div>
-                            @error('apartment_images')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                                @error('apartment_images')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
 
-                            <div class="text-center">
-                                {{-- files counter --}}
-                                <span id="files"></span>
-                            </div>
+                                <div class="text-center">
+                                    {{-- files counter --}}
+                                    <span id="files"></span>
+                                </div>
 
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
 
