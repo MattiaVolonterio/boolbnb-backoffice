@@ -1,4 +1,5 @@
-@extends('layouts.app')
+@extends('layouts.side-bar-layout')
+@section('title', 'Sponsorizzazioni')
 
 {{-- @push('css')
     <link rel="stylesheet" href="/../../../scss/sponsorships/sponsorships.scss">
@@ -16,8 +17,8 @@
         <div class="container py-4">
             {{-- titolo pagina --}}
             <h1 class="text-uppercase text-center">Sponsorizza un appartamento</h1>
-            <h2 class="text-uppercase mt-5 mb-4">seleziona il tuo piano</h2>
-            <div class="row row-cols-3">
+            <h2 class="text-uppercase mt-5 mx-xl-5 mx-xxl-0 mb-4">seleziona il tuo piano</h2>
+            <div class="row g-3 row-cols-1 row-cols-xxl-3 mx-xl-5 mx-xxl-0">
                 {{-- generatore card sponsorizzazione --}}
                 @forelse ($sponsorships as $sponsorship)
                     <div class="col">
@@ -41,7 +42,7 @@
                                     @elseif($sponsorship->duration == 72)
                                         tre giorni
                                     @else
-                                        cinque giorni
+                                        sei giorni
                                     @endif
                                 </p>
 
@@ -57,7 +58,7 @@
                                             @elseif($sponsorship->duration == 72)
                                                 <span><strong>3 giorni</strong> di durata</span>
                                             @else
-                                                <span><strong>5 giorni</strong> di durata</span>
+                                                <span><strong>6 giorni</strong> di durata</span>
                                             @endif
                                         </li>
                                         <li class="d-flex gap-3 align-items-start mb-2">

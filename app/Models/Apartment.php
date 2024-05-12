@@ -16,11 +16,6 @@ class Apartment extends Model
     ];
 
 
-    protected $fillable = [
-        'name', 'slug', 'n_room', 'n_bathroom', 'n_bed', 'user_id', 'square_meters', 'floor', 'address', 'lat', 'lon', 'visible',
-    ];
-
-
     // relazione 1 a n
     public function messages()
     {
