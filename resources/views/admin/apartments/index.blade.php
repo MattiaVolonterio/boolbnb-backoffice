@@ -1,4 +1,5 @@
-@extends('layouts.app')
+@extends('layouts.side-bar-layout')
+@section('title', 'Appartamenti')
 
 @section('content')
     @if (session('message-text'))
@@ -16,12 +17,12 @@
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-5 g-md-3 py-4">
             @forelse ($apartments as $apartment)
                 <div class="col">
-                    <div class="card">
+                    <div class="card h-100">
                         <a href="{{ route('admin.apartments.show', $apartment) }}">
                             <img src="{{ asset('storage/' . $apartment->cover_img) }}" alt="apartment image"
                                 class="card-img-top">
                         </a>
-                        <div class="card-body">
+                        <div class="card-body d-flex flex-column justify-content-between">
                             <h2 class="card-title mb-2 h4 fw-semibold text-primary">{{ $apartment->name }}</h2>
                             {{-- TODO sistemare con valore reale --}}
                             <p>Numero visite: 55</p>
@@ -60,6 +61,7 @@
                     </div>
                 </div>
             @empty
+                <div class="col-12">Nessun appartamento</div>
             @endforelse
         </div>
 

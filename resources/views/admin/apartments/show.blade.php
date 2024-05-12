@@ -1,4 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.side-bar-layout')
+@section('title')
+    {{ $apartment->name }}
+@endsection
 
 @section('content')
     {{-- Container session message --}}
@@ -9,7 +12,7 @@
         </div>
     @endif
 
-    <section class="container py-3">
+    <section class="container-md py-3">
 
         {{-- BUTTONS --}}
         <div class="d-flex justify-content-between">
@@ -47,9 +50,9 @@
         <h1 class="mt-5">{{ $apartment->name }}</h1>
 
         {{-- COVER-DATA-SERVICES --}}
-        <div class="row mt-4">
+        <div class="row g-3 mt-4">
             {{-- IMMAGINE COVER --}}
-            <div class="col-md-6 col-12">
+            <div class="col-lg-6">
 
                 {{-- img cover se nn ce img placeholder dal sito picsum --}}
 
@@ -68,7 +71,7 @@
             </div>
 
             {{-- DATI --}}
-            <div class="col-md-3 col-6">
+            <div class="col-lg-3">
 
                 <div class="card">
                     <div class="card-header">
@@ -115,7 +118,7 @@
             </div>
 
             {{-- SERVIZI --}}
-            <div class="col-md-3 col-6">
+            <div class="col-lg-3">
 
                 <div class="card overflow-auto">
                     <div class="card-header position-relative">
@@ -147,10 +150,10 @@
         @if ($apartment_images->all())
             <h1 class="mt-5">Le tue foto</h1>
 
-            <div class="row mb-5">
+            <div class="row g-3 mb-5">
 
                 {{-- COLONNA CAROSELLO --}}
-                <div class="col-md-6 col-12">
+                <div class="col-lg-6">
                     {{-- <h2 class="mb-3">Immagini dell'appartamento</h2> --}}
 
                     <div id="carouselExample" class="card carousel slide">
@@ -187,17 +190,17 @@
 
 
                 {{-- COLONNA IMMAGINI --}}
-                <div class="col-md-6 col-12">
+                <div class="col-lg-6">
                     {{-- TEST-------------------------- --}}
                     <div class="row g-1" style="max-height: 400px;">
 
                         {{-- DA FIXARE --}}
                         @foreach ($apartment_images as $index => $apartment_image)
                             <div class="col-4">
-                                <div class="card h-100">
+                                <div class="card" style="height: 130px">
                                     <img src="{{ asset('storage/' . $apartment_image->url) }}"
                                         class="thumb_img p-slide d-block w-100 h-100 object-fit-cover rounded-3"
-                                        alt="Immagine mancante">
+                                        style="background-position: center" alt="Immagine mancante">
                                 </div>
                             </div>
                         @endforeach
