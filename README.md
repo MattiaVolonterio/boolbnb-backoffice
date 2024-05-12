@@ -1,32 +1,9 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## BoolBnB è una web app che permette di trovare e gestire l’affitto di appartamenti storici.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+I proprietari di appartamenti, registrandosi a BoolBnB, possono inserire le informazioni delle
+loro proprietà e decidere se sponsorizzarle per avere una posizione evidenziata nelle
+ricerche e in home page.
 
-## Init project
-
-Per il frontend:
-
-```
-npm install
-npm run dev
-```
-
-Per il backend:
-
-```
-composer install
-php artisan serve
-```
-
-Poi copia il file `.env.example` in `.env` e configura la connessione al DB
-
-## Create a controller
-
-...
-
-## Create a model
+Gli utenti interessati ad affittare, senza registrazione, possono cercare e visualizzare gli
+appartamenti. Una volta scelto l’appartamento di interesse, possono inviare un messaggio al
+proprietario tramite la piattaforma, per chiedere maggiori dettagli.

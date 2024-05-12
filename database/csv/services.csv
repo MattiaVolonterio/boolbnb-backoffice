@@ -9,7 +9,7 @@ forno,/img/icons/cooker.png
 padelle,/img/icons/cooking.png
 posate,/img/icons/cutlery.png
 piatti,/img/icons/dishes-shelf.png
-lavastoviglie,/img/icons/ishwasher.png
+lavastoviglie,/img/icons/dishwasher.png
 barbeque,/img/icons/grill.png
 asciugacapelli,/img/icons/hair-dryer.png
 tv,/img/icons/hdtv.png
@@ -28,8 +28,8 @@ piscina,/img/icons/swimming-pool.png
 tavolo da pranzo,/img/icons/table.png
 teiera,/img/icons/teapot.png
 tostapane,/img/icons/toaster.png
-asciugamnano,/img/icons/towels.png
-ascigatrice,/img/icons/tumble-dryer.png
+asciugamano,/img/icons/towels.png
+asciugatrice,/img/icons/tumble-dryer.png
 armadio,/img/icons/wardrobe.png
 garage,/img/icons/warehouse.png
 lavatrice,/img/icons/washing-machine.png

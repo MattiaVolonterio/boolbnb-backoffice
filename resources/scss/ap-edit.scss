@@ -1,0 +1,22 @@
+.services-row {
+    height: 80vh;
+}
+
+@media (min-width: 480px) {
+    .services-row {
+        height: 35vh;
+    }
+}
+
+// Tablet
+@media (min-width: 768px) {
+    .services-row {
+        height: 35vh;
+    }
+}
+
+@media (min-width: 992px) {
+    .services-row {
+        height: 35vh;
+    }
+}

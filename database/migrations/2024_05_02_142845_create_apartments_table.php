@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('cover_img')->nullable();
             $table->boolean('visible')->default(true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -40,6 +40,7 @@
     @endauth
 
     @yield('js')
+
 </body>
 
 </html>

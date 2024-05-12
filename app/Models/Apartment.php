@@ -4,10 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Apartment extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+
+    protected $fillable = [
+        'name', 'slug', 'n_room', 'n_bathroom', 'n_bed', 'user_id', 'square_meters', 'floor', 'address', 'lat', 'lon', 'visible',
+    ];
+
 
     protected $fillable = [
         'name', 'slug', 'n_room', 'n_bathroom', 'n_bed', 'user_id', 'square_meters', 'floor', 'address', 'lat', 'lon', 'visible',
@@ -42,5 +49,11 @@ class Apartment extends Model
     public function sponsorships()
     {
         return $this->belongsToMany(Sponsorship::class)->withPivot('start_date', 'end_date');
+    }
+
+    // relazione 1 a n
+    public function apartmentImages()
+    {
+        return $this->hasMany(ApartmentImage::class);
     }
 }

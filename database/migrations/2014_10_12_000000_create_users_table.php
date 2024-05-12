@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('name', 50)->nullable();
             $table->string('surname', 50)->nullable();
             $table->date('birthday')->nullable();
+            $table->rememberToken();
             $table->timestamps();
         });
     }
