@@ -11,6 +11,8 @@
     @vite('resources/js/app.js')
 
     @yield('css')
+
+    @yield('payment-js')
 </head>
 
 <body>

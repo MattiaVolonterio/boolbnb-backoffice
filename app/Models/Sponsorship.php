@@ -12,6 +12,6 @@ class Sponsorship extends Model
     // relazione n a n
     public function apartments()
     {
-        return $this->belongsToMany(Apartment::class);
+        return $this->belongsToMany(Apartment::class)->withPivot('start_date', 'end_date');
     }
 }
