@@ -45,6 +45,8 @@ class ApartmentSeeder extends Seeder
                 $apartment->address = $apartment_data[6];
                 $apartment->lat = $apartment_data[7];
                 $apartment->lon = $apartment_data[8];
+                $apartment->cover_img = $apartment_data[9];
+            
                 // salvataggio nel db
                 $apartment->save();
             }

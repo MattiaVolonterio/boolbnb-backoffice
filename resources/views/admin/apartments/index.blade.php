@@ -19,7 +19,7 @@
                 <div class="col">
                     <div class="card h-100">
                         <a href="{{ route('admin.apartments.show', $apartment) }}">
-                            <img src="{{ asset('storage/' . $apartment->cover_img) }}" alt="apartment image"
+                            <img src="{{ asset('storage/uploads/cover/' . $apartment->cover_img) }}" alt="apartment image"
                                 class="card-img-top">
                         </a>
                         <div class="card-body d-flex flex-column justify-content-between">

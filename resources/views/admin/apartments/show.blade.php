@@ -54,18 +54,13 @@
             {{-- IMMAGINE COVER --}}
             <div class="col-lg-6">
 
-                {{-- img cover se nn ce img placeholder dal sito picsum --}}
-
-                {{-- <img src="{{ $apartment->cover_img ? asset( $apartment->cover_img) : 'https://picsum.photos/200/300' }}"
-                     class="card-img-top card-image-character mb-2" alt="{{ $apartment->name }}"> --}}
-
                 <div class="card h-100">
                     <div class="card-header">
                         Immagine Principale
                     </div>
 
-                    <img src="{{ $apartment->cover_img ? asset($apartment->cover_img) : 'https://picsum.photos/200/300' }}"
-                        class="card-img-bottom" alt="{{ $apartment->name }}" style="min-height: 400px; max-height: 400px">
+                    <img src="{{ asset('storage/uploads/cover/' . $apartment->cover_img) }}" class="card-img-bottom"
+                        alt="{{ $apartment->name }}" style="min-height: 400px; max-height: 400px">
                 </div>
 
             </div>

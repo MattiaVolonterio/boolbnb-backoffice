@@ -113,7 +113,6 @@ class ApartmentController extends Controller
             abort(403);
         $services = $apartment->services;
         $apartment_images = $apartment->apartmentImages;
-        $apartment->cover_img = !empty($apartment->cover_img) ? asset('/storage/' . $apartment->cover_img) : null;
         // $apartment->apartment_images = !empty($apartment->apartment_images) ? asset('/storage/' . $apartment->apartment_images) : null;
         return view('admin.apartments.show', compact('apartment','services','apartment_images'));
     }
