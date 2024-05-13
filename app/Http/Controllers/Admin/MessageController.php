@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Apartment;
 use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
@@ -17,7 +18,17 @@ class MessageController extends Controller
      */
     public function index(Apartment $apartment)
     {   
-        $messages = Message::where('apartment_id', $apartment->id)->orderBy('id', 'DESC')->get(); //Ottengo i messaggi associati all'id dell'appartamento specificato
+        if($apartment){
+            $messages = Message::where('apartment_id', $apartment->id)->orderBy('id', 'DESC')->get(); 
+        } else {
+            $apartments = Apartment::where('user_id', Auth::id())->get();
+            foreach($apartments as $apartment){
+                $messages = array_merge($messages, $apartment->messages()->toArray());
+            }
+        }
+
+
+
         // dd($messages);
         return view('admin.messages.index', compact('messages'));
     }

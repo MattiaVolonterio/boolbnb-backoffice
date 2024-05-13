@@ -135,8 +135,8 @@
                                                 'is-invalid' =>
                                                     $errors->has('address') || $errors->has('lon') || $errors->has('lat'),
                                             ]) id="address"
-                                                name="address" value="{{ old('address', $apartment->address) }}"
-                                                required>
+                                                name="address" value="{{ old('address', $apartment->address) }}" required
+                                                autocomplete="off">
                                             <label for="address" class="form-label">Indirizzo</label>
                                             <div id="suggestion"></div>
                                             @error('square_meters')

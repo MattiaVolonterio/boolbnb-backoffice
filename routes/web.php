@@ -43,7 +43,7 @@ Route::middleware('auth')
 
     Route::resource('/apartments', ApartmentController::class);
     Route::resource('/sponsorships', SponsorshipController::class);
-    Route::get('/messages/{apartment}', [MessageController::class, 'index'])->name('messages.index'); //Specifico controller e metodo index da chiamare, gli altri metodi della risorsa sono esclusi.
+    Route::get('/messages/{apartment?}', [MessageController::class, 'index'])->name('messages.index'); //Specifico controller e metodo index da chiamare, gli altri metodi della risorsa sono esclusi.
     Route::delete('/messages/{message}', [MessageController::class, 'destroy'])->name('messages.destroy');
     Route::resource('/visits', VisitController::class);
     Route::resource('/services', ServiceController::class);

@@ -49,8 +49,8 @@
                 <li class="nav-item ">
                     <a @class([
                         'nav-link',
-                        // 'active' => Route::currentRouteName() == 'admin.messages.index',
-                    ]) aria-current="page" href="#">
+                        'active' => Route::currentRouteName() == 'admin.messages.index',
+                    ]) aria-current="page" href="{{ route('admin.messages.index') }}">
                         <div class="d-flex d-lg-block justify-content-center">
                             <i class="fa-solid fa-message me-lg-2 mt-lg-1 fs-5"></i>
                             <span class="d-none d-lg-inline-block">Messaggi</span>
