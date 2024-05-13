@@ -12,7 +12,7 @@
     <div class="d-flex flex-column link-container">
         {{-- Navigation Link --}}
         <div class="d-flex flex-column align-items-center">
-            <ul class="navbar-nav mt-5">
+            <ul class="navbar-nav">
                 <li class="nav-item ">
                     <a @class([
                         'nav-link',
