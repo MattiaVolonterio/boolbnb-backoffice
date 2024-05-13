@@ -6,41 +6,53 @@
 @endsection
 
 @section('content')
-    <div class="link-container">
-        <a href="{{ route('admin.sponsorships.index') }}" class="btn btn-primary">Torna a Sponsorships</a>
-    </div>
-    <div class="payment-container">
+    <div class="wrapper d-flex flex-column gap-3">
+        <div class="link-container">
+            <a href="{{ route('admin.sponsorships.index') }}" class="btn btn-primary">Torna a Sponsorships</a>
+        </div>
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-4">
+            <div class=" row justify-content-lg-center">
+                <div class="col-12 col-xl-8">
                     <div class="card">
                         <div class="card-header">
                             <h1 class="h5 text-center">Dettagli acquisto</h1>
                         </div>
                         <div class="card-body">
-                            <ul class=" list-unstyled">
-                                <li class="mb-2">Nome dell'appartamento:<br> <span
-                                        class="fw-semibold ps-2">{{ $apartment->name }}</span></li>
-                                <li class="mb-2">Sponsorizzazione richiesta:<br> <span
-                                        class="fw-semibold ps-2">{{ $sponsor->tier }}</span></li>
-                                <li class="mb-2">Durata: <br> <span class="fw-semibold ps-2">{{ $sponsor->duration }}
-                                        ore</span>
-                                </li>
-                                <li class="mb-2">Data Inizio: <br> <span
-                                        class="fw-semibold ps-2">{{ $start_date }}</span>
-                                </li>
-                                <li class="mb-2">Data Fine:<br> <span class="fw-semibold ps-2">{{ $end_date }}</span>
-                                </li>
-                                <li class="mb-2">Prezzo: <br> <span class="fw-semibold ps-2">{{ $sponsor->price }}
-                                        &euro;</span>
-                                </li>
-                            </ul>
+                            <div class="row">
+                                <div class="col-12 col-xl-6">
+                                    <ul class=" list-unstyled">
+                                        <li class="mb-2">Nome dell'appartamento:<br> <span
+                                                class="fw-semibold ps-2">{{ $apartment->name }}</span></li>
+                                        <li class="mb-2">Sponsorizzazione richiesta:<br> <span
+                                                class="fw-semibold ps-2">{{ $sponsor->tier }}</span></li>
+                                        <li class="mb-2">Durata: <br> <span
+                                                class="fw-semibold ps-2">{{ $sponsor->duration }}
+                                                ore</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-12 col-xl-6">
+                                    <ul class=" list-unstyled">
+                                        <li class="mb-2">Data Inizio: <br> <span
+                                                class="fw-semibold ps-2">{{ $start_date }}</span>
+                                        </li>
+                                        <li class="mb-2">Data Fine:<br> <span
+                                                class="fw-semibold ps-2">{{ $end_date }}</span>
+                                        </li>
+                                        <li class="mb-2">Prezzo: <br> <span class="fw-semibold ps-2">{{ $sponsor->price }}
+                                                &euro;</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
                 </div>
+            </div>
 
-                <div class="col-4">
+            <div class="row justify-content-center">
+                <div class="col-12 col-xl-8">
                     <form id="payment-form" action="{{ route('admin.sponsorships.store') }}" method="post">
                         @csrf
                         <div id="dropin-container" class="m-0"></div>

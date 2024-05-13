@@ -44,16 +44,16 @@ class SponsorshipController extends Controller
             if ($apartment_sponsorship->pivot->end_date && $apartment_sponsorship->pivot->end_date > now()->format('Y-m-d H:i:s')) {
                 $start_date = $apartment_sponsorship->pivot->end_date;
                 $time_remaining = strtotime($apartment_sponsorship->pivot->end_date) - strtotime(now());
-                $end_date = date("Y-m-d H:i:s", strtotime("+" . $duration . ' Hours' . $time_remaining . ' seconds'));
+                $end_date = date("d-m-Y H:i:s", strtotime("+" . $duration . ' Hours' . $time_remaining . ' seconds'));
             } else {
                 $expiration = strtotime("+" . $duration . ' Hours');
-                $start_date = now()->format('Y-m-d H:i:s');
-                $end_date = date("Y-m-d H:i:s", $expiration);
+                $start_date = now()->format('d-m-Y H:i:s');
+                $end_date = date("d-m-Y H:i:s", $expiration);
             }
         } else {
             $expiration = strtotime("+" . $duration . ' Hours');
-            $start_date = now()->format('Y-m-d H:i:s');
-            $end_date = date("Y-m-d H:i:s", $expiration);
+            $start_date = now()->format('d-m-Y H:i:s');
+            $end_date = date("d-m-Y H:i:s", $expiration);
         }
 
 
@@ -72,7 +72,13 @@ class SponsorshipController extends Controller
 
         $apartment = Apartment::find($data['apartment_id']);
 
-        $apartment->sponsorships()->attach($data['sponsorship_id'], ['start_date' => $data['start_date'], 'end_date' => $data['end_date']]);
+        $end_date_str = strtotime($data['end_date']);
+        $start_date_str = strtotime($data['start_date']);
+
+        $end_date = date("Y-m-d H:i:s", $end_date_str);
+        $start_date = date("Y-m-d H:i:s", $start_date_str);
+        
+        $apartment->sponsorships()->attach($data['sponsorship_id'], ['start_date' => $start_date, 'end_date' => $end_date]);
 
         return redirect()->route('admin.apartments.show', $apartment->id)->with('message-status', 'alert-success')->with('message-text', 'Sottoscrizione effettuata con successo');
     }
