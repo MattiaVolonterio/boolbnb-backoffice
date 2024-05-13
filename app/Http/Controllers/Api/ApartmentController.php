@@ -20,7 +20,7 @@ class ApartmentController extends Controller
 
         // sistemazione path assoluto cover img
         foreach ($apartments as $apartment) {
-            $apartment->cover_img = $apartment->cover_img ? asset('storage/' . $apartment->cover_img) : 'https://placehold.co/600x400';
+            $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
         }
 
         // return api
@@ -34,7 +34,7 @@ class ApartmentController extends Controller
         $apartment = Apartment::select('id', 'name', 'slug', 'cover_img', 'address')->with(['apartmentImages:apartment_id,url', 'services:id,name,icon'])->where('id', $id)->first();
 
         // sistemazione path assoluto cover img
-        $apartment->cover_img = $apartment->cover_img ? asset('storage/' . $apartment->cover_img) : 'https://placehold.co/600x400';
+        $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
 
         // sistemazione path assoluto icona servizi
         foreach ($apartment->services as $service) {
@@ -44,7 +44,7 @@ class ApartmentController extends Controller
         // sistemazione path assoluto immagini per il carosello
         if ($apartment->apartmentImages) {
             foreach ($apartment->apartmentImages as $image) {
-                $image->url = asset('storage/' . $image->url);
+                $image->url = asset('storage/uploads/apartment_images/' . $image->url);
             }
         }
 
@@ -63,7 +63,7 @@ class ApartmentController extends Controller
         $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address', 'lat', 'lon')->where('visible', 1)->with('services:id,name,icon')->get();
 
         foreach ($apartments as $apartment) {
-            $apartment->cover_img = $apartment->cover_img ? asset('storage/' . $apartment->cover_img) : 'https://placehold.co/600x400';
+            $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
 
             foreach ($apartment->services as $service) {
                 $service->icon = asset($service->icon);
@@ -171,13 +171,13 @@ class ApartmentController extends Controller
 
         if ($services != 'null') {
             foreach ($apartments_filtered as $apartment) {
-                $apartment->cover_img = $apartment->cover_img ? asset('storage/' . $apartment->cover_img) : 'https://placehold.co/600x400';
+                $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
             }
             $filtered_apartments_paginated = $this->paginate($apartments_filtered, 12);
             return response()->json($filtered_apartments_paginated);
         } else {
             foreach ($apartments as $apartment) {
-                $apartment->cover_img = $apartment->cover_img ? asset('storage/' . $apartment->cover_img) : 'https://placehold.co/600x400';
+                $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
             }
             $filtered_apartments_paginated = $this->paginate($apartments->toArray(), 12);
             return response()->json($filtered_apartments_paginated);
