@@ -5,6 +5,7 @@
 }
 
 .side-bar {
+    height: 100vh;
     display: none;
 }
 
@@ -13,16 +14,6 @@
     height: 100vh;
 
     overflow: auto;
-}
-
-a {
-    .logo-img {
-        height: 120px;
-        aspect-ratio: 1;
-        overflow: hidden;
-
-        background-size: cover;
-    }
 }
 
 .logo-img-small {
@@ -49,11 +40,21 @@ a {
 }
 
 .title-container {
-    height: 10%;
+    height: 120px;
+
+    a {
+        .logo-img {
+            height: 70px;
+            aspect-ratio: 1;
+            overflow: hidden;
+
+            background-size: cover;
+        }
+    }
 }
 
 .link-container {
-    height: 90%;
+    height: calc(100vh - 120px);
     padding-bottom: 10px;
 
     color: #ececec;
@@ -138,12 +139,18 @@ a {
         width: 235px;
     }
 
-    .logo-img {
-        height: 135px;
-        aspect-ratio: 1;
-        overflow: hidden;
+    .title-container {
+        height: 120px;
 
-        background-size: cover;
+        a {
+            .logo-img {
+                height: 110px;
+                aspect-ratio: 1;
+                overflow: hidden;
+
+                background-size: cover;
+            }
+        }
     }
 
     .main-content {
