@@ -64,7 +64,8 @@ class ApartmentController extends Controller
         $new_apartment = new Apartment;
         // Gestisco l'immagine
         if ($request->hasFile('cover_img')) {
-            $img_path = $request->file('cover_img')->store('uploads/cover', 'public');
+            $img_path = $request->file('cover_img')->store('uploads/cover/', 'public');
+            $img_path = explode('/', $img_path)[3];
             $new_apartment->cover_img = $img_path;
         }
         
@@ -88,7 +89,8 @@ class ApartmentController extends Controller
         //  img multiple
         if ($request->hasFile('apartment_images')) {
             foreach ($request->file('apartment_images') as $image) {
-                $path = $image->store('uploads/apartment_images', 'public');
+                $path = $image->store('uploads/apartment_images/', 'public');
+                $path = explode('/', $path)[3];
                 ApartmentImage::create([
                     'apartment_id' => $new_apartment->id,
                     'url' => $path
@@ -160,7 +162,8 @@ class ApartmentController extends Controller
 
         // recupero l'img
         if ($request->hasFile('cover_img')) {
-            $img_path = $request->file('cover_img')->store('uploads/cover', 'public');
+            $img_path = $request->file('cover_img')->store('uploads/cover/', 'public');
+            $img_path = explode('/', $img_path)[3];
             $apartment->cover_img = $img_path;  
         }
         if ($request->has('services')) {
@@ -172,7 +175,8 @@ class ApartmentController extends Controller
         // update imgs
         if ($request->hasFile('apartment_images')) {
             foreach ($request->file('apartment_images') as $image) {
-                $path = $image->store('uploads/apartment_images', 'public');
+                $path = $image->store('uploads/apartment_images/', 'public');
+                $path = explode('/', $path)[3];
                 ApartmentImage::create([
                     'apartment_id' => $apartment->id,
                     'url' => $path
