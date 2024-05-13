@@ -132,7 +132,7 @@ class ApartmentController extends Controller
         $apartment_images = $apartment->apartmentImages;
 
         // url imgs
-        $apartment_images->url = !empty($apartment_images->url) ? asset('/storage/' . $apartment_images->url) : null;
+        $apartment_images->url = !empty($apartment_images->url) ? asset('storage/uploads/apartment_images' . $apartment_images->url) : null;
 
         $services = Service::orderBy('name', 'asc')->get();
         return view('admin.apartments.edit', compact('apartment','services', 'apartment_images'));

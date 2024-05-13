@@ -17,7 +17,7 @@ class ApartmentImageSeeder extends Seeder
      *
      * @return void
      */
-    public function run(Faker $faker)
+    public function run()
     {
 
         // recupero gli ID degli appartamenti
@@ -34,7 +34,7 @@ class ApartmentImageSeeder extends Seeder
             if (!$is_first_line) {
                 // nuovo ApartmentImage
                 $apartment_image = new ApartmentImage;
-                $apartment_image->apartment_id = $faker->randomElement($apartments);
+                $apartment_image->apartment_id = $apartment_image_data[0]; 
                 $apartment_image->url = $apartment_image_data[1];
                 // salvataggio nel db
                 $apartment_image->save();

@@ -54,6 +54,7 @@
             {{-- IMMAGINE COVER --}}
             <div class="col-lg-6">
 
+
                 <div class="card h-100">
                     <div class="card-header">
                         Immagine Principale
@@ -157,7 +158,7 @@
                         <div class="carousel-inner ms_carousel-inner">
                             @foreach ($apartment_images as $index => $apartment_image)
                                 <div class="carousel-item ms_carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                    <img src="{{ asset('storage/' . $apartment_image->url) }}"
+                                    <img src="{{ asset('storage/uploads/apartment_images/' . $apartment_image->url) }}"
                                         class="slide d-block w-100 h-100 object-fit-cover rounded-3" alt="Immagine mancante"
                                         style="max-height: 400px">
                                 </div>
@@ -193,7 +194,7 @@
                         @foreach ($apartment_images as $index => $apartment_image)
                             <div class="col-4">
                                 <div class="card" style="height: 130px">
-                                    <img src="{{ asset('storage/' . $apartment_image->url) }}"
+                                    <img src="{{ asset('storage/uploads/apartment_images/' . $apartment_image->url) }}"
                                         class="thumb_img p-slide d-block w-100 h-100 object-fit-cover rounded-3"
                                         style="background-position: center" alt="Immagine mancante">
                                 </div>

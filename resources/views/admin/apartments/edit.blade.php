@@ -221,8 +221,9 @@
             <div class="col-lg-6 pb-4 pb-lg-0">
                 @if (!empty($apartment->cover_img))
                     <div class="card">
-                        <img src="{{ asset('storage/' . $apartment->cover_img) }}" class="card-img-top img-fluid rounded"
-                            style="width: 100%; height: auto;" alt="apartment cover img" style="width: 200px;">
+                        <img src="{{ asset('storage/uploads/cover/' . $apartment->cover_img) }}"
+                            class="card-img-top img-fluid rounded" style="width: 100%; height: auto;"
+                            alt="apartment cover img" style="width: 200px;">
                     </div>
                 @endif
 
@@ -246,7 +247,7 @@
                                         <i class="fa-solid fa-xmark"></i>
                                     </button>
 
-                                    <img src="{{ $img->url ? asset('storage/' . $img->url) : '' }}"
+                                    <img src="{{ $img->url ? asset('storage/uploads/apartment_images/' . $img->url) : '' }}"
                                         style="width: 100%; height: 100%;" class="card-img-top img-fluid m-0 rounded"
                                         alt="" id="newImage">
                                 </form>
