@@ -15,12 +15,14 @@
     overflow: auto;
 }
 
-.logo-img {
-    height: 70px;
-    aspect-ratio: 1;
-    overflow: hidden;
+a {
+    .logo-img {
+        height: 120px;
+        aspect-ratio: 1;
+        overflow: hidden;
 
-    background-size: cover;
+        background-size: cover;
+    }
 }
 
 .logo-img-small {
@@ -30,6 +32,7 @@
 
     background-size: cover;
 }
+
 .top-nav-small {
     position: sticky;
     top: 0;
