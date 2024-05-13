@@ -16,8 +16,8 @@
     <main>
         <div class="container py-4">
             {{-- titolo pagina --}}
-            <h1 class="text-uppercase text-center">Sponsorizza un appartamento</h1>
-            <h2 class="text-uppercase mt-5 mx-xl-5 mx-xxl-0 mb-4">seleziona il tuo piano</h2>
+            <h1 class=" text-center">Sponsorizza un Appartamento</h1>
+            <h2 class=" mt-5 mx-xl-5 mx-xxl-0 mb-4">Seleziona il tuo piano</h2>
             <div class="row g-3 row-cols-1 row-cols-xxl-3 mx-xl-5 mx-xxl-0">
                 {{-- generatore card sponsorizzazione --}}
                 @forelse ($sponsorships as $sponsorship)
@@ -93,7 +93,7 @@
         <div class="modal fade" id="purchase-modal-{{ $sponsorship->id }}" tabindex="-1"
             aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <form class="modal-content" method="POST" action="{{ route('admin.sponsorships.payment_page') }}">
+                <form class="modal-content" method="GET" action="{{ route('admin.sponsorships.create') }}">
                     {{ csrf_field() }}
                     <div class="modal-header">
                         {{-- titolo modale --}}
@@ -116,9 +116,6 @@
                                 <option>Nessun appartamento trovato</option>
                             @endforelse
                         </select>
-
-                        {{-- paragrafo con la data di fine sponsor --}}
-                        <p class="mt-2 mb-0 text-danger">La sponsorizzazione finirà: {{ now() }}</p>
 
                         {{-- paragrafo con il prezzo totale --}}
                         <p class="mt-2 mb-0 text-success">Il prezzo è di &euro;{{ $sponsorship->price }}</p>

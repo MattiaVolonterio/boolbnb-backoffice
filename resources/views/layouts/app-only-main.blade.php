@@ -10,6 +10,8 @@
 
     @vite('resources/js/app.js')
 
+    @yield('payment-js')
+
     @yield('css')
 </head>
 
@@ -19,18 +21,6 @@
             @yield('content')
         </main>
     </div>
-
-    @auth
-        <script>
-            const logoutLink = document.getElementById('logout-link');
-            const logoutForm = document.getElementById('logout-form');
-
-            logoutLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                logoutForm.submit();
-            });
-        </script>
-    @endauth
 
     @yield('js')
 

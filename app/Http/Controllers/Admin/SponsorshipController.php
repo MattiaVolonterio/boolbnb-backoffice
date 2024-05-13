@@ -22,34 +22,23 @@ class SponsorshipController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Show the form for creating a new resources
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     */
-    public function store(Request $request)
-    {
-        date_default_timezone_set('Europe/Rome');
+        $end_date = null;
+        $start_date = null;
 
         $sponsorhip_id = $request->query()['sponsorship_id'];
         $apartment_id = $request->query()['apartment_id'];
 
+        $apartment = Apartment::find($apartment_id);
+        $sponsor = Sponsorship::find($sponsorhip_id);
 
-        $sponsorship = Sponsorship::find($sponsorhip_id);
-        $duration = $sponsorship->duration;
+        $duration = $sponsor->duration;
 
-        $apartments = Apartment::find($apartment_id);
-
-        $apartment_sponsorship = $apartments->sponsorships()->where('end_date', '>', now())->first();
+        $apartment_sponsorship = $apartment->sponsorships()->where('end_date', '>', now())->first();
 
         if ($apartment_sponsorship != null) {
             if ($apartment_sponsorship->pivot->end_date && $apartment_sponsorship->pivot->end_date > now()->format('Y-m-d H:i:s')) {
@@ -67,9 +56,25 @@ class SponsorshipController extends Controller
             $end_date = date("Y-m-d H:i:s", $expiration);
         }
 
-        $apartments->sponsorships()->attach($sponsorhip_id, ['start_date' => $start_date, 'end_date' => $end_date]);
 
-        return redirect()->route('admin.apartments.show', $apartment_id)->with('message', 'Sottoscrizione effettuata con successo');
+        return view('admin.sponsorships.payment_page', compact('apartment', 'sponsor', 'start_date', 'end_date'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     */
+    public function store(Request $request)
+    {
+
+        $data = $request->all();
+
+        $apartment = Apartment::find($data['apartment_id']);
+
+        $apartment->sponsorships()->attach($data['sponsorship_id'], ['start_date' => $data['start_date'], 'end_date' => $data['end_date']]);
+
+        return redirect()->route('admin.apartments.show', $apartment->id)->with('message-status', 'alert-success')->with('message-text', 'Sottoscrizione effettuata con successo');
     }
 
     /**

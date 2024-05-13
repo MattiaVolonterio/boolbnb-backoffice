@@ -12,7 +12,7 @@
 
     @yield('css')
 
-    @yield('payment-js')
+
 </head>
 
 <body>

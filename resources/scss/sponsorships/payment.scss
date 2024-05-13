@@ -1,0 +1,16 @@
+main{
+    background-color: rgb(0, 42, 56);
+
+    .link-container{
+        padding-left: 1rem;
+        padding-top: 1rem;
+        height: 1rem;
+    }
+
+    .payment-container{
+        height: 90vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

@@ -1,9 +1,4 @@
-@php
-    $gateway = config('gateway');
-    $clientToken = $gateway->clientToken()->generate();
-@endphp
-
-@extends('layouts.app')
+@extends('layouts.app-only-main')
 @section('title', 'pagamento')
 
 @section('payment-js')
@@ -11,23 +6,66 @@
 @endsection
 
 @section('content')
-    <div class="container">
-        <form id="payment-form" action="{{ route('admin.sponsorships.store', $payment_info) }}" method="post">
-            @csrf
-            <div id="dropin-container"></div>
-            <button type="submit" class="btn btn-primary">Paga</button>
-            <input type="hidden" id="nonce" name="payment_method_nonce">
-        </form>
+    <div class="link-container">
+        <a href="{{ route('admin.sponsorships.index') }}" class="btn btn-primary">Torna a Sponsorships</a>
     </div>
+    <div class="payment-container">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h1 class="h5 text-center">Dettagli acquisto</h1>
+                        </div>
+                        <div class="card-body">
+                            <ul class=" list-unstyled">
+                                <li class="mb-2">Nome dell'appartamento:<br> <span
+                                        class="fw-semibold ps-2">{{ $apartment->name }}</span></li>
+                                <li class="mb-2">Sponsorizzazione richiesta:<br> <span
+                                        class="fw-semibold ps-2">{{ $sponsor->tier }}</span></li>
+                                <li class="mb-2">Durata: <br> <span class="fw-semibold ps-2">{{ $sponsor->duration }}
+                                        ore</span>
+                                </li>
+                                <li class="mb-2">Data Inizio: <br> <span
+                                        class="fw-semibold ps-2">{{ $start_date }}</span>
+                                </li>
+                                <li class="mb-2">Data Fine:<br> <span class="fw-semibold ps-2">{{ $end_date }}</span>
+                                </li>
+                                <li class="mb-2">Prezzo: <br> <span class="fw-semibold ps-2">{{ $sponsor->price }}
+                                        &euro;</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-4">
+                    <form id="payment-form" action="{{ route('admin.sponsorships.store') }}" method="post">
+                        @csrf
+                        <div id="dropin-container" class="m-0"></div>
+                        <button type="submit" class="btn btn-primary">Paga</button>
+                        <input type="hidden" id="nonce" name="payment_method_nonce">
+                        <input type="hidden" id="apartment_id" name="apartment_id" value="{{ $apartment->id }}">
+                        <input type="hidden" id="sponsorship_id" name="sponsorship_id" value="{{ $sponsor->id }}">
+                        <input type="hidden" id="start_date" name="start_date" value="{{ $start_date }}">
+                        <input type="hidden" id="end_date" name="end_date" value="{{ $end_date }}">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('css')
+    @vite('resources/scss/sponsorships/payment.scss')
 @endsection
 
 @section('js')
     <script type="text/javascript">
         const form = document.getElementById('payment-form');
-        const clientTokenJS = "<?php echo $clientToken; ?>";
-
         braintree.dropin.create({
-            authorization: clientTokenJS,
+            authorization: "{{ env('BRAINTREE_TOKENIZATION_KEY') }}",
             container: document.getElementById('dropin-container'),
         }, (error, dropinInstance) => {
             if (error) console.error(error);
