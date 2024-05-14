@@ -44,52 +44,31 @@
                     {{-- accordion con i messaggi ricevuti dall'utente --}}
                     <div class="col-md-6 pb-3 pb-md-0">
 
+                        {{-- @dd($messages) --}}
                         <div class="card h-100">
                             <div class="card-header">
                                 <h2 class="h3 text-center mb-3">Messaggi ricevuti per i tuoi appartamenti</h2>
                             </div>
                             <div class="card-body messages-body">
-                                <div class="accordion accordion-flush" id="accordionFlushExample">
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
-                                                aria-expanded="false" aria-controls="flush-collapseOne">
-                                                Appartamento interessato - indirizzo email mittente
-                                            </button>
-                                        </h2>
-                                        <div id="flush-collapseOne" class="accordion-collapse collapse"
-                                            data-bs-parent="#accordionFlushExample">
-                                            <div class="accordion-body">Testo del messaggio.</div>
+                                @foreach ($messages as $message)
+                                    <div for class="accordion accordion-flush" id="accordionFlushExample">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#flush-{{ $message['id'] }}"
+                                                    aria-expanded="false" aria-controls="flush-{{ $message['id'] }}">
+                                                    {{ $message['apartment']['name'] }} -
+                                                    {{ $message['customer_email'] }} -
+                                                    {{ $message['created_at'] }}
+                                                </button>
+                                            </h2>
+                                            <div id="flush-{{ $message['id'] }}" class="accordion-collapse collapse"
+                                                data-bs-parent="#accordionFlushExample">
+                                                <div class="accordion-body">{{ $message['content'] }}</div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo"
-                                                aria-expanded="false" aria-controls="flush-collapseTwo">
-                                                Appartamento interessato - indirizzo email mittente
-                                            </button>
-                                        </h2>
-                                        <div id="flush-collapseTwo" class="accordion-collapse collapse"
-                                            data-bs-parent="#accordionFlushExample">
-                                            <div class="accordion-body">Testo del messaggio..</div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#flush-collapseThree"
-                                                aria-expanded="false" aria-controls="flush-collapseThree">
-                                                Appartamento interessato - indirizzo email mittente
-                                            </button>
-                                        </h2>
-                                        <div id="flush-collapseThree" class="accordion-collapse collapse"
-                                            data-bs-parent="#accordionFlushExample">
-                                            <div class="accordion-body">Testo del messaggio.</div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
 
