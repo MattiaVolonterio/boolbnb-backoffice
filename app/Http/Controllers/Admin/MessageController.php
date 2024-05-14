@@ -18,6 +18,9 @@ class MessageController extends Controller
      */
     public function index(Apartment $apartment = null)
     {   
+
+        $messages = [];
+
         if($apartment){
             $messages = Message::where('apartment_id', $apartment->id)->orderBy('id', 'DESC')->get(); 
         } else {
