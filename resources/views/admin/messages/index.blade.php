@@ -14,13 +14,14 @@
                 </tr>
             </thead>
             <tbody>
-                {{--  @dd($messages) --}}
+          
                 @forelse ($messages as $message)
+           
                     <tr>
                         <td>{{ $message['customer_email'] }}</td>
                         <td>{{ $message['name'] }}</td>
                         <td>{{ $message['content'] }}</td>
-                        <td>{{ $message->apartment->name }}</td>
+                        <td>{{ $message['apartment']['name' ] }}</td>
                         <td>
                             <button class="btn btn-danger" data-bs-toggle="modal"
                                 data-bs-target="#delete-message-{{ $message['id'] }}">
