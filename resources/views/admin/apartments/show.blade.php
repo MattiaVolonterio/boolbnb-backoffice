@@ -48,6 +48,9 @@
         </div>
 
         <h1 class="mt-5">{{ $apartment->name }}</h1>
+        <p>Sponsorizzazione: <span class="badge text-bg-primary p-2">{{ $sponsorships_tier[0] }}</span></p>
+
+
 
         {{-- COVER-DATA-SERVICES --}}
         <div class="row g-3 mt-4">

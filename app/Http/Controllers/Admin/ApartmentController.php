@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 use PhpParser\Node\Expr\Cast\String_;
 
+
 class ApartmentController extends Controller
 {
     /**
@@ -115,8 +116,9 @@ class ApartmentController extends Controller
             abort(403);
         $services = $apartment->services;
         $apartment_images = $apartment->apartmentImages;
-        // $apartment->apartment_images = !empty($apartment->apartment_images) ? asset('/storage/' . $apartment->apartment_images) : null;
-        return view('admin.apartments.show', compact('apartment','services','apartment_images'));
+        $sponsorships_tier = $apartment->sponsorships()->pluck('tier');
+        // dd($sponsorships_tier);
+        return view('admin.apartments.show', compact('apartment','services','apartment_images', 'sponsorships_tier'));
     }
 
     /**
