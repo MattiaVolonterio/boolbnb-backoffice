@@ -5,7 +5,7 @@
     <section class="container mt-3">
         <h1>Messaggi ricevuti</h1>
 
-        <table class="table mt-5" style="border: 1px solid #e9e9e9">
+        {{-- <table class="table mt-5" style="border: 1px solid #e9e9e9">
             <thead>
                 <tr>
                     <th scope="col">Indirizzo email</th>
@@ -37,7 +37,32 @@
 
 
             </tbody>
-        </table>
+        </table> --}}
+
+
+        <div class="card-body messages-body">
+            @foreach ($messages as $message)
+                <div for class="accordion accordion-flush" id="accordionFlushExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#flush-{{ $message['id'] }}"
+                                aria-expanded="false" aria-controls="flush-{{ $message['id'] }}">
+                                {{ $message['customer_email'] }} -
+                                {{ $message['name'] }} -
+                                {{ $message['apartment']['name'] }} -
+                                {{ $message['created_at'] }}>
+                            </button>
+                        </h2>
+                        <div id="flush-{{ $message['id'] }}" class="accordion-collapse collapse"
+                            data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">{{ $message['content'] }}</div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
 
     </section>
 @endsection
