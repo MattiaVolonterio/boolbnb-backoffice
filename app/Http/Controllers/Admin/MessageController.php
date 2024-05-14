@@ -30,7 +30,9 @@ class MessageController extends Controller
             }
         }
 
+        $messages = collect($messages);
 
+        dd($messages);
 
         // dd($messages);
         return view('admin.messages.index', compact('messages'));
