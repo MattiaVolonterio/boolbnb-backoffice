@@ -10,20 +10,20 @@
               <th scope="col">Indirizzo email</th>
               <th scope="col">Nome</th>
               <th scope="col">Testo</th>
-              @if(isset($messages[0]->id)) 
+              @if(isset($messages['id']))
                 <th scope="col"></th>
               @endif
           </tr>
       </thead>
       <tbody>
-
+       {{--  @dd($messages) --}}
         @forelse ($messages as $message)
         <tr>
-          <td>{{ $message->customer_email }}</td>
-          <td>{{ $message->name }}</td>
-          <td>{{ $message->content }}</td>
+          <td>{{ $message['customer_email'] }}</td>
+          <td>{{ $message['name'] }}</td>
+          <td>{{ $message['content'] }}</td>
           <td>
-            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-message-{{ $message->id }}">
+            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-message-{{ $message['id']}}">
               <i class="fa-solid fa-trash"></i>
             </button>
           </td>
@@ -45,13 +45,13 @@
 
 @section('modal')
     @foreach ($messages as $message)
-        <div class="modal fade" id="delete-message-{{ $message->id }}" tabindex="-1"
-            aria-labelledby="deleteMessageLabel{{ $message->id }}" aria-hidden="true">
+        <div class="modal fade" id="delete-message-{{$message['id'] }}" tabindex="-1"
+            aria-labelledby="deleteMessageLabel{{ $message['id'] }}" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteMessageLabel{{ $message->id }}">Elimina il messaggio di
-                            {{ $message->name }}</h5>
+                        <h5 class="modal-title" id="deleteMessageLabel{{ $message['id'] }}">Elimina il messaggio di
+                            {{ $message['name'] }}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -59,7 +59,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-                        <form action="{{ route('admin.messages.destroy', $message->id) }}" method="POST">
+                        <form action="{{ route('admin.messages.destroy', $message['id']) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Elimina</button>
