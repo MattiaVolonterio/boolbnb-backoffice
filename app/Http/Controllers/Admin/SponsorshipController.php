@@ -42,7 +42,8 @@ class SponsorshipController extends Controller
 
         if ($apartment_sponsorship != null) {
             if ($apartment_sponsorship->pivot->end_date && $apartment_sponsorship->pivot->end_date > now()->format('Y-m-d H:i:s')) {
-                $start_date = $apartment_sponsorship->pivot->end_date;
+                $start_date_sec = strtotime($apartment_sponsorship->pivot->end_date);
+                $start_date = date("d-m-Y H:i:s", $start_date_sec);
                 $time_remaining = strtotime($apartment_sponsorship->pivot->end_date) - strtotime(now());
                 $end_date = date("d-m-Y H:i:s", strtotime("+" . $duration . ' Hours' . $time_remaining . ' seconds'));
             } else {
