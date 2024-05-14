@@ -26,15 +26,13 @@ class MessageController extends Controller
         } else {
             $apartments = Apartment::where('user_id', Auth::id())->get();
             foreach($apartments as $apartment){
-                $messages = array_merge($messages, $apartment->messages->toArray());
+                $messages_col = Message::where('apartment_id', $apartment->id)->orderBy('id', 'DESC')->get()->toArray();
+                $messages = array_merge($messages_col, $messages);
             }
         }
 
         $messages = collect($messages);
 
-        // dd($messages);
-
-        // dd($messages);
         return view('admin.messages.index', compact('messages'));
     }
     
