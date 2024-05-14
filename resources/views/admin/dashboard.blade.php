@@ -105,7 +105,7 @@
                                 Le tue statistiche
                             </div>
                             <div class="card-body">
-                                Stats
+                                <canvas id="myChart"></canvas>
                             </div>
                         </div>
                     </div>
@@ -117,6 +117,18 @@
 @endsection
 
 @section('js')
+
+    {{-- Chart  --}}
+    <script>
+        const data = @json($data);
+        const labels = data.labels;
+        const messages = data.messages;
+        const views = data.views;
+    </script>
+
+    @vite('resources/js/mychart.js')
+
+    {{-- Slider --}}
     <script>
         const slider = document.getElementById('slider');
         const slideRight = document.getElementById('slide-right');
@@ -124,11 +136,10 @@
 
 
         slideRight.addEventListener('click', function() {
-            slider.scrollLeft += 200;
-            console.log(slider);
+            slider.scrollLeft += 250;
         })
         slideLeft.addEventListener('click', function() {
-            slider.scrollLeft -= 200;
+            slider.scrollLeft -= 250;
         })
     </script>
 @endsection
