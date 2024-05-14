@@ -31,7 +31,7 @@ class ApartmentController extends Controller
     {
 
         // selezione dell'appartmamento con id corrispondente
-        $apartment = Apartment::select('id', 'name', 'slug', 'cover_img', 'address', 'lat', 'lon')->with(['apartmentImages:apartment_id,url', 'services:id,name,icon'])->where('id', $id)->first();
+        $apartment = Apartment::where('id', $id)->with(['apartmentImages:apartment_id,url', 'services:id,name,icon'])->first();
 
         // sistemazione path assoluto cover img
         $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
