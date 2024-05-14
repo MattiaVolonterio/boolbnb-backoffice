@@ -16,14 +16,14 @@ class MessageController extends Controller
      *
     //  * @return \Illuminate\Http\Response
      */
-    public function index(Apartment $apartment)
+    public function index(Apartment $apartment = null)
     {   
         if($apartment){
             $messages = Message::where('apartment_id', $apartment->id)->orderBy('id', 'DESC')->get(); 
         } else {
             $apartments = Apartment::where('user_id', Auth::id())->get();
             foreach($apartments as $apartment){
-                $messages = array_merge($messages, $apartment->messages()->toArray());
+                $messages = array_merge($messages, $apartment->messages->toArray());
             }
         }
 
