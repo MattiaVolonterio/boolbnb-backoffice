@@ -43,7 +43,7 @@ class DashboardController extends Controller
        SUM(DATE(messages.created_at) BETWEEN '2024-02-01' AND '2024-02-28') AS Febbraio, 
        SUM(DATE(messages.created_at) BETWEEN '2024-03-01' AND '2024-03-31') AS Marzo, 
        SUM(DATE(messages.created_at) BETWEEN '2024-04-01' AND '2024-04-30') AS Aprile,
-       SUM(DATE(messages.created_at) BETWEEN '2024-05-01' AND '2024-05-31') AS Magggio
+       SUM(DATE(messages.created_at) BETWEEN '2024-05-01' AND '2024-05-31') AS Maggio
       FROM apartments  
       INNER JOIN users ON users.id = apartments.user_id
       INNER JOIN messages ON messages.apartment_id = apartments.id
@@ -66,7 +66,7 @@ class DashboardController extends Controller
        SUM(DATE(visits.created_at) BETWEEN '2024-02-01' AND '2024-02-28') AS Febbraio, 
        SUM(DATE(visits.created_at) BETWEEN '2024-03-01' AND '2024-03-31') AS Marzo, 
        SUM(DATE(visits.created_at) BETWEEN '2024-04-01' AND '2024-04-30') AS Aprile,
-       SUM(DATE(visits.created_at) BETWEEN '2024-05-01' AND '2024-05-31') AS Magggio
+       SUM(DATE(visits.created_at) BETWEEN '2024-05-01' AND '2024-05-31') AS Maggio
       FROM apartments  
       INNER JOIN users ON users.id = apartments.user_id
       INNER JOIN visits ON visits.apartment_id = apartments.id
