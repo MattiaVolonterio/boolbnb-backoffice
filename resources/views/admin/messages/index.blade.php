@@ -1,4 +1,5 @@
-@extends('layouts.app')
+@extends('layouts.side-bar-layout')
+@section('title', 'Messaggi')
 
 @section('content')
     <section class="container mt-3">
@@ -14,14 +15,13 @@
                 </tr>
             </thead>
             <tbody>
-          
+
                 @forelse ($messages as $message)
-           
                     <tr>
                         <td>{{ $message['customer_email'] }}</td>
                         <td>{{ $message['name'] }}</td>
                         <td>{{ $message['content'] }}</td>
-                        <td>{{ $message['apartment']['name' ] }}</td>
+                        <td>{{ $message['apartment']['name'] }}</td>
                         <td>
                             <button class="btn btn-danger" data-bs-toggle="modal"
                                 data-bs-target="#delete-message-{{ $message['id'] }}">
