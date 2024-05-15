@@ -27,6 +27,8 @@ class ApartmentController extends Controller
         return response()->json($apartments);
     }
 
+
+
     public function show($id)
     {
 
@@ -51,6 +53,25 @@ class ApartmentController extends Controller
         // return api
         return response()->json($apartment);
     }
+
+    //Funzione per chiamata api appartamenti sponsorizzati
+    public function sponsoredApartments()
+    {
+        $sponsoredApartments = Apartment::has('sponsorships')->where('visible', 1)->get();
+
+        $data = $sponsoredApartments->map(function ($apartment) {
+            return [
+                'id' => $apartment->id,
+                'name' => $apartment->name,
+                'slug' => $apartment->slug,
+                'cover_img' => $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400',
+                'address' => $apartment->address,
+            ];
+        });
+
+        return response()->json($data);
+    }
+
 
     public function research($lat, $lon, $radius)
     {
