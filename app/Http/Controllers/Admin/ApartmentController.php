@@ -8,12 +8,14 @@ use App\Http\Requests\ApartmentUpdateRequest;
 use App\Models\Apartment;
 use App\Models\Service;
 use App\Models\ApartmentImage;
+use App\Models\Sponsorship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 use PhpParser\Node\Expr\Cast\String_;
+
 
 class ApartmentController extends Controller
 {
@@ -115,8 +117,9 @@ class ApartmentController extends Controller
             abort(403);
         $services = $apartment->services;
         $apartment_images = $apartment->apartmentImages;
-        // $apartment->apartment_images = !empty($apartment->apartment_images) ? asset('/storage/' . $apartment->apartment_images) : null;
-        return view('admin.apartments.show', compact('apartment','services','apartment_images'));
+        
+        $sponsorship_id = $apartment->sponsorships->pluck('id');
+        return view('admin.apartments.show', compact('apartment','services','apartment_images', 'sponsorship_id'));
     }
 
     /**
