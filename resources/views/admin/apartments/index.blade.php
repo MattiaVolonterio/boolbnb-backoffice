@@ -25,7 +25,8 @@
                         <div class="card-body d-flex flex-column justify-content-between">
                             <h2 class="card-title mb-2 h4 fw-semibold text-primary">{{ $apartment->name }}</h2>
                             {{-- TODO sistemare con valore reale --}}
-                            <p>Numero visite: 55</p>
+                            <p>Numero visite: {{$apartment->visits_count}}</p>
+
                             {{-- Switch --}}
                             <form class="form-check form-switch mb-4"
                                 action="{{ route('admin.apartments.switch-visibility', $apartment) }}"
