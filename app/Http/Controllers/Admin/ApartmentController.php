@@ -117,9 +117,9 @@ class ApartmentController extends Controller
             abort(403);
         $services = $apartment->services;
         $apartment_images = $apartment->apartmentImages;
-        $sponsorships_Ids = $apartment->sponsorships->pluck('id');
+        $apartment_sponsorship_Ids = $apartment->sponsorships->pluck('id');
         // dd($sponsorships_id);
-        return view('admin.apartments.show', compact('apartment','services','apartment_images', 'sponsorships_Ids'));
+        return view('admin.apartments.show', compact('apartment','services','apartment_images', 'apartment_sponsorship_Ids'));
     }
 
     /**
