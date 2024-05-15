@@ -62,6 +62,7 @@
                         <input type="hidden" id="sponsorship_id" name="sponsorship_id" value="{{ $sponsor->id }}">
                         <input type="hidden" id="start_date" name="start_date" value="{{ $start_date }}">
                         <input type="hidden" id="end_date" name="end_date" value="{{ $end_date }}">
+                        <input type="hidden" id="amount" name="amount" value="{{ $sponsor->price }}">
                     </form>
                 </div>
             </div>
@@ -77,7 +78,7 @@
     <script type="text/javascript">
         const form = document.getElementById('payment-form');
         braintree.dropin.create({
-            authorization: "{{ env('BRAINTREE_TOKENIZATION_KEY') }}",
+            authorization: "{{ env('BT_TOKENIZATION_KEY') }}",
             container: document.getElementById('dropin-container'),
         }, (error, dropinInstance) => {
             if (error) console.error(error);

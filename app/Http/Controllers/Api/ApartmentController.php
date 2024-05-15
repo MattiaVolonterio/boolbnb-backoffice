@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Apartment;
 use App\Models\Service;
+
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
+use App\Models\Sponsorship;
 use Illuminate\Http\Request;
 
 use Illuminate\Pagination\Paginator;
@@ -15,17 +19,27 @@ class ApartmentController extends Controller
 {
     public function index()
     {
-        // selezione di tutti gli appartmenti con visibilità attiva
-        $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address')->where('visible', 1)->get();
+        // get all the apartment with active 
+        $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->with('services:id,name,icon')->whereHas('sponsorships',function (Builder $query){
+            $query->where('end_date', '>', now());
+        })->groupBy('id')->get();
 
-        // sistemazione path assoluto cover img
+        // TODO:: sistemare con ricerca in base al numero di visualizzazioni
+        if(empty($apartments)){
+            $apartments = Apartment::all()->paginate();
+        }
+        
+        // relative path in absolute path
         foreach ($apartments as $apartment) {
             $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
         }
 
-        // return api
+        
+        // return json with all the apartments
         return response()->json($apartments);
     }
+
+
 
     public function show($id)
     {
@@ -52,16 +66,47 @@ class ApartmentController extends Controller
         return response()->json($apartment);
     }
 
+    //Funzione per chiamata api appartamenti sponsorizzati
+    // public function sponsoredApartments()
+    // {
+    //     $sponsoredApartments = Apartment::has('sponsorships')->where('visible', 1)->get();
+
+    //     $data = $sponsoredApartments->map(function ($apartment) {
+    //         return [
+    //             'id' => $apartment->id,
+    //             'name' => $apartment->name,
+    //             'slug' => $apartment->slug,
+    //             'cover_img' => $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400',
+    //             'address' => $apartment->address,
+    //         ];
+    //     });
+
+    //     return response()->json($data);
+    // }
+
+
     public function research($lat, $lon, $radius)
     {
+        // parse value from request
         $lat1 = floatval($lat);
         $lon1 = floatval($lon);
         $radiusInt = intval($radius);
 
+        // array where we put the filtered apartment
         $filtered_apartments = [];
+        
+        // get all the apartments with sponsor
+        $apartments_sponsor = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->with('services:id,name,icon')->whereHas('sponsorships',function (Builder $query){
+            $query->where('end_date', '>', now());
+        })->groupBy('id')->get();
 
-        $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address', 'lat', 'lon')->where('visible', 1)->with('services:id,name,icon')->get();
+        // get all the apartments without sponsor
+        $apartments_notsponsor = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->with('services:id,name,icon')->doesntHave('sponsorships')->get();
 
+        // merge the two collection
+        $apartments = $apartments_sponsor->merge($apartments_notsponsor);
+
+        // relative path in absolute path
         foreach ($apartments as $apartment) {
             $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
 
@@ -70,6 +115,7 @@ class ApartmentController extends Controller
             }
         }
 
+        // calc if the specific apartment is include in the given radius
         foreach ($apartments as $apartment) {
             $lat2 = floatval($apartment->lat);
             $lon2 = floatval($apartment->lon);
@@ -89,13 +135,15 @@ class ApartmentController extends Controller
         }
 
 
-
+        // paginate the result
         $filtered_apartments_paginated = $this->paginate($filtered_apartments, 12);
 
+        // send the result
         return response()->json($filtered_apartments_paginated);
     }
 
 
+    // function that return a paginate object that accept as a parameters the array, number of items per page & the total page
     public function paginate($items, $perPage = 5, $page = null)
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
@@ -110,6 +158,7 @@ class ApartmentController extends Controller
         return new LengthAwarePaginator($itemstoshow, $total, $perPage);
     }
 
+    // fetch the services
     public function getServices()
     {
         // recupero tutti i servizi dal  database
@@ -126,31 +175,52 @@ class ApartmentController extends Controller
     public function filterApartments($lat, $lon, $radius, $n_room = null, $n_bathrooom = null, $n_bed = null, $square_meters = null, $floor = null, $services = null)
     {
 
-        $query_raw = Apartment::select('id', 'name', 'slug', 'cover_img', 'address', 'lat', 'lon', 'n_room', 'n_bed', 'n_bathroom', 'floor', 'square_meters')->with('services:id,name,icon')->where('visible', 1);
+        // create the raw query
+        $query_raw_sponsor = $apartments_sponsor = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->with('services:id,name,icon')->whereHas('sponsorships',function (Builder $query){
+            $query->where('end_date', '>', now());
+        })->groupBy('id');
 
+        $query_raw_not = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->with('services:id,name,icon')->doesntHave('sponsorships');
+
+
+        // filter by n_room
         if ($n_room != 'null') {
-            $query_raw = $query_raw->where('n_room', '>=', $n_room);
+            $query_raw_sponsor = $query_raw_sponsor->where('n_room', '>=', $n_room);
+            $query_raw_not = $query_raw_not->where('n_room', '>=', $n_room);
         }
 
+        // filter by n_bathrooom
         if ($n_bathrooom != 'null') {
-            $query_raw = $query_raw->where('n_bathroom', '>=', $n_bathrooom);
+            $query_raw_sponsor = $query_raw_sponsor->where('n_bathroom', '>=', $n_bathrooom);
+            $query_raw_not = $query_raw_not->where('n_bathroom', '>=', $n_bathrooom);
         }
 
+        // filter by n_bed        
         if ($n_bed != 'null') {
-            $query_raw = $query_raw->where('n_bed', '>=', $n_bed);
+            $query_raw_sponsor = $query_raw_sponsor->where('n_bed', '>=', $n_bed);
+            $query_raw_not = $query_raw_not->where('n_bed', '>=', $n_bed);
         }
 
+        // filter by square_meters
         if ($square_meters != 'null') {
-            $query_raw = $query_raw->where('square_meters', '>=', $square_meters);
+            $query_raw_sponsor = $query_raw_sponsor->where('square_meters', '>=', $square_meters);
+            $query_raw_not = $query_raw_not->where('square_meters', '>=', $square_meters);
         }
 
+        // filter by floor
         if ($floor != 'null') {
-            $query_raw = $query_raw->where('floor', '>=', $floor);
+            $query_raw_sponsor= $query_raw_sponsor->where('floor', '>=', $floor);
+            $query_raw_not= $query_raw_not->where('floor', '>=', $floor);
         }
 
-        $apartments = $query_raw->get();
+        // fetch all the apartments that respect the filters
+        $apartments_sponsor = $query_raw_sponsor->get();
+        $apartments_notsponsor = $query_raw_not->get();
+        
+        // merge the two collection
+        $apartments = $apartments_sponsor->merge($apartments_notsponsor);
 
-
+        // filter by array services
         if ($services != 'null') {
             $apartments_filtered = [];
             $services = explode(',', $services);
