@@ -78,22 +78,26 @@
                                 Le tue sponsorizzazioni
                             </div>
                             <div class="card-body d-flex gap-2 align-items-center justify-content-between">
-                                <div class="slide-button-left" id="slide-left"><i class="fa-solid fa-arrow-left fa-xl"></i>
-                                </div>
-                                <div class="slider-spons-container" id="slider">
-                                    @forelse ($apartments_sponsor as $apartment)
-                                        <div class="slider-spons-img-container">
-                                            <a href="{{ route('admin.apartments.show', $apartment->id) }}">
-                                                <img class="slider-spons-img" src="{{ $apartment->cover_img }}"
-                                                    alt="{{ $apartment->name }}">
-                                            </a>
-                                        </div>
-                                    @empty
-                                        Nessuna Sponsorizzazione attiva
-                                    @endforelse
-                                </div>
-                                <div class="slide-button-right" id="slide-right"><i
-                                        class="fa-solid fa-arrow-right fa-xl"></i></div>
+                                @if (count($apartments_sponsor) != 0)
+                                    <div class="slide-button-left" id="slide-left"><i
+                                            class="fa-solid fa-arrow-left fa-xl"></i>
+                                    </div>
+                                    <div class="slider-spons-container" id="slider">
+                                        @foreach ($apartments_sponsor as $apartment)
+                                            <div class="slider-spons-img-container">
+                                                <a href="{{ route('admin.apartments.show', $apartment->id) }}">
+                                                    <img class="slider-spons-img" src="{{ $apartment->cover_img }}"
+                                                        alt="{{ $apartment->name }}">
+                                                </a>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <div class="slide-button-right" id="slide-right"><i
+                                            class="fa-solid fa-arrow-right fa-xl"></i>
+                                    </div>
+                                @else
+                                    Nessuna Sponsorizzazione attiva
+                                @endif
                             </div>
                         </div>
                     </div>
