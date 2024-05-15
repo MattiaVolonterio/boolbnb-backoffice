@@ -5,41 +5,6 @@
     <section class="container mt-3">
         <h1>Messaggi ricevuti</h1>
 
-        {{-- <table class="table mt-5" style="border: 1px solid #e9e9e9">
-            <thead>
-                <tr>
-                    <th scope="col">Indirizzo email</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Testo</th>
-                    <th scope="col">Appartamento</th>
-                </tr>
-            </thead>
-            <tbody>
-
-                @forelse ($messages as $message)
-                    <tr>
-                        <td>{{ $message['customer_email'] }}</td>
-                        <td>{{ $message['name'] }}</td>
-                        <td>{{ $message['content'] }}</td>
-                        <td>{{ $message['apartment']['name'] }}</td>
-                        <td>
-                            <button class="btn btn-danger" data-bs-toggle="modal"
-                                data-bs-target="#delete-message-{{ $message['id'] }}">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                @empty
-                    <tr>
-                        <td colspan="3">Nessun messaggio trovato</td>
-                    </tr>
-                @endforelse
-
-
-            </tbody>
-        </table> --}}
-
-
         <div class="card-body messages-body">
             @foreach ($messages as $message)
                 <div for class="accordion accordion-flush" id="accordionFlushExample">
