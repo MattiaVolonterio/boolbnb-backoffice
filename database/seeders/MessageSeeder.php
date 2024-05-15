@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Apartment;
 use App\Models\Message;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -19,21 +20,21 @@ class MessageSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        // nuovi messaggi
-        $message = new Message;
+        $apartments = Apartment::all();
 
-        $message->apartment_id= 3;
-        $message->customer_email = 'adriatik.trinita@gmail.com';
-        $message->content = $faker->text();
-        $message->name = 'Adriatik';
-        $message->save();
-
-        $message = new Message;
-        $message->apartment_id = 7;
-        $message->customer_email = 'andrea.bonvi@gmail.com';
-        $message->content = $faker->text();
-        $message->name = 'Andrea';
-        $message->save();
-            
+        foreach ($apartments as $apartment) {
+            for ($i = 0; $i < rand(1, 100); $i++) {
+                // nuovi messaggi
+                $message = new Message;
+                $message->apartment_id = $apartment->id;
+                $message->customer_email = $faker->email();
+                $message->content = 'Buongiorno, avrei bisogno di avere più informazioni su questo appartamento';
+                $message->name = $faker->firstName();
+                $creationDate = $faker->dateTimeBetween('-1 year', now(), 'Europe/Rome');
+                $message->created_at = $creationDate;
+                $message->updated_at = $creationDate;
+                $message->save();
+            }
+        }
     }
 }
