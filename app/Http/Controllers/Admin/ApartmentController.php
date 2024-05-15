@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\Cast\String_;
 
 class ApartmentController extends Controller
@@ -22,9 +23,9 @@ class ApartmentController extends Controller
      *
      */
     public function index()
-    {   
+    {
         //prendo l'íd del utente loggato 
-        $userId = auth()->id(); 
+        $userId = auth()->id();
         //filtro per user_id
         $apartments = Apartment::where('user_id', $userId)->orderBy('created_at', 'desc')->paginate(8);
         return view('admin.apartments.index', compact('apartments'));
@@ -40,7 +41,7 @@ class ApartmentController extends Controller
         $services = Service::orderBy('name', 'asc')->get();
         $apartment_images = ApartmentImage::all();
 
-        return view('admin.apartments.create', compact('apartment', 'services','apartment_images'));
+        return view('admin.apartments.create', compact('apartment', 'services', 'apartment_images'));
     }
 
     /**
@@ -51,12 +52,12 @@ class ApartmentController extends Controller
     public function store(ApartmentStoreRequest $request)
     {
 
-         // Validazione dei dati inviati dal form
+        // Validazione dei dati inviati dal form
         $request->validated();
-        
+
         // Recupro i dati dopo averli validati
         $data = $request->all();
-    
+
         // Aggiungo l'ID dell'utente autenticato ai dati validati
         $data['user_id'] = Auth::id();
         // Creazione del nuovo appartamento
@@ -68,18 +69,18 @@ class ApartmentController extends Controller
             $img_path = explode('/', $img_path)[3];
             $new_apartment->cover_img = $img_path;
         }
-        
 
-        if(isset($data['visible'])){
+
+        if (isset($data['visible'])) {
             $data['visible'] = 1;
         } else {
             $data['visible'] = 0;
         }
 
         $new_apartment->slug = Str::slug($data['name']);
-        
+
         $new_apartment->fill($data);
-        
+
         $new_apartment->save();
 
         if ($request->has('services')) {
@@ -95,7 +96,6 @@ class ApartmentController extends Controller
                     'apartment_id' => $new_apartment->id,
                     'url' => $path
                 ]);
-                
             }
         }
 
@@ -109,14 +109,84 @@ class ApartmentController extends Controller
      * @param  \App\Models\Apartment  $apartment
      */
     public function show(Apartment $apartment)
-    {   
+    {
         //protezione rotte
         if (Auth::id() != $apartment->user_id && Auth::user()->role != 'admin')
             abort(403);
         $services = $apartment->services;
         $apartment_images = $apartment->apartmentImages;
         // $apartment->apartment_images = !empty($apartment->apartment_images) ? asset('/storage/' . $apartment->apartment_images) : null;
-        return view('admin.apartments.show', compact('apartment','services','apartment_images'));
+
+
+        // CHART
+
+        // Messaggi totali per mese
+        $result_1 = DB::select(DB::raw(
+            "SELECT 
+         SUM(DATE(messages.created_at) BETWEEN '2023-06-01' AND '2023-06-30') AS Giugno,
+         SUM(DATE(messages.created_at) BETWEEN '2023-07-01' AND '2023-07-31') AS Luglio,
+         SUM(DATE(messages.created_at) BETWEEN '2023-08-01' AND '2023-08-31') AS Agosto,
+         SUM(DATE(messages.created_at) BETWEEN '2023-09-01' AND '2023-09-30') AS Settembre,
+         SUM(DATE(messages.created_at) BETWEEN '2023-10-01' AND '2023-10-31') AS Ottobre,
+         SUM(DATE(messages.created_at) BETWEEN '2023-11-01' AND '2023-11-30') AS Novembre,
+         SUM(DATE(messages.created_at) BETWEEN '2023-12-01' AND '2023-12-31') AS Dicembre,
+         SUM(DATE(messages.created_at) BETWEEN '2024-01-01' AND '2024-01-31') AS Gennaio,
+         SUM(DATE(messages.created_at) BETWEEN '2024-02-01' AND '2024-02-28') AS Febbraio, 
+         SUM(DATE(messages.created_at) BETWEEN '2024-03-01' AND '2024-03-31') AS Marzo, 
+         SUM(DATE(messages.created_at) BETWEEN '2024-04-01' AND '2024-04-30') AS Aprile,
+         SUM(DATE(messages.created_at) BETWEEN '2024-05-01' AND '2024-05-31') AS Maggio
+        FROM apartments  
+        INNER JOIN messages ON messages.apartment_id = apartments.id
+        WHERE (apartments.id = $apartment->id) AND (DATE(messages.created_at) BETWEEN '2023-06-01' AND '2024-05-31')"
+        ));
+
+
+
+        // Visualizzazioni totali per mese
+        $result_2 = DB::select(DB::raw(
+            "SELECT 
+         SUM(DATE(visits.created_at) BETWEEN '2023-06-01' AND '2023-06-30') AS Giugno,
+         SUM(DATE(visits.created_at) BETWEEN '2023-07-01' AND '2023-07-31') AS Luglio,
+         SUM(DATE(visits.created_at) BETWEEN '2023-08-01' AND '2023-08-31') AS Agosto,
+         SUM(DATE(visits.created_at) BETWEEN '2023-09-01' AND '2023-09-30') AS Settembre,
+         SUM(DATE(visits.created_at) BETWEEN '2023-10-01' AND '2023-10-31') AS Ottobre,
+         SUM(DATE(visits.created_at) BETWEEN '2023-11-01' AND '2023-11-30') AS Novembre,
+         SUM(DATE(visits.created_at) BETWEEN '2023-12-01' AND '2023-12-31') AS Dicembre,
+         SUM(DATE(visits.created_at) BETWEEN '2024-01-01' AND '2024-01-31') AS Gennaio,
+         SUM(DATE(visits.created_at) BETWEEN '2024-02-01' AND '2024-02-28') AS Febbraio, 
+         SUM(DATE(visits.created_at) BETWEEN '2024-03-01' AND '2024-03-31') AS Marzo, 
+         SUM(DATE(visits.created_at) BETWEEN '2024-04-01' AND '2024-04-30') AS Aprile,
+         SUM(DATE(visits.created_at) BETWEEN '2024-05-01' AND '2024-05-31') AS Maggio
+        FROM apartments  
+        INNER JOIN visits ON visits.apartment_id = apartments.id
+        WHERE (apartments.id = $apartment->id) AND (DATE(visits.created_at) BETWEEN '2023-06-01' AND '2024-05-31')"
+        ));
+
+        // dd($result_1);
+
+        $labels = [];
+        $result_messages = [];
+        $result_views = [];
+
+        foreach ($result_1[0] as $key => $result) {
+            $labels[] = $key;
+            $result_messages[] = $result;
+        }
+
+        foreach ($result_2[0] as $key => $result) {
+            $result_views[] = $result;
+        }
+
+        // dd($labels, $data);
+
+        $data = [
+            'labels' => $labels,
+            'messages' => $result_messages,
+            'views' => $result_views,
+        ];
+
+        // RETURN
+        return view('admin.apartments.show', compact('apartment', 'services', 'apartment_images', 'data'));
     }
 
     /**
@@ -125,8 +195,8 @@ class ApartmentController extends Controller
      * @param  \App\Models\Apartment  $apartment
      */
     public function edit(Apartment $apartment)
-    {   
-        
+    {
+
         //protezione rotte
         if (Auth::id() != $apartment->user_id)
             abort(403);
@@ -137,7 +207,7 @@ class ApartmentController extends Controller
         $apartment_images->url = !empty($apartment_images->url) ? asset('storage/uploads/apartment_images' . $apartment_images->url) : null;
 
         $services = Service::orderBy('name', 'asc')->get();
-        return view('admin.apartments.edit', compact('apartment','services', 'apartment_images'));
+        return view('admin.apartments.edit', compact('apartment', 'services', 'apartment_images'));
     }
 
     /**
@@ -157,14 +227,14 @@ class ApartmentController extends Controller
         $data = $request->all();
         //creo slug dal nome 
         $apartment->slug = Str::slug($data['name']);
-         // Riassegno l'essere visibile o meno
-         $data['visible'] = Arr::exists($data, 'visible');
+        // Riassegno l'essere visibile o meno
+        $data['visible'] = Arr::exists($data, 'visible');
 
         // recupero l'img
         if ($request->hasFile('cover_img')) {
             $img_path = $request->file('cover_img')->store('uploads/cover/', 'public');
             $img_path = explode('/', $img_path)[3];
-            $apartment->cover_img = $img_path;  
+            $apartment->cover_img = $img_path;
         }
         if ($request->has('services')) {
             $apartment->services()->sync($request->input('services'));
@@ -183,9 +253,9 @@ class ApartmentController extends Controller
                 ]);
             }
         }
-        
+
         $apartment->update($data);
-        return redirect()->route('admin.apartments.show' ,compact('apartment', 'apartmentImage'))->with('message-status', 'alert-success')->with('message-text', 'Appartamento modificato con successo');
+        return redirect()->route('admin.apartments.show', compact('apartment', 'apartmentImage'))->with('message-status', 'alert-success')->with('message-text', 'Appartamento modificato con successo');
     }
 
     /**
@@ -194,23 +264,23 @@ class ApartmentController extends Controller
      * @param  \App\Models\Apartment  $apartment
      */
     public function destroy(Apartment $apartment)
-    {   
+    {
         //protezione rotte
         if (Auth::id() != $apartment->user_id && Auth::user()->role != 'admin')
             abort(403);
         $apartment->delete();
         return redirect()->route('admin.apartments.index')->with('message-status', 'alert-danger')->with('message-text', 'Appartamento eliminato con successo');;
-
     }
 
-    public function switch_visible(Request $request, Apartment $apartment){
+    public function switch_visible(Request $request, Apartment $apartment)
+    {
         //protezione rotte
         if (Auth::id() != $apartment->user_id && Auth::user()->role != 'admin')
             abort(403);
 
-        $data = $request->only('visible'); 
-        
-        if(!empty($data)){
+        $data = $request->only('visible');
+
+        if (!empty($data)) {
             $apartment->visible = 1;
         } else {
             $apartment->visible = 0;
