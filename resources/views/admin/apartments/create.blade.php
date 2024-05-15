@@ -83,7 +83,7 @@
                         <div class="col-4">
                             <div class="form-floating">
                                 <input type="number"
-                                    min="1"class="form-control @error('floor') is-invalid @enderror" id="floor"
+                                    min="0"class="form-control @error('floor') is-invalid @enderror" id="floor"
                                     name="floor" value="{{ old('floor') }}" required>
                                 <label for="floor" class="form-label z-0">Inserisci nr piano<span class="text-danger"> *
                                     </span></label>
