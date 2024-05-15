@@ -14,4 +14,7 @@ class Visit extends Model
     {
         return $this->belongsTo(Apartment::class);
     }
+
+    // Riga da decommentare per fare il seeder, poi ricommentare
+    // public $timestamps = false;
 }

@@ -228,6 +228,15 @@
                     {{-- END TEST---------------------- --}}
                 </div>
 
+
+
+                {{-- GRAFICO STATISTICHE --}}
+
+                <h2 class="h1 mt-4">Le tue statistiche</h2>
+                <div>
+                    <canvas id="myChart"></canvas>
+                </div>
+
             </div>
         @endif
 
@@ -242,5 +251,13 @@
 @endsection
 
 @section('js')
-    <script></script>
+    {{-- Chart  --}}
+    <script>
+        const data = @json($data);
+        const labels = data.labels;
+        const messages = data.messages;
+        const views = data.views;
+    </script>
+
+    @vite('resources/js/mychart.js')
 @endsection
