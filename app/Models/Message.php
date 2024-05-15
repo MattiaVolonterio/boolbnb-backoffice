@@ -14,4 +14,6 @@ class Message extends Model
     {
         return $this->belongsTo(Apartment::class);
     }
+
+    // public $timestamps = false;
 }
