@@ -49,8 +49,8 @@
 
         <h1 class="mt-5">{{ $apartment->name }}</h1>
 
-        <p>Sponsorizzazione: 
-            @foreach ($sponsorships_id as $id)
+        @foreach ($sponsorships_Ids as $id)
+            <p>Sponsorizzazione: 
                 <span class="badge 
                     @if($id == 1)
                         text-bg-secondary
@@ -68,8 +68,8 @@
                         Super
                     @endif
                 </span>
-            @endforeach
-        </p>
+            </p>
+        @endforeach
         
 
         {{-- COVER-DATA-SERVICES --}}
