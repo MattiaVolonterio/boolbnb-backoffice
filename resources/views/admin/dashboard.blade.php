@@ -81,7 +81,7 @@
                                 <div class="slide-button-left" id="slide-left"><i class="fa-solid fa-arrow-left fa-xl"></i>
                                 </div>
                                 <div class="slider-spons-container" id="slider">
-                                    @forelse ($apartments as $apartment)
+                                    @forelse ($apartments_sponsor as $apartment)
                                         <div class="slider-spons-img-container">
                                             <a href="{{ route('admin.apartments.show', $apartment->id) }}">
                                                 <img class="slider-spons-img" src="{{ $apartment->cover_img }}"

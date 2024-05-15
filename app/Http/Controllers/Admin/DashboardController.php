@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Apartment;
 use App\Models\Message;
+use Illuminate\Contracts\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,11 +15,19 @@ class DashboardController extends Controller
   public function index()
   {
     $apartments = Apartment::where('user_id', Auth::id())->get();
-    // sistemazione path assoluto cover img
+    $apartments_sponsor = Apartment::select('id', 'name', 'cover_img')->where('user_id', Auth::id())->whereHas('sponsorships', function (EloquentBuilder $query) {
+      $query->where('end_date', '>', now());
+    })->groupBy('id')->get();
+
+    // sistemazione path assoluto
+    foreach ($apartments_sponsor as $apartment_sponsor) {
+      $apartment_sponsor->cover_img = $apartment_sponsor->cover_img ? asset('storage/uploads/cover/' . $apartment_sponsor->cover_img) : 'https://placehold.co/600x400';
+    }
+
     $messages = [];
 
     foreach ($apartments as $apartment) {
-      $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
+      // $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
       $messages_col = Message::where('apartment_id', $apartment->id)->with('apartment:id,name')->orderBy('created_at', 'DESC')->get()->toArray();
       foreach ($messages_col as $message) {
         $dateString = strtotime($message['created_at']);
@@ -99,6 +108,6 @@ class DashboardController extends Controller
     // dd($data);
 
     // return
-    return view('admin.dashboard', compact('apartments', 'messages', 'data'));
+    return view('admin.dashboard', compact('apartments', 'apartments_sponsor', 'messages', 'data'));
   }
 }

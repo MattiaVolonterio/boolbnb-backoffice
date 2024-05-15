@@ -21,21 +21,21 @@ class ApartmentController extends Controller
     public function index()
     {
         // get all the apartment with active 
-        $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->with('services:id,name,icon')->whereHas('sponsorships',function (Builder $query){
+        $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->with('services:id,name,icon')->whereHas('sponsorships', function (Builder $query) {
             $query->where('end_date', '>', now());
         })->groupBy('id')->get();
 
         // TODO:: sistemare con ricerca in base al numero di visualizzazioni
-        if(empty($apartments)){
+        if (empty($apartments)) {
             $apartments = Apartment::all()->paginate();
         }
-        
+
         // relative path in absolute path
         foreach ($apartments as $apartment) {
             $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
         }
 
-        
+
         // return json with all the apartments
         return response()->json($apartments);
     }
@@ -62,26 +62,25 @@ class ApartmentController extends Controller
                 $image->url = asset('storage/uploads/apartment_images/' . $image->url);
             }
         }
-         //get ip
-         $ip =  $_SERVER['REMOTE_ADDR'];
+        //get ip
+        $ip =  $_SERVER['REMOTE_ADDR'];
 
-         //controll0 se  IP esiste negli ultimi 5 minuti
-         $existingVisit = Visit::where('apartment_id', $apartment->id,)
-         ->where('ip_address', $ip)
-         ->where('created_at', '>=', now()->subMinutes(1))
-         ->first();
-         /* dd($ip); */
-         /*aggiungo la riga nella tabella */       
-          if(!$existingVisit){
-             Visit::create([
-                 'apartment_id' => $apartment->id,
-                 'ip_address' => $ip
-             ]);
- 
-         }
-        
-      
-         /* dd($ip); */
+        //controll0 se  IP esiste negli ultimi 5 minuti
+        $existingVisit = Visit::where('apartment_id', $apartment->id,)
+            ->where('ip_address', $ip)
+            ->where('created_at', '>=', now()->subMinutes(1))
+            ->first();
+        /* dd($ip); */
+        /*aggiungo la riga nella tabella */
+        if (!$existingVisit) {
+            Visit::create([
+                'apartment_id' => $apartment->id,
+                'ip_address' => $ip
+            ]);
+        }
+
+
+        /* dd($ip); */
 
         // return api
         return response()->json($apartment);
@@ -115,9 +114,9 @@ class ApartmentController extends Controller
 
         // array where we put the filtered apartment
         $filtered_apartments = [];
-        
+
         // get all the apartments with sponsor
-        $apartments_sponsor = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->with('services:id,name,icon')->whereHas('sponsorships',function (Builder $query){
+        $apartments_sponsor = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->with('services:id,name,icon')->whereHas('sponsorships', function (Builder $query) {
             $query->where('end_date', '>', now());
         })->groupBy('id')->get();
 
@@ -197,7 +196,7 @@ class ApartmentController extends Controller
     {
 
         // create the raw query
-        $query_raw_sponsor = $apartments_sponsor = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->with('services:id,name,icon')->whereHas('sponsorships',function (Builder $query){
+        $query_raw_sponsor = $apartments_sponsor = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->with('services:id,name,icon')->whereHas('sponsorships', function (Builder $query) {
             $query->where('end_date', '>', now());
         })->groupBy('id');
 
@@ -230,14 +229,14 @@ class ApartmentController extends Controller
 
         // filter by floor
         if ($floor != 'null') {
-            $query_raw_sponsor= $query_raw_sponsor->where('floor', '>=', $floor);
-            $query_raw_not= $query_raw_not->where('floor', '>=', $floor);
+            $query_raw_sponsor = $query_raw_sponsor->where('floor', '>=', $floor);
+            $query_raw_not = $query_raw_not->where('floor', '>=', $floor);
         }
 
         // fetch all the apartments that respect the filters
         $apartments_sponsor = $query_raw_sponsor->get();
         $apartments_notsponsor = $query_raw_not->get();
-        
+
         // merge the two collection
         $apartments = $apartments_sponsor->merge($apartments_notsponsor);
 
