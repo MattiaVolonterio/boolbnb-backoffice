@@ -51,7 +51,7 @@
                                 {{ $message['customer_email'] }} -
                                 {{ $message['name'] }} -
                                 {{ $message['apartment']['name'] }} -
-                                {{ $message['created_at'] }}>
+                                {{ $message['created_at'] }}
                             </button>
                         </h2>
                         <div id="flush-{{ $message['id'] }}" class="accordion-collapse collapse"
