@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Apartment;
 use App\Models\Service;
+use App\Models\Visit;
 
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
@@ -61,6 +62,26 @@ class ApartmentController extends Controller
                 $image->url = asset('storage/uploads/apartment_images/' . $image->url);
             }
         }
+         //get ip
+         $ip =  $_SERVER['REMOTE_ADDR'];
+
+         //controll0 se  IP esiste negli ultimi 5 minuti
+         $existingVisit = Visit::where('apartment_id', $apartment->id,)
+         ->where('ip_address', $ip)
+         ->where('created_at', '>=', now()->subMinutes(1))
+         ->first();
+         /* dd($ip); */
+         /*aggiungo la riga nella tabella */       
+          if(!$existingVisit){
+             Visit::create([
+                 'apartment_id' => $apartment->id,
+                 'ip_address' => $ip
+             ]);
+ 
+         }
+        
+      
+         /* dd($ip); */
 
         // return api
         return response()->json($apartment);

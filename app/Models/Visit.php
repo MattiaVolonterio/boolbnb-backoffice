@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Visit extends Model
 {
     use HasFactory;
-
+    protected $fillable = ['apartment_id', 'ip_address'];
     // relazione 1 a n
     public function apartment()
     {
