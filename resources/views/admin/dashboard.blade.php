@@ -41,8 +41,8 @@
 
             <div class="row bottom-page g-3 pt-3">
                 {{-- accordion con i messaggi ricevuti dall'utente --}}
-                <div class="col-lg-6 pb-3 pb-md-0">
-                    <div class="card accordion-container">
+                <div class="col-lg-6 pb-lg-3 ">
+                    <div class="card h-100 accordion-container">
                         <div class="card-header z-0">
                             <h2 class="h3 text-center mb-3">Messaggi ricevuti per i tuoi appartamenti</h2>
                         </div>
@@ -70,7 +70,7 @@
                     </div>
 
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6 pb-lg-3">
                     {{-- Appartamenti sponsorizzati --}}
                     <div class="col-12">
                         <div class="card slider-container">
@@ -99,7 +99,7 @@
                     </div>
 
                     {{-- Statistiche --}}
-                    <div class="col-12 py-3">
+                    <div class="col-12 pt-3 pb-3 pb-lg-0">
                         <div class="card statistics-container">
                             <div class="card-header">
                                 Le tue statistiche
