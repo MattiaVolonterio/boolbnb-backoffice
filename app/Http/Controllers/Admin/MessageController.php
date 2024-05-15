@@ -17,26 +17,30 @@ class MessageController extends Controller
     //  * @return \Illuminate\Http\Response
      */
     public function index(Apartment $apartment = null)
-    {   
+    {
 
         $messages = [];
 
-        if($apartment){
-            $messages = Message::where('apartment_id', $apartment->id)->with('apartment:id,name')->orderBy('id', 'DESC')->get(); 
+        if ($apartment) {
+            $messages = Message::where('apartment_id', $apartment->id)->with('apartment:id,name')->orderBy('id', 'DESC')->get();
         } else {
             $apartments = Apartment::where('user_id', Auth::id())->get();
-            foreach($apartments as $apartment){
+            foreach ($apartments as $apartment) {
                 $messages_col = Message::where('apartment_id', $apartment->id)->with('apartment:id,name')->orderBy('id', 'DESC')->get()->toArray();
-                $messages = array_merge($messages_col, $messages);
+                foreach ($messages_col as $message) {
+                    $dateString = strtotime($message['created_at']);
+                    $message['created_at'] = date('d-m-Y H:i:s', $dateString);
+                    $messages[] = $message;
+                };
             }
         }
 
-        
-        $messages = collect($messages);
+
+        // $messages = collect($messages);
 
         return view('admin.messages.index', compact('messages'));
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
