@@ -19,10 +19,10 @@ class DashboardController extends Controller
 
     foreach ($apartments as $apartment) {
       $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
-      $messages_col = Message::where('apartment_id', $apartment->id)->with('apartment:id,name')->orderBy('id', 'DESC')->get()->toArray();
+      $messages_col = Message::where('apartment_id', $apartment->id)->with('apartment:id,name')->orderBy('created_at', 'DESC')->get()->toArray();
       foreach ($messages_col as $message) {
         $dateString = strtotime($message['created_at']);
-        $message['created_at'] = date('d:m:Y H:i:s', $dateString);
+        $message['created_at'] = date('d-m-Y H:i:s', $dateString);
         $messages[] = $message;
       };
     }
