@@ -49,28 +49,31 @@
 
         <h1 class="mt-5">{{ $apartment->name }}</h1>
 
-        @foreach ($sponsorship_id as $id)
-            <p>Sponsorizzazione: 
-                <span class="badge 
-                    @if($id == 1)
-                        text-bg-secondary
-                    @elseif($id == 2)
+        @if (count($apartment->sponsorships) != 0)
+            <div class="d-flex gap-3 align-items-center">
+                <p class="m-0">Sponsorizzazione:</p>
+                @foreach ($apartment->sponsorships as $id)
+                    <span
+                        class="badge 
+                    @if ($id->id == 1) text-bg-secondary
+                    @elseif($id->id == 2)
                         text-bg-info
-                    @elseif($id == 3)
-                        text-bg-warning
-                    @endif 
+                    @elseif($id->id == 3)
+                        text-bg-warning @endif 
                     p-2">
-                    @if($id == 1)
-                        Basic
-                    @elseif($id == 2)
-                        Premium
-                    @elseif($id == 3)
-                        Super
-                    @endif
-                </span>
-            </p>
-        @endforeach
-        
+                        @if ($id->id == 1)
+                            Basic
+                        @elseif($id->id == 2)
+                            Premium
+                        @elseif($id->id == 3)
+                            Super
+                        @endif
+                    </span>
+                    <span>Finirà: {{ date('d-m-Y H:i:s', strtotime($id->pivot->end_date)) }}</span>
+                @endforeach
+            </div>
+        @endif
+
 
         {{-- COVER-DATA-SERVICES --}}
         <div class="row g-3 mt-4">

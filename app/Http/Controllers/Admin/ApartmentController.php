@@ -30,6 +30,7 @@ class ApartmentController extends Controller
         $userId = auth()->id();
         //filtro per user_id
         $apartments = Apartment::where('user_id', $userId)->orderBy('created_at', 'desc')->with('sponsorships')->paginate(8);
+        
         return view('admin.apartments.index', compact('apartments'));
     }
 
@@ -115,6 +116,9 @@ class ApartmentController extends Controller
         //protezione rotte
         if (Auth::id() != $apartment->user_id && Auth::user()->role != 'admin')
             abort(403);
+
+        
+        $sponsor = $apartment->sponsorships;
         $services = $apartment->services;
         $apartment_images = $apartment->apartmentImages;
 
