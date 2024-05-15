@@ -24,8 +24,9 @@
                         </a>
                         <div class="card-body d-flex flex-column justify-content-between">
                             <h2 class="card-title mb-2 h4 fw-semibold text-primary">{{ $apartment->name }}</h2>
-                            {{-- TODO sistemare con valore reale --}}
-                            <p>Numero visite: {{$apartment->visits_count}}</p>
+                          
+                            {{-- visits --}}
+                            <p><span class="badge rounded-pill text-bg-info">Numero visite: {{$apartment->visits_count}}</span></p>
 
                             {{-- Switch --}}
                             <form class="form-check form-switch mb-4"
