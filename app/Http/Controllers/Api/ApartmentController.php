@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Apartment;
 use App\Models\Service;
+
+use Illuminate\Support\Facades\DB;
+use App\Models\Sponsorship;
 use Illuminate\Http\Request;
 
 use Illuminate\Pagination\Paginator;
@@ -15,15 +18,24 @@ class ApartmentController extends Controller
 {
     public function index()
     {
-        // selezione di tutti gli appartmenti con visibilità attiva
-        $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address')->where('visible', 1)->get();
+        // get all the apartment with active 
+        $apartments = DB::table('apartments')->join('apartment_sponsorship', 'apartments.id', '=', 'apartment_sponsorship.apartment_id')
+        ->select('apartments.id', 'apartments.name', 'apartments.slug', 'apartments.cover_img', 'apartments.address')
+        ->where('apartment_sponsorship.end_date', '>', now(), 'and', 'apartment.visible', 1)
+        ->groupBy('apartments.id')->paginate();
 
-        // sistemazione path assoluto cover img
+        // TODO:: sistemare con ricerca in base al numero di visualizzazioni
+        if(empty($apartments)){
+            $apartments = Apartment::all()->paginate();
+        }
+        
+        // relative path in absolute path
         foreach ($apartments as $apartment) {
             $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
         }
 
-        // return api
+        
+        // return json with all the apartments
         return response()->json($apartments);
     }
 
@@ -54,14 +66,28 @@ class ApartmentController extends Controller
 
     public function research($lat, $lon, $radius)
     {
+        // parse value from request
         $lat1 = floatval($lat);
         $lon1 = floatval($lon);
         $radiusInt = intval($radius);
 
+        // array where we put the filtered apartment
         $filtered_apartments = [];
 
-        $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address', 'lat', 'lon')->where('visible', 1)->with('services:id,name,icon')->get();
+        // query to get all the visible apartment
+        $apartments = DB::table('apartments')
+        // ->join('apartment_service', 'apartments.id', '=', 'apartment_service.apartment_id')
+        // ->join('services', 'apartment_service.service_id', '=', 'services.id')
+        ->leftJoin('apartment_sponsorship', 'apartments.id', '=', 'apartment_sponsorship.apartment_id')
+        ->select('apartments.id', 'apartments.name', 'apartments.slug', 'apartments.cover_img', 'apartments.address', 'apartments.lat', 'apartments.lon')
+        ->where('apartment_sponsorship.end_date', '>', now())
+        ->orWhere('apartments.visible', 1)
+        ->orderBy('apartment_sponsorship.apartment_id', 'DESC')      
+        ->get();
 
+        dd($apartments);
+
+        // relative path in absolute path
         foreach ($apartments as $apartment) {
             $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
 
@@ -70,6 +96,7 @@ class ApartmentController extends Controller
             }
         }
 
+        // calc if the specific apartment is include in the given radius
         foreach ($apartments as $apartment) {
             $lat2 = floatval($apartment->lat);
             $lon2 = floatval($apartment->lon);
@@ -89,13 +116,15 @@ class ApartmentController extends Controller
         }
 
 
-
+        // paginate the result
         $filtered_apartments_paginated = $this->paginate($filtered_apartments, 12);
 
+        // send the result
         return response()->json($filtered_apartments_paginated);
     }
 
 
+    // function that return a paginate object that accept as a parameters the array, number of items per page & the total page
     public function paginate($items, $perPage = 5, $page = null)
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
@@ -110,6 +139,7 @@ class ApartmentController extends Controller
         return new LengthAwarePaginator($itemstoshow, $total, $perPage);
     }
 
+    // fetch the services
     public function getServices()
     {
         // recupero tutti i servizi dal  database
@@ -126,31 +156,40 @@ class ApartmentController extends Controller
     public function filterApartments($lat, $lon, $radius, $n_room = null, $n_bathrooom = null, $n_bed = null, $square_meters = null, $floor = null, $services = null)
     {
 
+        // create the raw query
         $query_raw = Apartment::select('id', 'name', 'slug', 'cover_img', 'address', 'lat', 'lon', 'n_room', 'n_bed', 'n_bathroom', 'floor', 'square_meters')->with('services:id,name,icon')->where('visible', 1);
 
+        // filter by n_room
         if ($n_room != 'null') {
             $query_raw = $query_raw->where('n_room', '>=', $n_room);
         }
 
+        // filter by n_bathrooom
         if ($n_bathrooom != 'null') {
             $query_raw = $query_raw->where('n_bathroom', '>=', $n_bathrooom);
         }
 
+        // filter by n_bed        
         if ($n_bed != 'null') {
             $query_raw = $query_raw->where('n_bed', '>=', $n_bed);
         }
 
+        // filter by square_meters
         if ($square_meters != 'null') {
             $query_raw = $query_raw->where('square_meters', '>=', $square_meters);
         }
 
+        // filter by floor
         if ($floor != 'null') {
             $query_raw = $query_raw->where('floor', '>=', $floor);
         }
 
+        // fetch all the apartments that respect the filters
         $apartments = $query_raw->get();
+        
 
 
+        // filter by array services
         if ($services != 'null') {
             $apartments_filtered = [];
             $services = explode(',', $services);
