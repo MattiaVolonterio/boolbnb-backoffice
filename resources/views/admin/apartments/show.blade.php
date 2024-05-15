@@ -48,9 +48,29 @@
         </div>
 
         <h1 class="mt-5">{{ $apartment->name }}</h1>
-        <p>Sponsorizzazione: <span class="badge text-bg-primary p-2">{{ $sponsorships_tier[0] }}</span></p>
 
-
+        <p>Sponsorizzazione: 
+            @foreach ($sponsorships_id as $id)
+                <span class="badge 
+                    @if($id == 1)
+                        text-bg-secondary
+                    @elseif($id == 2)
+                        text-bg-info
+                    @elseif($id == 3)
+                        text-bg-warning
+                    @endif 
+                    p-2">
+                    @if($id == 1)
+                        Basic
+                    @elseif($id == 2)
+                        Premium
+                    @elseif($id == 3)
+                        Super
+                    @endif
+                </span>
+            @endforeach
+        </p>
+        
 
         {{-- COVER-DATA-SERVICES --}}
         <div class="row g-3 mt-4">

@@ -8,6 +8,7 @@ use App\Http\Requests\ApartmentUpdateRequest;
 use App\Models\Apartment;
 use App\Models\Service;
 use App\Models\ApartmentImage;
+use App\Models\Sponsorship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -116,9 +117,9 @@ class ApartmentController extends Controller
             abort(403);
         $services = $apartment->services;
         $apartment_images = $apartment->apartmentImages;
-        $sponsorships_tier = $apartment->sponsorships()->pluck('tier');
-        // dd($sponsorships_tier);
-        return view('admin.apartments.show', compact('apartment','services','apartment_images', 'sponsorships_tier'));
+        $sponsorships_id = $apartment->sponsorships->pluck('id');
+        // dd($sponsorships_id);
+        return view('admin.apartments.show', compact('apartment','services','apartment_images', 'sponsorships_id'));
     }
 
     /**
