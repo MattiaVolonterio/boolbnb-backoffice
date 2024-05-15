@@ -49,7 +49,7 @@
 
         <h1 class="mt-5">{{ $apartment->name }}</h1>
 
-        @foreach ($apartment_sponsorship_Ids as $id)
+        @foreach ($sponsorship_Ids as $id)
             <p>Sponsorizzazione: 
                 <span class="badge 
                     @if($id == 1)
