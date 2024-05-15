@@ -7,7 +7,7 @@
 
         <div class="card-body messages-body">
             @foreach ($messages as $message)
-                <div for class="accordion accordion-flush" id="accordionFlushExample">
+                <div for class="accordion" id="accordionFlushExample">
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button"
