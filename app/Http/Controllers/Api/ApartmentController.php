@@ -21,13 +21,14 @@ class ApartmentController extends Controller
     public function index()
     {
         // get all the apartment with active 
-        $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->with('services:id,name,icon')->whereHas('sponsorships', function (Builder $query) {
+        $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address')->where('visible', 1)->with('services:id,name,icon')->whereHas('sponsorships', function (Builder $query) {
             $query->where('end_date', '>', now());
         })->groupBy('id')->get();
 
-        // TODO:: sistemare con ricerca in base al numero di visualizzazioni
-        if (empty($apartments)) {
-            $apartments = Apartment::all()->paginate();
+        
+        if (count($apartments)==0) {
+            $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address')->where('visible', 1)->with('services:id,name,icon')
+            ->withCount('visits')->has('visits','>', 10)->paginate();
         }
 
         // relative path in absolute path
