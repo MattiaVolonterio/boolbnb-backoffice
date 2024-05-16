@@ -130,6 +130,8 @@
                     {{-- Registrati --}}
                     <div class="text-center">
                         <a class="login-text" href="{{ route('login') }}">Sei già registrato? Login</a>
+                        <div class="login-text">oppure</div>
+                        <a class="login-text" href="http://localhost:5174/">Torna alla Homepage</a>
                     </div>
 
                     <p class="pt-4 offset-1 text-danger fw-bold" style="font-size: 14px">* Questi campi sono obbligatori</p>
