@@ -85,7 +85,9 @@ class ApartmentController extends Controller
         }
 
         // creazione slug
-        $new_apartment->slug = Str::slug($data['name']);
+        $new_apartment->slug = $this->generateUniqueSlug($data['slug']);
+
+
 
         // fill dei data in new apartment
         $new_apartment->fill($data);
@@ -248,8 +250,16 @@ class ApartmentController extends Controller
 
         $data = $request->all();
 
+
         //creo slug dal nome 
         $apartment->slug = Str::slug($data['name']);
+
+
+        $slug_found = false;
+        $slug_index = 0;
+
+        $apartment->slug = $this->generateUniqueSlug($data['slug']);
+
         // Riassegno l'essere visibile o meno
         $data['visible'] = Arr::exists($data, 'visible');
 
@@ -332,5 +342,27 @@ class ApartmentController extends Controller
 
         // RETURN con messaggi di sessione di operazione riuscita
         return redirect()->route('admin.apartments.index')->with('message-status', 'alert-success')->with('message-text', 'Visibilità modificata con successo');
+    }
+
+
+    public function generateUniqueSlug($string)
+    {
+        $slug = Str::slug($string);
+
+        $slug_already_exist = Apartment::where('slug', $slug)->count() ? true : false;
+
+        if (!$slug_already_exist) return $slug;
+
+        $counter = 1;
+
+        do {
+            $slug = $slug . $counter;
+
+            $slug_already_exist = Apartment::where('slug', $slug)->count() ? true : false;
+
+            if ($slug_already_exist) return $slug;
+
+            $counter++;
+        } while ($slug_already_exist);
     }
 }
