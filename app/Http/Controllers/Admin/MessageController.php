@@ -51,7 +51,10 @@ class MessageController extends Controller
      */
     public function destroy(Message $message)
     {
+        // eliminare appartamento
         $message->delete();
-        return back();
+
+        // RETURN con messaggi di sessioni
+        return back()->with('message-status', 'alert-danger')->with('message-text', 'Appartamento eliminato con successo');
     }
 }

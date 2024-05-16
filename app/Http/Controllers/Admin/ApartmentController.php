@@ -30,7 +30,7 @@ class ApartmentController extends Controller
         $userId = auth()->id();
         //filtro per user_id
         $apartments = Apartment::where('user_id', $userId)->orderBy('created_at', 'desc')->with('sponsorships')->withCount('visits')->paginate(8);
-        
+
         return view('admin.apartments.index', compact('apartments'));
     }
 
@@ -41,10 +41,10 @@ class ApartmentController extends Controller
     public function create()
     {
         $apartment = new Apartment();
-        
+
         // recuperare i servizi dal db
         $services = Service::orderBy('name', 'asc')->get();
-        
+
         // recuperare gli apartment images
         $apartment_images = ApartmentImage::all();
 
@@ -227,7 +227,7 @@ class ApartmentController extends Controller
 
         // recupero servizi
         $services = Service::orderBy('name', 'asc')->get();
-        
+
         return view('admin.apartments.edit', compact('apartment', 'services', 'apartment_images'));
     }
 
@@ -247,7 +247,7 @@ class ApartmentController extends Controller
         $request->validated();
 
         $data = $request->all();
-        
+
         //creo slug dal nome 
         $apartment->slug = Str::slug($data['name']);
         // Riassegno l'essere visibile o meno
@@ -307,7 +307,7 @@ class ApartmentController extends Controller
         $apartment->delete();
 
         // RETURN con messaggi di sessioni
-        return redirect()->route('admin.apartments.index')->with('message-status', 'alert-danger')->with('message-text', 'Appartamento eliminato con successo');;
+        return redirect()->route('admin.apartments.index')->with('message-status', 'alert-danger')->with('message-text', 'Appartamento eliminato con successo');
     }
 
     // funzione che cambia il valore 

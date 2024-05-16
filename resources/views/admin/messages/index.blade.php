@@ -3,16 +3,16 @@
 
 @section('content')
     <section class="container mt-3">
-        <h1>Messaggi ricevuti</h1>
+        <h1 class="my-4">Messaggi ricevuti</h1>
 
         <div class="card-body messages-body">
             @foreach ($messages as $message)
-                <div for class="accordion" id="accordionFlushExample">
-                    <div class="accordion-item">
+                <div for class="accordion d-flex gap-3 align-items-center" id="accordionFlushExample">
+                    <div class="accordion-item flex-grow-1">
                         <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button"
-                                data-bs-toggle="collapse" data-bs-target="#flush-{{ $message['id'] }}"
-                                aria-expanded="false" aria-controls="flush-{{ $message['id'] }}">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-{{ $message['id'] }}" aria-expanded="false"
+                                aria-controls="flush-{{ $message['id'] }}">
                                 {{ $message['customer_email'] }} -
                                 {{ $message['name'] }} -
                                 {{ $message['apartment']['name'] }} -
@@ -24,6 +24,10 @@
                             <div class="accordion-body">{{ $message['content'] }}</div>
                         </div>
                     </div>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#delete-message-{{ $message['id'] }}">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
                 </div>
             @endforeach
         </div>

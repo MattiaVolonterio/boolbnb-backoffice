@@ -44,8 +44,9 @@ class DashboardController extends Controller
     $authID = Auth::id();
 
     // Messaggi totali per mese
-    $result_1 = DB::select(DB::raw(
-      "SELECT 
+    $result_1 = DB::select(
+      DB::raw(
+        "SELECT 
        SUM(DATE(messages.created_at) BETWEEN '2023-06-01' AND '2023-06-30') AS Giugno,
        SUM(DATE(messages.created_at) BETWEEN '2023-07-01' AND '2023-07-31') AS Luglio,
        SUM(DATE(messages.created_at) BETWEEN '2023-08-01' AND '2023-08-31') AS Agosto,
@@ -62,13 +63,15 @@ class DashboardController extends Controller
       INNER JOIN users ON users.id = apartments.user_id
       INNER JOIN messages ON messages.apartment_id = apartments.id
       WHERE (users.id = $authID) AND (DATE(messages.created_at) BETWEEN '2023-06-01' AND '2024-05-31')"
-    ));
+      )
+    );
 
 
 
     // Visualizzazioni totali per mese
-    $result_2 = DB::select(DB::raw(
-      "SELECT 
+    $result_2 = DB::select(
+      DB::raw(
+        "SELECT 
        SUM(DATE(visits.created_at) BETWEEN '2023-06-01' AND '2023-06-30') AS Giugno,
        SUM(DATE(visits.created_at) BETWEEN '2023-07-01' AND '2023-07-31') AS Luglio,
        SUM(DATE(visits.created_at) BETWEEN '2023-08-01' AND '2023-08-31') AS Agosto,
@@ -85,7 +88,8 @@ class DashboardController extends Controller
       INNER JOIN users ON users.id = apartments.user_id
       INNER JOIN visits ON visits.apartment_id = apartments.id
       WHERE (users.id = $authID) AND (DATE(visits.created_at) BETWEEN '2023-06-01' AND '2024-05-31')"
-    ));
+      )
+    );
 
     // dichiarazione array di labels, messaggi totali e visualizzazione views
     $labels = [];
