@@ -1,9 +1,13 @@
-## BoolBnB è una web app che permette di trovare e gestire l’affitto di appartamenti storici.
+# BoolBnB
 
-I proprietari di appartamenti, registrandosi a BoolBnB, possono inserire le informazioni delle
-loro proprietà e decidere se sponsorizzarle per avere una posizione evidenziata nelle
-ricerche e in home page.
+### **Progetto finale**
 
-Gli utenti interessati ad affittare, senza registrazione, possono cercare e visualizzare gli
-appartamenti. Una volta scelto l’appartamento di interesse, possono inviare un messaggio al
-proprietario tramite la piattaforma, per chiedere maggiori dettagli.
+Questa repo è per il **BACKOFFICE**.
+
+<br>
+
+[Cliccando qui](<docs/BoolBnB Brief.pdf>) vedrai il pdf del Brief.
+
+[Questa immagine](docs/BoolBnb-gruppo1-REV3.jpg) è il diagramma del DB
+
+Ed infine [questo link](https://github.com/bonvi83/frontoffice-boolbnb) ti porta alla parte del FrontOffice.
