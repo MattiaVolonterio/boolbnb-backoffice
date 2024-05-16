@@ -25,19 +25,24 @@ class ApartmentController extends Controller
             $query->where('end_date', '>', now());
         })->groupBy('id')->get();
 
+        // relative path in absolute path
+        foreach ($apartments_sponsor as $apartment) {
+            $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
+        }
+
         // in caso non ci siano appartamenti sponsorizzati prendere quelli che hanno visualizzazioni sopra i 10
         $apartments_popular = Apartment::select('id', 'name', 'slug', 'cover_img', 'address')->where('visible', 1)->with('services:id,name,icon')
         ->withCount('visits')->has('visits','>', 10)->orderBy('visits_count', 'DESC')->groupBy('id')->get();
 
-        // mergiare le due collection
-        $apartments = $apartments_sponsor->merge($apartments_popular);
-
         // relative path in absolute path
-        foreach ($apartments as $apartment) {
+        foreach ($apartments_sponsor as $apartment) {
             $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
         }
 
-        $apartments = $this->paginate($apartments->toArray(), 8);
+        $apartments = array_merge($apartments_sponsor->toArray(), $apartments_popular->toArray());
+        
+        $apartments = $this->paginate($apartments, 8);
+        
 
         // return json con gli appartamenti
         return response()->json($apartments);
