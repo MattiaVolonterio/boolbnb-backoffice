@@ -21,25 +21,23 @@ class ApartmentController extends Controller
     public function index()
     {
         // prendere tutti gli appartamenti con sponsorizzazione attiva
-        $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address')->where('visible', 1)->with('services:id,name,icon')->with('sponsorships')->whereHas('sponsorships', function (Builder $query) {
+        $apartments_sponsor = Apartment::select('id', 'name', 'slug', 'cover_img', 'address')->where('visible', 1)->with('services:id,name,icon')->with('sponsorships')->whereHas('sponsorships', function (Builder $query) {
             $query->where('end_date', '>', now());
-        })->groupBy('id')->paginate(12);
+        })->groupBy('id')->get();
 
-        // // in caso non ci siano appartamenti sponsorizzati prendere quelli che hanno visualizzazioni sopra i 10
-        // $apartments_popular = Apartment::select('id', 'name', 'slug', 'cover_img', 'address')->where('visible', 1)->with('services:id,name,icon')
-        // ->withCount('visits')->has('visits','>', 10)->orderBy('visits_count', 'DESC')->groupBy('id')->paginate(12);
+        // in caso non ci siano appartamenti sponsorizzati prendere quelli che hanno visualizzazioni sopra i 10
+        $apartments_popular = Apartment::select('id', 'name', 'slug', 'cover_img', 'address')->where('visible', 1)->with('services:id,name,icon')
+        ->withCount('visits')->has('visits','>', 10)->orderBy('visits_count', 'DESC')->groupBy('id')->get();
 
-        // $apartments = $apartments_sponsor->merge($apartments_popular)->toArray();
-
-        // $apartments = array_filter($apartments, function($apartment){
-        //     return 
-        // } );
+        // mergiare le due collection
+        $apartments = $apartments_sponsor->merge($apartments_popular);
 
         // relative path in absolute path
         foreach ($apartments as $apartment) {
             $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
         }
 
+        $apartments = $this->paginate($apartments->toArray(), 8);
 
         // return json con gli appartamenti
         return response()->json($apartments);
