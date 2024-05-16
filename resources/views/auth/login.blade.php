@@ -87,6 +87,8 @@
                 {{-- Registrati --}}
                 <div class="text-center">
                     <a class="register-text" href="{{ route('register') }}">Non hai un'account? Registrati</a>
+                    <div class="register-text">oppure</div>
+                    <a class="register-text" href="http://localhost:5174/">Torna alla Homepage</a>
                 </div>
 
             </form>

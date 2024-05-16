@@ -62,6 +62,16 @@
 
         {{-- gestione account --}}
         <div class="mt-auto">
+            <li class="nav-item justify-content-center d-lg-block ms-lg-5 mb-3">
+                <a class="nav-link" href="http://localhost:5174/">
+                    <div class="d-flex d-lg-block justify-content-center">
+                        <i class="fa-regular fa-square-caret-left me-lg-3 mt-lg-1 fs-5"></i>
+                        <span class="d-none d-lg-inline-block">Sito Principale</span>
+                    </div>
+                </a>
+            </li>
+
+
             <li class="nav-item nav-link dropdown-center" data-bs-theme="dark">
                 <a aria-expanded="false" aria-haspopup="true"
                     class="nav-link d-flex justify-content-center d-lg-block ms-lg-5" data-bs-toggle="dropdown"
