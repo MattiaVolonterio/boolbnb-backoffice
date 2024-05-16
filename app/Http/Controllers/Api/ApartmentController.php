@@ -23,12 +23,12 @@ class ApartmentController extends Controller
         // get all the apartment with active 
         $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address')->where('visible', 1)->with('services:id,name,icon')->whereHas('sponsorships', function (Builder $query) {
             $query->where('end_date', '>', now());
-        })->groupBy('id')->get();
+        })->groupBy('id')->paginate(12);
 
         
         if (count($apartments)==0) {
             $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address')->where('visible', 1)->with('services:id,name,icon')
-            ->withCount('visits')->has('visits','>', 10)->paginate();
+            ->withCount('visits')->has('visits','>', 10)->paginate(12);
         }
 
         // relative path in absolute path

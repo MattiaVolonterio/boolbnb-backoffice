@@ -53,7 +53,8 @@ class SponsorshipController extends Controller
         $array_apsponsor = $apartment_sponsorship->get()->toArray();
 
         // se l'appartamento ha già una sponsor ne creo una partendo dall'ultima scadenza
-        if ($apartment_sponsorship != null) {
+        if ($array_apsponsor) {
+            
             // se esiste solo una sponsor prendo la prima altrimenti prendo l'ultima sponsor
             $apartment_sponsorship = count($array_apsponsor) == 1 ? $apartment_sponsorship->first() : $apartment_sponsorship->orderBy('end_date', 'DESC')->first(); 
 
