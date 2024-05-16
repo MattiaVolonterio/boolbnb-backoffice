@@ -35,9 +35,10 @@ class ApartmentController extends Controller
         ->withCount('visits')->has('visits','>', 10)->orderBy('visits_count', 'DESC')->groupBy('id')->get();
 
         // relative path in absolute path
-        foreach ($apartments_sponsor as $apartment) {
+        foreach ($apartments_popular as $apartment) {
             $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
         }
+
 
         $apartments = array_merge($apartments_sponsor->toArray(), $apartments_popular->toArray());
         
