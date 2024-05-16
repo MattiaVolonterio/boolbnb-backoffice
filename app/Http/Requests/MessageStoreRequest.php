@@ -44,7 +44,7 @@ class MessageStoreRequest extends FormRequest
         ];
     }
 
-    protected function withValidator($validator)
+    protected function nameValidation($validator)
     {
         $validator->after(function ($validator) {
             // Se è un numero, aggiungo un errore di validazione
