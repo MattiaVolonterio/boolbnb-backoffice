@@ -20,16 +20,20 @@ class ApartmentController extends Controller
 {
     public function index()
     {
-        // get all the apartment with active 
-        $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address')->where('visible', 1)->with('services:id,name,icon')->whereHas('sponsorships', function (Builder $query) {
+        // prendere tutti gli appartamenti con sponsorizzazione attiva
+        $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address')->where('visible', 1)->with('services:id,name,icon')->with('sponsorships')->whereHas('sponsorships', function (Builder $query) {
             $query->where('end_date', '>', now());
         })->groupBy('id')->paginate(12);
 
-        
-        if (count($apartments)==0) {
-            $apartments = Apartment::select('id', 'name', 'slug', 'cover_img', 'address')->where('visible', 1)->with('services:id,name,icon')
-            ->withCount('visits')->has('visits','>', 10)->paginate(12);
-        }
+        // // in caso non ci siano appartamenti sponsorizzati prendere quelli che hanno visualizzazioni sopra i 10
+        // $apartments_popular = Apartment::select('id', 'name', 'slug', 'cover_img', 'address')->where('visible', 1)->with('services:id,name,icon')
+        // ->withCount('visits')->has('visits','>', 10)->orderBy('visits_count', 'DESC')->groupBy('id')->paginate(12);
+
+        // $apartments = $apartments_sponsor->merge($apartments_popular)->toArray();
+
+        // $apartments = array_filter($apartments, function($apartment){
+        //     return 
+        // } );
 
         // relative path in absolute path
         foreach ($apartments as $apartment) {
@@ -37,7 +41,7 @@ class ApartmentController extends Controller
         }
 
 
-        // return json with all the apartments
+        // return json con gli appartamenti
         return response()->json($apartments);
     }
 
@@ -80,32 +84,11 @@ class ApartmentController extends Controller
             ]);
         }
 
-
-        /* dd($ip); */
-
         // return api
         return response()->json($apartment);
     }
 
-    //Funzione per chiamata api appartamenti sponsorizzati
-    // public function sponsoredApartments()
-    // {
-    //     $sponsoredApartments = Apartment::has('sponsorships')->where('visible', 1)->get();
-
-    //     $data = $sponsoredApartments->map(function ($apartment) {
-    //         return [
-    //             'id' => $apartment->id,
-    //             'name' => $apartment->name,
-    //             'slug' => $apartment->slug,
-    //             'cover_img' => $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400',
-    //             'address' => $apartment->address,
-    //         ];
-    //     });
-
-    //     return response()->json($data);
-    // }
-
-
+    // rotta api per la ricerca di appartamenti senza i filtri 
     public function research($lat, $lon, $radius)
     {
         // parse value from request
@@ -163,8 +146,7 @@ class ApartmentController extends Controller
         return response()->json($filtered_apartments_paginated);
     }
 
-
-    // function that return a paginate object that accept as a parameters the array, number of items per page & the total page
+    // funzione che dato un array il numero di item per pagina e il numero di pagina ti crea una collection paginata
     public function paginate($items, $perPage = 5, $page = null)
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
@@ -179,7 +161,7 @@ class ApartmentController extends Controller
         return new LengthAwarePaginator($itemstoshow, $total, $perPage);
     }
 
-    // fetch the services
+    // fetch dei servizi
     public function getServices()
     {
         // recupero tutti i servizi dal  database
@@ -190,17 +172,20 @@ class ApartmentController extends Controller
             $service->icon = asset($service->icon);
         }
 
+        // return json con tutti i servizi
         return response()->json($services);
     }
 
+    // rotta api di ricerca con i filtri avanzati
     public function filterApartments($lat, $lon, $radius, $n_room = null, $n_bathrooom = null, $n_bed = null, $square_meters = null, $floor = null, $services = null)
     {
 
-        // create the raw query
+        // creazione query senza recupero dati per appartamenti sponsor
         $query_raw_sponsor = $apartments_sponsor = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->with('services:id,name,icon')->whereHas('sponsorships', function (Builder $query) {
             $query->where('end_date', '>', now());
         })->groupBy('id');
-
+        
+        // creazione query senza recupero dati per appartamenti senza sponsor
         $query_raw_not = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->with('services:id,name,icon')->doesntHave('sponsorships');
 
 
@@ -234,11 +219,11 @@ class ApartmentController extends Controller
             $query_raw_not = $query_raw_not->where('floor', '>=', $floor);
         }
 
-        // fetch all the apartments that respect the filters
+        // fetch degli appartamenti che rispettano il filtro sia con o senza sponsor
         $apartments_sponsor = $query_raw_sponsor->get();
         $apartments_notsponsor = $query_raw_not->get();
 
-        // merge the two collection
+        // merge delle collection
         $apartments = $apartments_sponsor->merge($apartments_notsponsor);
 
         // filter by array services
@@ -259,6 +244,7 @@ class ApartmentController extends Controller
                 if ($value == count($services)) $apartments_filtered[] = $apartment;
             }
         }
+
 
         if ($services != 'null') {
             foreach ($apartments_filtered as $apartment) {
