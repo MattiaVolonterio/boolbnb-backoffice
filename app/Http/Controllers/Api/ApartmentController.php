@@ -100,7 +100,7 @@ class ApartmentController extends Controller
         $filtered_apartments = [];
 
         // get all the apartments with sponsor
-        $apartments_sponsor = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->with('services:id,name,icon')->whereHas('sponsorships', function (Builder $query) {
+        $apartments_sponsor = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->with('services:id,name,icon')->with('sponsorships')->whereHas('sponsorships', function (Builder $query) {
             $query->where('end_date', '>', now());
         })->groupBy('id')->get();
 
@@ -181,7 +181,7 @@ class ApartmentController extends Controller
     {
 
         // creazione query senza recupero dati per appartamenti sponsor
-        $query_raw_sponsor = $apartments_sponsor = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->with('services:id,name,icon')->whereHas('sponsorships', function (Builder $query) {
+        $query_raw_sponsor = $apartments_sponsor = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->with('services:id,name,icon')->with('sponsorships')->whereHas('sponsorships', function (Builder $query) {
             $query->where('end_date', '>', now());
         })->groupBy('id');
         
