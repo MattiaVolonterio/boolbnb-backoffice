@@ -41,7 +41,11 @@ class ApartmentController extends Controller
     public function create()
     {
         $apartment = new Apartment();
+        
+        // recuperare i servizi dal db
         $services = Service::orderBy('name', 'asc')->get();
+        
+        // recuperare gli apartment images
         $apartment_images = ApartmentImage::all();
 
         return view('admin.apartments.create', compact('apartment', 'services', 'apartment_images'));
@@ -73,19 +77,23 @@ class ApartmentController extends Controller
             $new_apartment->cover_img = $img_path;
         }
 
-
+        // cambio valore di visibilità
         if (isset($data['visible'])) {
             $data['visible'] = 1;
         } else {
             $data['visible'] = 0;
         }
 
+        // creazione slug
         $new_apartment->slug = Str::slug($data['name']);
 
+        // fill dei data in new apartment
         $new_apartment->fill($data);
 
+        // salvare i dati in db
         $new_apartment->save();
 
+        // se ci sono presenti dei servizi aggiungili alla tabella pivot
         if ($request->has('services')) {
             $new_apartment->services()->attach($request->input('services'));
         }
@@ -93,8 +101,12 @@ class ApartmentController extends Controller
         //  img multiple
         if ($request->hasFile('apartment_images')) {
             foreach ($request->file('apartment_images') as $image) {
+                // aggiungere file a store
                 $path = $image->store('uploads/apartment_images/', 'public');
+                // recupero solo il nome del file
                 $path = explode('/', $path)[3];
+
+                // aggiunta al database relazione tra immagini e appartamenti
                 ApartmentImage::create([
                     'apartment_id' => $new_apartment->id,
                     'url' => $path
@@ -117,13 +129,12 @@ class ApartmentController extends Controller
         if (Auth::id() != $apartment->user_id && Auth::user()->role != 'admin')
             abort(403);
 
-        
+        // recuperare tutte le sponsor
         $sponsor = $apartment->sponsorships;
+        // recuperare tutti i servizi
         $services = $apartment->services;
+        // recuperare tutte le apartment_images
         $apartment_images = $apartment->apartmentImages;
-
-        // $apartment->apartment_images = !empty($apartment->apartment_images) ? asset('/storage/' . $apartment->apartment_images) : null;
-
 
         // CHART
 
@@ -171,8 +182,11 @@ class ApartmentController extends Controller
 
         // dd($result_1);
 
+        // etichette mesi e dati
         $labels = [];
+        // array dei messaggi
         $result_messages = [];
+        // array delle views
         $result_views = [];
 
         foreach ($result_1[0] as $key => $result) {
@@ -183,8 +197,6 @@ class ApartmentController extends Controller
         foreach ($result_2[0] as $key => $result) {
             $result_views[] = $result;
         }
-
-        // dd($labels, $data);
 
         $data = [
             'labels' => $labels,
@@ -213,7 +225,9 @@ class ApartmentController extends Controller
         // url imgs
         $apartment_images->url = !empty($apartment_images->url) ? asset('storage/uploads/apartment_images' . $apartment_images->url) : null;
 
+        // recupero servizi
         $services = Service::orderBy('name', 'asc')->get();
+        
         return view('admin.apartments.edit', compact('apartment', 'services', 'apartment_images'));
     }
 
@@ -229,9 +243,11 @@ class ApartmentController extends Controller
         if (Auth::id() != $apartment->user_id && Auth::user()->role != 'admin')
             abort(403);
 
+        // validazione request
         $request->validated();
 
         $data = $request->all();
+        
         //creo slug dal nome 
         $apartment->slug = Str::slug($data['name']);
         // Riassegno l'essere visibile o meno
@@ -239,10 +255,15 @@ class ApartmentController extends Controller
 
         // recupero l'img
         if ($request->hasFile('cover_img')) {
+            // aggiunta file nello store
             $img_path = $request->file('cover_img')->store('uploads/cover/', 'public');
+            // considero solo il nome del file
             $img_path = explode('/', $img_path)[3];
+            // assegno il nome file alla cover img
             $apartment->cover_img = $img_path;
         }
+
+        // aggiungere servizio alla pivot se inserito
         if ($request->has('services')) {
             $apartment->services()->sync($request->input('services'));
         } else {
@@ -252,8 +273,11 @@ class ApartmentController extends Controller
         // update imgs
         if ($request->hasFile('apartment_images')) {
             foreach ($request->file('apartment_images') as $image) {
+                // aggiunta file nello store
                 $path = $image->store('uploads/apartment_images/', 'public');
+                // considero solo il nome del file
                 $path = explode('/', $path)[3];
+                // assegno il nome file alla cover img
                 ApartmentImage::create([
                     'apartment_id' => $apartment->id,
                     'url' => $path
@@ -261,7 +285,10 @@ class ApartmentController extends Controller
             }
         }
 
+        // aggiorno i dati del database
         $apartment->update($data);
+
+        // RETURN REDIRECT
         return redirect()->route('admin.apartments.show', compact('apartment', 'apartmentImage'))->with('message-status', 'alert-success')->with('message-text', 'Appartamento modificato con successo');
     }
 
@@ -275,25 +302,35 @@ class ApartmentController extends Controller
         //protezione rotte
         if (Auth::id() != $apartment->user_id && Auth::user()->role != 'admin')
             abort(403);
+
+        // eliminare appartamento
         $apartment->delete();
+
+        // RETURN con messaggi di sessioni
         return redirect()->route('admin.apartments.index')->with('message-status', 'alert-danger')->with('message-text', 'Appartamento eliminato con successo');;
     }
 
+    // funzione che cambia il valore 
     public function switch_visible(Request $request, Apartment $apartment)
     {
         //protezione rotte
         if (Auth::id() != $apartment->user_id && Auth::user()->role != 'admin')
             abort(403);
 
+        // recuperare la visibilità
         $data = $request->only('visible');
 
+        // se la variabile è presente nel form rendere l'appartamento visibile
         if (!empty($data)) {
             $apartment->visible = 1;
         } else {
             $apartment->visible = 0;
         }
 
+        // salvare il nuovo dato
         $apartment->save();
+
+        // RETURN con messaggi di sessione di operazione riuscita
         return redirect()->route('admin.apartments.index')->with('message-status', 'alert-success')->with('message-text', 'Visibilità modificata con successo');
     }
 }

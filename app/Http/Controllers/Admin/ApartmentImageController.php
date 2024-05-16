@@ -11,26 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ApartmentImageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-    //  * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-    //  * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     // /**
     //  * Store a newly created resource in storage.
     //  *
@@ -70,29 +50,6 @@ class ApartmentImageController extends Controller
         $image_services = $apartment_image->services;
         $apartment_image->url = !empty($apartment_image->url) ? asset('/storage/' . $apartment_image->url) : null;
         return view('admin.apartments.show', compact('apartment','services'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ApartmentImage  $apartment_image
-    //  * @return \Illuminate\Http\Response
-     */
-    public function edit(ApartmentImage $apartment_image)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ApartmentImage  $apartment_image
-    //  * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, ApartmentImage $apartment_image)
-    {
-        //
     }
 
     /**

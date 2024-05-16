@@ -14,7 +14,9 @@ class DashboardController extends Controller
 {
   public function index()
   {
+    // recuperare tutti gli appartmaneti dell'utente
     $apartments = Apartment::where('user_id', Auth::id())->get();
+    // recuperare gli appartmaneti con sponsorizzazione valida dell'utente registrato
     $apartments_sponsor = Apartment::select('id', 'name', 'cover_img')->where('user_id', Auth::id())->whereHas('sponsorships', function (EloquentBuilder $query) {
       $query->where('end_date', '>', now());
     })->groupBy('id')->get();
@@ -24,18 +26,21 @@ class DashboardController extends Controller
       $apartment_sponsor->cover_img = $apartment_sponsor->cover_img ? asset('storage/uploads/cover/' . $apartment_sponsor->cover_img) : 'https://placehold.co/600x400';
     }
 
+    // dichiarazione array dei messaggi
     $messages = [];
 
+    // per ogni appartmanto recupero i messagg
     foreach ($apartments as $apartment) {
-      // $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
       $messages_col = Message::where('apartment_id', $apartment->id)->with('apartment:id,name')->orderBy('created_at', 'DESC')->get()->toArray();
       foreach ($messages_col as $message) {
+        // cambio formato data
         $dateString = strtotime($message['created_at']);
         $message['created_at'] = date('d-m-Y H:i:s', $dateString);
         $messages[] = $message;
       };
     }
 
+    // recupero id dell'utente registrato
     $authID = Auth::id();
 
     // Messaggi totali per mese
@@ -82,8 +87,7 @@ class DashboardController extends Controller
       WHERE (users.id = $authID) AND (DATE(visits.created_at) BETWEEN '2023-06-01' AND '2024-05-31')"
     ));
 
-    // dd($result_1);
-
+    // dichiarazione array di labels, messaggi totali e visualizzazione views
     $labels = [];
     $result_messages = [];
     $result_views = [];
@@ -97,15 +101,12 @@ class DashboardController extends Controller
       $result_views[] = $result;
     }
 
-    // dd($labels, $data);
-
     $data = [
       'labels' => $labels,
       'messages' => $result_messages,
       'views' => $result_views,
     ];
 
-    // dd($data);
 
     // return
     return view('admin.dashboard', compact('apartments', 'apartments_sponsor', 'messages', 'data'));

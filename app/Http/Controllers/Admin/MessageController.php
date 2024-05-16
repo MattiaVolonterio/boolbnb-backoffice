@@ -18,9 +18,10 @@ class MessageController extends Controller
      */
     public function index(Apartment $apartment = null)
     {
-
+        // dichiarazione array dei messaggi
         $messages = [];
 
+        // se viene passato nella rotta un appartamento recupero i messaggi di quell'appartamento se no li recupero tutti
         if ($apartment) {
             $messages = Message::where('apartment_id', $apartment->id)->with('apartment:id,name')->orderBy('id', 'DESC')->get();
         } else {
@@ -41,61 +42,6 @@ class MessageController extends Controller
         return view('admin.messages.index', compact('messages'));
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-    //  * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Message  $message
-    //  * @return \Illuminate\Http\Response
-     */
-    public function show(Message $message)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Message  $message
-    //  * @return \Illuminate\Http\Response
-     */
-    public function edit(Message $message)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Message  $message
-    //  * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Message $message)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
