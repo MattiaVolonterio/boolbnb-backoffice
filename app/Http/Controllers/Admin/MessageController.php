@@ -23,11 +23,16 @@ class MessageController extends Controller
 
         // se viene passato nella rotta un appartamento recupero i messaggi di quell'appartamento se no li recupero tutti
         if ($apartment) {
-            $messages = Message::where('apartment_id', $apartment->id)->with('apartment:id,name')->orderBy('id', 'DESC')->get();
+            $messages_col = Message::where('apartment_id', $apartment->id)->with('apartment:id,name')->orderBy('created_at', 'DESC')->get()->toArray();
+            foreach ($messages_col as $message) {
+                $dateString = strtotime($message['created_at']);
+                $message['created_at'] = date('d-m-Y H:i:s', $dateString);
+                $messages[] = $message;
+            };
         } else {
             $apartments = Apartment::where('user_id', Auth::id())->get();
             foreach ($apartments as $apartment) {
-                $messages_col = Message::where('apartment_id', $apartment->id)->with('apartment:id,name')->orderBy('id', 'DESC')->get()->toArray();
+                $messages_col = Message::where('apartment_id', $apartment->id)->with('apartment:id,name')->orderBy('created_at', 'DESC')->get()->toArray();
                 foreach ($messages_col as $message) {
                     $dateString = strtotime($message['created_at']);
                     $message['created_at'] = date('d-m-Y H:i:s', $dateString);

@@ -120,8 +120,8 @@
                         'nav-link',
                         'active' => Route::currentRouteName() == 'admin.apartments.index',
                     ]) aria-current="page" href="{{ route('admin.apartments.index') }}">
-                        <i class="fa-solid fa-building me-2 fs-5"></i>
-                        <span>Appartamenti</span>
+                        <i class="fa-solid fa-building me-2 fs-5 text-center"></i>
+                        <span class="ms-2">Appartamenti</span>
                     </a>
                 </li>
                 <li class="nav-item mt-2">
@@ -136,10 +136,16 @@
                 <li class="nav-item mt-2">
                     <a @class([
                         'nav-link',
-                        // 'active' => Route::currentRouteName() == 'admin.messages.index',
+                        'active' => Route::currentRouteName() == 'admin.messages.index',
                     ]) aria-current="page" href="#">
                         <i class="fa-solid fa-message me-2 fs-5"></i>
-                        <span>Messaggi</span>
+                        <span class="ms-1">Messaggi</span>
+                    </a>
+                </li>
+                <li class="nav-item mt-2">
+                    <a class="nav-link" href="http://localhost:5174/">
+                        <i class="fa-regular fa-square-caret-left me-2 fs-5"></i>
+                        <span class="ms-2">Sito Principale</span>
                     </a>
                 </li>
             </ul>
@@ -149,16 +155,16 @@
 
                     <li class="nav-item nav-link mt-2">
                         <a class="dropdown-item text-danger" href="{{ url('profile') }}">
-                            <i class="fa-solid fa-trash-can me-2 fs-5"></i>
-                            <span>Elimina Profilo</span>
+                            <i class="fa-solid fa-trash-can me-2 fs-5 text-center"></i>
+                            <span class="ms-2">Elimina Profilo</span>
                         </a>
                     </li>
                     <form action="{{ route('logout') }}" id="logout-form" method="POST">
                         @csrf
                         <li class="nav-item nav-link mt-2">
                             <button class="dropdown-item" href="{{ route('logout') }}" id="logout-link">
-                                <i class="fa-solid fa-right-from-bracket me-2 fs-5"></i>
-                                <span>Logout</span>
+                                <i class="fa-solid fa-right-from-bracket me-2 fs-5 text-center"></i>
+                                <span class="ms-1">Logout</span>
                             </button>
                         </li>
                     </form>

@@ -7,8 +7,8 @@
 
         <div class="card-body messages-body">
             @foreach ($messages as $message)
-                <div for class="accordion d-flex gap-3 align-items-center" id="accordionFlushExample">
-                    <div class="accordion-item flex-grow-1">
+                <div for class="accordion d-flex z-0 gap-3 align-items-center" id="accordionFlushExample">
+                    <div class="accordion-item z-0 flex-grow-1">
                         <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#flush-{{ $message['id'] }}" aria-expanded="false"
