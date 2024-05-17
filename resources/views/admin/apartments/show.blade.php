@@ -37,13 +37,11 @@
 
             <div>
                 {{-- MESSAGES INDEX BUTTON --}}
-                <button type="button" class="btn btn-success">
-                    <a href="{{ route('admin.messages.index', $apartment) }}" class="text-decoration-none text-white pe-2">
-                        Vai ai messaggi
-                    </a>
+                <a href="{{ route('admin.messages.index', $apartment) }}" class="btn btn-success">
+                    Vai ai messaggi
 
-                    <i class="fa-solid fa-envelope"></i>
-                </button>
+                    <i class="fa-solid fa-envelope ms-3"></i>
+                </a>
             </div>
         </div>
 
