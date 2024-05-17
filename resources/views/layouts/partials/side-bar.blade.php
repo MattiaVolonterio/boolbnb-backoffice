@@ -81,7 +81,7 @@
                 </a>
 
                 <div aria-labelledby="navbarDropdown" class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item text-danger" href="{{ url('profile') }}"> Elimina Profilo</a>
+                    <a class="dropdown-item" href="{{ url('profile') }}"> Modifica Profilo</a>
                     <a class="dropdown-item" href="{{ route('logout') }}" id="logout-link">
                         Logout
                     </a>
@@ -154,9 +154,9 @@
                 <div>
 
                     <li class="nav-item nav-link mt-2">
-                        <a class="dropdown-item text-danger" href="{{ url('profile') }}">
-                            <i class="fa-solid fa-trash-can me-2 fs-5 text-center"></i>
-                            <span class="ms-2">Elimina Profilo</span>
+                        <a class="dropdown-item" href="{{ url('profile') }}">
+                            <i class="fa-solid fa-gear me-2 fs-5 text-center"></i>
+                            <span class="ms-2">Modifica Profilo</span>
                         </a>
                     </li>
                     <form action="{{ route('logout') }}" id="logout-form" method="POST">
