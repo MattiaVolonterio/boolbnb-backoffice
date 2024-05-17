@@ -3,8 +3,11 @@
 
 @section('content')
     <section class="container mt-3">
-        <h1 class="my-4">Messaggi ricevuti</h1>
-
+        <h1 class="my-4">Messaggi ricevuti
+            @if ($apartment != null)
+                <span>- {{ $apartment->name }}</span>
+            @endif
+        </h1>
         <div class="card-body messages-body">
             @foreach ($messages as $message)
                 <div for class="accordion d-flex z-0 gap-3 align-items-center" id="accordionFlushExample">
