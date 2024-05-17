@@ -45,95 +45,77 @@ class DashboardController extends Controller
     // recupero id dell'utente registrato
     $authID = Auth::id();
 
-
+    $date = Carbon::parse('2018-03-16')->locale('it');
     $todayDate = Carbon::now();
-    // $startDate = Carbon::now()->subYear();
-
-    // $period = Carbon::parse($startDate)->diff($todayDate);
 
     //Create a months array
-    $months = [];
+    $totalArray = [];
+    $label_to_print = [];
+
     //Get start and end of all months
     for ($i = 0; $i <= 12; $i++) {
       $startDate = Carbon::now()->subYear();
-      $array = [];
-      $array['start'] = $startDate->addMonths($i)->firstOfMonth()->format('d/m/y');
-      $array['end'] = $startDate->endOfMonth()->endOfMonth()->format('d/m/y');
-
-      // $montQuerys[] = "SUM(DATE(messages.created_at) BETWEEN '$monthStart' AND '$monthEnd') AS $monthName";
-      array_push($months, $array);
+      $totalArray[] = $startDate->addMonths($i)->firstOfMonth()->format('Y-m-d');
+      $totalArray[] = $startDate->endOfMonth()->format('Y-m-d');
+      $month_base = $startDate->format('F');
+      $month_translated = ucfirst(Carbon::translateTimeString($month_base, 'en', 'it'));
+      $label_to_print[] = $month_translated;
     }
 
-    $prova1 = $months[1]['start'];
-    $prova2 = $months[1]['end'];
-
-    // Messaggi totali per mese
-    // $result_1 = DB::select(
-    //   DB::raw(
-    //     "SELECT 
-    //    SUM(DATE(messages.created_at) BETWEEN '2023-06-01' AND '2023-06-30') AS Giugno,
-    //    SUM(DATE(messages.created_at) BETWEEN '2023-07-01' AND '2023-07-31') AS Luglio,
-    //    SUM(DATE(messages.created_at) BETWEEN '2023-08-01' AND '2023-08-31') AS Agosto,
-    //    SUM(DATE(messages.created_at) BETWEEN '2023-09-01' AND '2023-09-30') AS Settembre,
-    //    SUM(DATE(messages.created_at) BETWEEN '2023-10-01' AND '2023-10-31') AS Ottobre,
-    //    SUM(DATE(messages.created_at) BETWEEN '2023-11-01' AND '2023-11-30') AS Novembre,
-    //    SUM(DATE(messages.created_at) BETWEEN '2023-12-01' AND '2023-12-31') AS Dicembre,
-    //    SUM(DATE(messages.created_at) BETWEEN '2024-01-01' AND '2024-01-31') AS Gennaio,
-    //    SUM(DATE(messages.created_at) BETWEEN '2024-02-01' AND '2024-02-28') AS Febbraio, 
-    //    SUM(DATE(messages.created_at) BETWEEN '2024-03-01' AND '2024-03-31') AS Marzo, 
-    //    SUM(DATE(messages.created_at) BETWEEN '2024-04-01' AND '2024-04-30') AS Aprile,
-    //    SUM(DATE(messages.created_at) BETWEEN '2024-05-01' AND '2024-05-31') AS Maggio
-    //   FROM apartments  
-    //   INNER JOIN users ON users.id = apartments.user_id
-    //   INNER JOIN messages ON messages.apartment_id = apartments.id
-    //   WHERE (users.id = $authID) AND (DATE(messages.created_at) BETWEEN '2023-06-01' AND '2024-05-31')"
-    //   )
-    // );
-
-    // dd($result_1);
+    $date_of_start_char = $totalArray[0];
 
 
-    $result_prova = DB::table('apartments')->select(DB::raw('COUNT(*)'))
+    // Messaggi totali per mesi
+    $result_1 = DB::table('apartments')->selectRaw("
+      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Giugno2,
+      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Giugno,
+      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Luglio,
+      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Agosto,
+      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Settembre,
+      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Ottobre,
+      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Novembre,
+      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Dicembre,
+      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Gennaio,
+      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Febbraio, 
+      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Marzo, 
+      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Aprile,
+      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Maggio", [$totalArray])
       ->join('users', 'users.id', '=', 'apartments.user_id')
       ->join('messages', 'messages.apartment_id', '=', 'apartments.id')
       ->where('users.id', '=', $authID)
-      ->whereBetween('messages.created_at', [date($prova1), date($prova2)])
+      ->whereBetween('messages.created_at', [date($date_of_start_char), date($todayDate)])
       ->get();
 
-    dd($result_prova);
 
 
 
     // Visualizzazioni totali per mese
-    $result_2 = DB::select(
-      DB::raw(
-        "SELECT 
-       SUM(DATE(visits.created_at) BETWEEN '2023-06-01' AND '2023-06-30') AS Giugno,
-       SUM(DATE(visits.created_at) BETWEEN '2023-07-01' AND '2023-07-31') AS Luglio,
-       SUM(DATE(visits.created_at) BETWEEN '2023-08-01' AND '2023-08-31') AS Agosto,
-       SUM(DATE(visits.created_at) BETWEEN '2023-09-01' AND '2023-09-30') AS Settembre,
-       SUM(DATE(visits.created_at) BETWEEN '2023-10-01' AND '2023-10-31') AS Ottobre,
-       SUM(DATE(visits.created_at) BETWEEN '2023-11-01' AND '2023-11-30') AS Novembre,
-       SUM(DATE(visits.created_at) BETWEEN '2023-12-01' AND '2023-12-31') AS Dicembre,
-       SUM(DATE(visits.created_at) BETWEEN '2024-01-01' AND '2024-01-31') AS Gennaio,
-       SUM(DATE(visits.created_at) BETWEEN '2024-02-01' AND '2024-02-28') AS Febbraio, 
-       SUM(DATE(visits.created_at) BETWEEN '2024-03-01' AND '2024-03-31') AS Marzo, 
-       SUM(DATE(visits.created_at) BETWEEN '2024-04-01' AND '2024-04-30') AS Aprile,
-       SUM(DATE(visits.created_at) BETWEEN '2024-05-01' AND '2024-05-31') AS Maggio
-      FROM apartments  
-      INNER JOIN users ON users.id = apartments.user_id
-      INNER JOIN visits ON visits.apartment_id = apartments.id
-      WHERE (users.id = $authID) AND (DATE(visits.created_at) BETWEEN '2023-06-01' AND '2024-05-31')"
-      )
-    );
+
+    $result_2 = DB::table('apartments')->selectRaw("
+    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Giugno2,
+    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Giugno,
+    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Luglio,
+    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Agosto,
+    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Settembre,
+    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Ottobre,
+    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Novembre,
+    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Dicembre,
+    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Gennaio,
+    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Febbraio, 
+    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Marzo, 
+    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Aprile,
+    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Maggio", [$totalArray])
+      ->join('users', 'users.id', '=', 'apartments.user_id')
+      ->join('visits', 'visits.apartment_id', '=', 'apartments.id')
+      ->where('users.id', '=', $authID)
+      ->whereBetween('visits.created_at', [date($date_of_start_char), date($todayDate)])
+      ->get();
 
     // dichiarazione array di labels, messaggi totali e visualizzazione views
-    $labels = [];
     $result_messages = [];
     $result_views = [];
 
     foreach ($result_1[0] as $key => $result) {
-      $labels[] = $key;
       $result_messages[] = $result;
     }
 
@@ -142,7 +124,7 @@ class DashboardController extends Controller
     }
 
     $data = [
-      'labels' => $labels,
+      'labels' => $label_to_print,
       'messages' => $result_messages,
       'views' => $result_views,
     ];
