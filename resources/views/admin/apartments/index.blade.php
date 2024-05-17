@@ -12,7 +12,7 @@
     <section class="container mt-5" id="index-apartment">
         <h1 class="text-center">Lista Appartamenti</h1>
 
-        <a class="btn btn-primary mt-3" href="{{ route('admin.apartments.create') }}">Crea uno nuovo</a>
+        <a class="btn btn-primary mt-3" href="{{ route('admin.apartments.create') }}">Creane uno nuovo</a>
 
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xxl-4 g-5 g-md-3 py-4">
             @forelse ($apartments as $apartment)

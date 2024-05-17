@@ -3,8 +3,22 @@
 
 @section('content')
     <section class="container mt-3">
-        <h1 class="my-4">Messaggi ricevuti</h1>
+        @if ($apartment != null)
+            {{-- BACK TO APARTMENTS INDEX BUTTON --}}
+            <button type="button" class="btn btn-primary me-3 mt-3">
+                <i class="fa-solid fa-arrow-left me-1"></i>
+                <a href="{{ route('admin.apartments.show', $apartment) }}" class="text-decoration-none text-white">
+                    Torna all'appartamento
+                </a>
+            </button>
+        @endif
 
+        {{-- Messaggi --}}
+        <h1 class="my-4">Messaggi ricevuti
+            @if ($apartment != null)
+                <span>- {{ $apartment->name }}</span>
+            @endif
+        </h1>
         <div class="card-body messages-body">
             @foreach ($messages as $message)
                 <div for class="accordion d-flex z-0 gap-3 align-items-center" id="accordionFlushExample">

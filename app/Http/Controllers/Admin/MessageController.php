@@ -18,6 +18,7 @@ class MessageController extends Controller
      */
     public function index(Apartment $apartment = null)
     {
+
         // dichiarazione array dei messaggi
         $messages = [];
 
@@ -29,10 +30,11 @@ class MessageController extends Controller
                 $message['created_at'] = date('d-m-Y H:i:s', $dateString);
                 $messages[] = $message;
             };
+            // return view('admin.messages.index', compact('messages', 'apartment'));
         } else {
             $apartments = Apartment::where('user_id', Auth::id())->get();
-            foreach ($apartments as $apartment) {
-                $messages_col = Message::where('apartment_id', $apartment->id)->with('apartment:id,name')->orderBy('created_at', 'DESC')->get()->toArray();
+            foreach ($apartments as $apartmento) {
+                $messages_col = Message::where('apartment_id', $apartmento->id)->with('apartment:id,name')->orderBy('created_at', 'DESC')->get()->toArray();
                 foreach ($messages_col as $message) {
                     $dateString = strtotime($message['created_at']);
                     $message['created_at'] = date('d-m-Y H:i:s', $dateString);
@@ -44,7 +46,7 @@ class MessageController extends Controller
 
         // $messages = collect($messages);
 
-        return view('admin.messages.index', compact('messages'));
+        return view('admin.messages.index', compact('messages', 'apartment'));
     }
 
 
