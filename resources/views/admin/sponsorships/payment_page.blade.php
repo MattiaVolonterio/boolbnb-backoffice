@@ -56,13 +56,17 @@
                     <form id="payment-form" action="{{ route('admin.sponsorships.store') }}" method="post">
                         @csrf
                         <div id="dropin-container" class="m-0"></div>
+                        @error($errors->any())
+                            <div class="invalid-feedback">
+                                @foreach ($errors as $error)
+                                    {{ $error }}<br />
+                                @endforeach
+                            </div>
+                        @enderror
                         <button type="submit" class="btn btn-primary">Paga</button>
                         <input type="hidden" id="nonce" name="payment_method_nonce">
                         <input type="hidden" id="apartment_id" name="apartment_id" value="{{ $apartment->id }}">
                         <input type="hidden" id="sponsorship_id" name="sponsorship_id" value="{{ $sponsor->id }}">
-                        <input type="hidden" id="start_date" name="start_date" value="{{ $start_date }}">
-                        <input type="hidden" id="end_date" name="end_date" value="{{ $end_date }}">
-                        <input type="hidden" id="amount" name="amount" value="{{ $sponsor->price }}">
                     </form>
                 </div>
             </div>

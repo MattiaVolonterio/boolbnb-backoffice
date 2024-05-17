@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SponsorshipStoreRequest;
 use App\Models\Apartment;
 use App\Models\Sponsorship;
 use Braintree;
@@ -98,10 +99,24 @@ class SponsorshipController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      */
-    public function store(Request $request)
+    public function store(SponsorshipStoreRequest $request)
     {
+
+        // Validazione dei dati inviati dal form
+        $request->validated();
+        
         // request dei dati inseriti TODO da eseguire validazione
         $data = $request->all();
+        
+        // recupero l'appartamento e la sponsor dal database in base all'id inserito
+        $apartment = Apartment::find($data['apartment_id']);
+        
+        // inizializzazione variabili data inizio e data fine
+        if(Auth::id() != $apartment->user_id) abort(403);
+        
+        $sponsor = Sponsorship::find($data['sponsorship_id']);
+        
+        
 
         // creo il gateway braintree con le varie chiavi
         $gateway = new Braintree\Gateway([
@@ -112,7 +127,7 @@ class SponsorshipController extends Controller
         ]);
 
         // recupero la spesa e il metodo di pagamento
-        $amount = $data['amount'];
+        $amount = $sponsor->price;
         $nonce = $data['payment_method_nonce'];
 
         // creo la transazione
@@ -126,21 +141,58 @@ class SponsorshipController extends Controller
 
         // se la transazione ha successo
         if($result->success || !is_null($result->transaction)){ 
-            // recupero l'appartamento selezionato
-            $apartment = Apartment::find($data['apartment_id']);
+            // inizializzazione variabili di inizio e fine sponsor
+        $end_date = null;
+        $start_date = null;
 
-            // creo la data di inizio e la data di fine in base a quella calcolata precedentemente
-            $end_date_str = strtotime($data['end_date']);
-            $start_date_str = strtotime($data['start_date']);
+        // inizializzazione durata della sponsor
+        $duration = $sponsor->duration;
 
-            $end_date = date("Y-m-d H:i:s", $end_date_str);
-            $start_date = date("Y-m-d H:i:s", $start_date_str);
+        // controllo se ci sono sponsorizzazioni attive sull'appartmento selezionato
+        $apartment_sponsorship = $apartment->sponsorships()->where('end_date', '>', now());
+        $array_apsponsor = $apartment_sponsorship->get()->toArray();
+
+        // se l'appartamento ha già una sponsor ne creo una partendo dall'ultima scadenza
+        if ($array_apsponsor) {
+            
+            // se esiste solo una sponsor prendo la prima altrimenti prendo l'ultima sponsor
+            $apartment_sponsorship = count($array_apsponsor) == 1 ? $apartment_sponsorship->first() : $apartment_sponsorship->orderBy('end_date', 'DESC')->first(); 
+
+            // in caso la data di fine e sia valida
+            if ($apartment_sponsorship->pivot->end_date && $apartment_sponsorship->pivot->end_date > now()->format('Y-m-d H:i:s')) {
+                // creo la data d'inizio
+                $start_date_sec = strtotime($apartment_sponsorship->pivot->end_date);
+                $start_date = date("Y-m-d H:i:s", $start_date_sec);
+                
+                // calcolo il tempo rimanente alla precedente sottoscrizione
+                $time_remaining = strtotime($apartment_sponsorship->pivot->end_date) - strtotime(now());
+                
+                // calcolo la data di fine aggiungendo durata e tempo rimasto
+                $end_date = date("Y-m-d H:i:s", strtotime("+" . $duration . ' Hours' . $time_remaining . ' seconds'));
+            }
+            
+            else {
+                // creo data iniziale in caso di nessuna sponsor valida
+                $start_date = now()->format('Y-m-d H:i:s');
+                
+                // calcolo la data di fine
+                $expiration = strtotime("+" . $duration . ' Hours');
+                $end_date = date("Y-m-d H:i:s", $expiration);
+            }
+        } else {
+            // creo data iniziale in caso di nessuna sponsor
+            $start_date = now()->format('Y-m-d H:i:s');
+            
+            // calcolo la data di fine
+            $expiration = strtotime("+" . $duration . ' Hours');
+            $end_date = date("Y-m-d H:i:s", $expiration);
+        }
             
             // aggiungo la sponsor appena creata nel database
             $apartment->sponsorships()->attach($data['sponsorship_id'], ['start_date' => $start_date, 'end_date' => $end_date]);
 
             // RETURN con messaggi di avvenuta sottoscrizione
-            return redirect()->route('admin.apartments.show', $apartment->id)->with('message-status', 'alert-success')->with('message-text', 'Sottoscrizione effettuata con successo');
         }
+        return redirect()->route('admin.apartments.show', $apartment->id)->with('message-status', 'alert-success')->with('message-text', 'Sottoscrizione effettuata con successo');
     }
 }
