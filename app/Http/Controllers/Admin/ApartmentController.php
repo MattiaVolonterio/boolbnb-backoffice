@@ -323,6 +323,7 @@ class ApartmentController extends Controller
     // funzione che cambia il valore 
     public function switch_visible(Request $request, Apartment $apartment)
     {
+
         //protezione rotte
         if (Auth::id() != $apartment->user_id && Auth::user()->role != 'admin')
             abort(403);

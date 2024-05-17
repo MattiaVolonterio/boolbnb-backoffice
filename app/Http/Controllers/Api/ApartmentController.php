@@ -129,7 +129,9 @@ class ApartmentController extends Controller
             $lon2 = floatval($apartment->lon);
 
             if (($lat1 == $lat2) && ($lon1 == $lon2)) {
+                $apartment->distance = 0;
                 $filtered_apartments[] = $apartment;
+
             } else {
                 $theta = $lon1 - $lon2;
                 $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
@@ -137,6 +139,7 @@ class ApartmentController extends Controller
                 $dist = rad2deg($dist);
                 $m = $dist * 60 * 1.1515 * 1.609344 * 1000;
                 if ($m <= $radiusInt) {
+                    $apartment->distance = round($m / 1000, 2);
                     $filtered_apartments[] = $apartment;
                 }
             }
@@ -184,13 +187,14 @@ class ApartmentController extends Controller
     public function filterApartments($lat, $lon, $radius, $n_room = null, $n_bathrooom = null, $n_bed = null, $square_meters = null, $floor = null, $services = null)
     {
 
+
         // creazione query senza recupero dati per appartamenti sponsor
-        $query_raw_sponsor = $apartments_sponsor = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->with('services:id,name,icon')->with('sponsorships')->whereHas('sponsorships', function (Builder $query) {
+        $query_raw_sponsor = $apartments_sponsor = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->with('sponsorships')->whereHas('sponsorships', function (Builder $query) {
             $query->where('end_date', '>', now());
         })->groupBy('id');
         
         // creazione query senza recupero dati per appartamenti senza sponsor
-        $query_raw_not = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->with('services:id,name,icon')->doesntHave('sponsorships');
+        $query_raw_not = Apartment::select('id', 'name', 'slug', 'cover_img', 'lat', 'lon', 'address')->where('visible', 1)->doesntHave('sponsorships');
 
 
         // filter by n_room
@@ -228,39 +232,66 @@ class ApartmentController extends Controller
         $apartments_notsponsor = $query_raw_not->get();
 
         // merge delle collection
-        $apartments = $apartments_sponsor->merge($apartments_notsponsor);
+        $apartments_precalc = $apartments_sponsor->merge($apartments_notsponsor);
+
+        $filtered_apartments = [];
+
+        $lat1 = $lat;
+        $lon1 = $lon;
+        $radiusInt = $radius;
+
+        // calc if the specific apartment is include in the given radius
+        foreach ($apartments_precalc as $apartment) {
+            $lat2 = floatval($apartment->lat);
+            $lon2 = floatval($apartment->lon);
+
+            if (($lat1 == $lat2) && ($lon1 == $lon2)) {
+                $apartment->distance = 0;
+                $filtered_apartments[] = $apartment;
+            } else {
+                $theta = $lon1 - $lon2;
+                $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+                $dist = acos($dist);
+                $dist = rad2deg($dist);
+                $m = $dist * 60 * 1.1515 * 1.609344 * 1000;
+                if ($m <= $radiusInt) {
+                    $apartment->distance = round($m / 1000, 2);
+                    $filtered_apartments[] = $apartment;
+                }
+            }
+        }
 
         // filter by array services
         if ($services != 'null') {
-            $apartments_filtered = [];
+            $apartments = [];
             $services = explode(',', $services);
             for ($i = 0; $i < count($services); $i++) {
                 $services[$i] = intval($services[$i]);
             }
             $value = 0;
-            foreach ($apartments as $apartment) {
+            foreach ($filtered_apartments as $apartment) {
                 $value = 0;
                 foreach ($services as $service) {
                     if (in_array($service, $apartment->services->pluck('id')->toArray())) {
                         $value++;
                     }
                 }
-                if ($value == count($services)) $apartments_filtered[] = $apartment;
+                if ($value == count($services)) $apartments[] = $apartment;
             }
         }
 
 
         if ($services != 'null') {
-            foreach ($apartments_filtered as $apartment) {
-                $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
-            }
-            $filtered_apartments_paginated = $this->paginate($apartments_filtered, 12);
-            return response()->json($filtered_apartments_paginated);
-        } else {
             foreach ($apartments as $apartment) {
                 $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
             }
-            $filtered_apartments_paginated = $this->paginate($apartments->toArray(), 12);
+            $apartments_paginated = $this->paginate($apartments, 12);
+            return response()->json($apartments_paginated);
+        } else {
+            foreach ($filtered_apartments as $apartment) {
+                $apartment->cover_img = $apartment->cover_img ? asset('storage/uploads/cover/' . $apartment->cover_img) : 'https://placehold.co/600x400';
+            }
+            $filtered_apartments_paginated = $this->paginate($filtered_apartments, 12);
             return response()->json($filtered_apartments_paginated);
         }
     }
