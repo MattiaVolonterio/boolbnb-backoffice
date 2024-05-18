@@ -66,25 +66,40 @@ class DashboardController extends Controller
 
 
     // Messaggi totali per mesi
-    $result_1 = DB::table('apartments')->selectRaw("
-      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Giugno2,
-      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Giugno,
-      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Luglio,
-      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Agosto,
-      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Settembre,
-      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Ottobre,
-      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Novembre,
-      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Dicembre,
-      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Gennaio,
-      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Febbraio, 
-      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Marzo, 
-      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Aprile,
-      SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Maggio", [$totalArray])
+    $result_1 = DB::table('apartments')
+      ->selectRaw('year(messages.created_at) year, month(messages.created_at) month, count(*) data')
       ->join('users', 'users.id', '=', 'apartments.user_id')
       ->join('messages', 'messages.apartment_id', '=', 'apartments.id')
       ->where('users.id', '=', $authID)
       ->whereBetween('messages.created_at', [date($date_of_start_char), date($todayDate)])
-      ->get();
+      ->groupBy('year', 'month')
+      ->orderBy('year', 'ASC')
+      ->orderBy('month', 'ASC')
+      ->get()->toArray();
+
+
+    foreach ($result_1 as $result) {
+      $month_name = date("F", mktime(0, 0, 0, $result->month, 10));
+      $result->month = ucfirst(Carbon::translateTimeString($month_name, 'en', 'it'));
+    }
+
+    $result_messages = [];
+
+    for ($i = 0; $i < count($label_to_print); $i++) {
+      $var = 0;
+      for ($y = $var; $y < count($result_1); $y++) {
+        if ($label_to_print[$i] == $result_1[$y]->month) {
+          $result_messages[] = $result_1[$y]->data;
+          $var = $y + 1;
+          break;
+        }
+        if ($y == count($result_1) - 1) {
+          $result_messages[] = 0;
+        }
+      }
+    }
+
+    dd($result_1, $result_messages);
 
 
 

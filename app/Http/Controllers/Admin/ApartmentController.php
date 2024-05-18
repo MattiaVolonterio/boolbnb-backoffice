@@ -161,6 +161,7 @@ class ApartmentController extends Controller
         $date_of_start_char = $totalArray[0];
 
 
+        // Array dei messaggi
         $result_1 = DB::table('messages')
             ->selectRaw('year(created_at) year, month(created_at) month, count(*) data')
             ->where('messages.apartment_id', '=', $apartment->id)
@@ -185,67 +186,44 @@ class ApartmentController extends Controller
                     $result_messages[] = $result_1[$y]->data;
                     $var = $y + 1;
                     break;
-                } else {
+                }
+                if ($y == count($result_1) - 1) {
                     $result_messages[] = 0;
                 }
             }
         }
 
-        dd($result_1, $label_to_print, $result_messages);
-
-
-        // Messaggi totali per mesi
-        // $result_1 = DB::table('apartments')->selectRaw("
-        // SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Giugno2,
-        // SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Giugno,
-        // SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Luglio,
-        // SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Agosto,
-        // SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Settembre,
-        // SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Ottobre,
-        // SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Novembre,
-        // SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Dicembre,
-        // SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Gennaio,
-        // SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Febbraio, 
-        // SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Marzo, 
-        // SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Aprile,
-        // SUM(DATE(messages.created_at) BETWEEN ? AND ?) AS Maggio", [$totalArray])
-        //     ->join('messages', 'messages.apartment_id', '=', 'apartments.id')
-        //     ->where('apartments.id', '=', $apartment->id)
-        //     ->whereBetween('messages.created_at', [date($date_of_start_char), date($todayDate)])
-        //     ->get();
-
 
         // Visualizzazioni totali per mese
 
-        $result_2 = DB::table('apartments')->selectRaw("
-        SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Giugno2,
-        SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Giugno,
-        SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Luglio,
-        SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Agosto,
-        SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Settembre,
-        SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Ottobre,
-        SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Novembre,
-        SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Dicembre,
-        SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Gennaio,
-        SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Febbraio, 
-        SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Marzo, 
-        SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Aprile,
-        SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Maggio", [$totalArray])
-            ->join('visits', 'visits.apartment_id', '=', 'apartments.id')
-            ->where('apartments.id', '=', $apartment->id)
+        $result_2 = DB::table('visits')
+            ->selectRaw('year(created_at) year, month(created_at) month, count(*) data')
+            ->where('visits.apartment_id', '=', $apartment->id)
             ->whereBetween('visits.created_at', [date($date_of_start_char), date($todayDate)])
+            ->groupBy('year', 'month')
+            ->orderBy('year', 'ASC')
+            ->orderBy('month', 'ASC')
             ->get();
 
-        // dichiarazione array di labels, messaggi totali e visualizzazione views
-        $result_messages = [];
-        $result_views = [];
-
-        foreach ($result_1[0] as $key => $result) {
-            $result_messages[] = $result;
+        foreach ($result_2 as $result) {
+            $month_name = date("F", mktime(0, 0, 0, $result->month, 10));
+            $result->month = ucfirst(Carbon::translateTimeString($month_name, 'en', 'it'));
         }
 
-        foreach ($result_2[0] as $key => $result) {
-            $result_views[] = $result;
+        $result_views = [];
+
+        for ($i = 0; $i < count($label_to_print); $i++) {
+            $var = 0;
+            for ($y = $var; $y < count($result_2); $y++) {
+                if ($label_to_print[$i] == $result_2[$y]->month) {
+                    $result_views[] = $result_2[$y]->data;
+                    $var = $y + 1;
+                    break;
+                }
+                if ($y == count($result_2) - 1) {
+                    $result_views[] = 0;
+                }
+            }
         }
 
         $data = [
