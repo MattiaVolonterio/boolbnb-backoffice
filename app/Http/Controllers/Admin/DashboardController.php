@@ -87,7 +87,6 @@ class DashboardController extends Controller
     $var = 0;
     for ($i = 0; $i < count($label_to_print); $i++) {
       for ($j = $var; $j < count($result_1); $j++) {
-        var_dump($j);
         if ($label_to_print[$i] == $result_1[$j]->month) {
           $result_messages[] = $result_1[$j]->data;
           $var = $j + 1;
