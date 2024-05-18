@@ -179,15 +179,15 @@ class ApartmentController extends Controller
 
         $result_messages = [];
 
+        $var = 0;
         for ($i = 0; $i < count($label_to_print); $i++) {
-            $var = 0;
-            for ($y = $var; $y < count($result_1); $y++) {
-                if ($label_to_print[$i] == $result_1[$y]->month) {
-                    $result_messages[] = $result_1[$y]->data;
-                    $var = $y + 1;
+            for ($j = $var; $j < count($result_1); $j++) {
+                if ($label_to_print[$i] == $result_1[$j]->month) {
+                    $result_messages[] = $result_1[$j]->data;
+                    $var = $j + 1;
                     break;
                 }
-                if ($y == count($result_1) - 1) {
+                if ($j == count($result_1) - 1) {
                     $result_messages[] = 0;
                 }
             }
@@ -203,7 +203,7 @@ class ApartmentController extends Controller
             ->groupBy('year', 'month')
             ->orderBy('year', 'ASC')
             ->orderBy('month', 'ASC')
-            ->get();
+            ->get()->toArray();
 
         foreach ($result_2 as $result) {
             $month_name = date("F", mktime(0, 0, 0, $result->month, 10));
@@ -212,15 +212,15 @@ class ApartmentController extends Controller
 
         $result_views = [];
 
+        $var_2 = 0;
         for ($i = 0; $i < count($label_to_print); $i++) {
-            $var = 0;
-            for ($y = $var; $y < count($result_2); $y++) {
-                if ($label_to_print[$i] == $result_2[$y]->month) {
-                    $result_views[] = $result_2[$y]->data;
-                    $var = $y + 1;
+            for ($j = $var_2; $j < count($result_2); $j++) {
+                if ($label_to_print[$i] == $result_2[$j]->month) {
+                    $result_views[] = $result_2[$j]->data;
+                    $var_2 = $j + 1;
                     break;
                 }
-                if ($y == count($result_2) - 1) {
+                if ($j == count($result_2) - 1) {
                     $result_views[] = 0;
                 }
             }

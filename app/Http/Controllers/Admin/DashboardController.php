@@ -84,58 +84,53 @@ class DashboardController extends Controller
     }
 
     $result_messages = [];
-
+    $var = 0;
     for ($i = 0; $i < count($label_to_print); $i++) {
-      $var = 0;
-      for ($y = $var; $y < count($result_1); $y++) {
-        if ($label_to_print[$i] == $result_1[$y]->month) {
-          $result_messages[] = $result_1[$y]->data;
-          $var = $y + 1;
+      for ($j = $var; $j < count($result_1); $j++) {
+        var_dump($j);
+        if ($label_to_print[$i] == $result_1[$j]->month) {
+          $result_messages[] = $result_1[$j]->data;
+          $var = $j + 1;
           break;
         }
-        if ($y == count($result_1) - 1) {
+        if ($j == count($result_1) - 1) {
           $result_messages[] = 0;
         }
       }
     }
 
-    dd($result_1, $result_messages);
-
-
-
-
     // Visualizzazioni totali per mese
 
-    $result_2 = DB::table('apartments')->selectRaw("
-    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Giugno2,
-    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Giugno,
-    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Luglio,
-    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Agosto,
-    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Settembre,
-    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Ottobre,
-    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Novembre,
-    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Dicembre,
-    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Gennaio,
-    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Febbraio, 
-    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Marzo, 
-    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Aprile,
-    SUM(DATE(visits.created_at) BETWEEN ? AND ?) AS Maggio", [$totalArray])
+    $result_2 = DB::table('apartments')
+      ->selectRaw('year(visits.created_at) year, month(visits.created_at) month, count(*) data')
       ->join('users', 'users.id', '=', 'apartments.user_id')
       ->join('visits', 'visits.apartment_id', '=', 'apartments.id')
       ->where('users.id', '=', $authID)
       ->whereBetween('visits.created_at', [date($date_of_start_char), date($todayDate)])
-      ->get();
+      ->groupBy('year', 'month')
+      ->orderBy('year', 'ASC')
+      ->orderBy('month', 'ASC')
+      ->get()->toArray();
 
-    // dichiarazione array di labels, messaggi totali e visualizzazione views
-    $result_messages = [];
-    $result_views = [];
-
-    foreach ($result_1[0] as $key => $result) {
-      $result_messages[] = $result;
+    foreach ($result_2 as $result) {
+      $month_name = date("F", mktime(0, 0, 0, $result->month, 10));
+      $result->month = ucfirst(Carbon::translateTimeString($month_name, 'en', 'it'));
     }
 
-    foreach ($result_2[0] as $key => $result) {
-      $result_views[] = $result;
+    $result_views = [];
+
+    $var_2 = 0;
+    for ($i = 0; $i < count($label_to_print); $i++) {
+      for ($j = $var_2; $j < count($result_2); $j++) {
+        if ($label_to_print[$i] == $result_2[$j]->month) {
+          $result_views[] = $result_2[$j]->data;
+          $var_2 = $j + 1;
+          break;
+        }
+        if ($j == count($result_2) - 1) {
+          $result_views[] = 0;
+        }
+      }
     }
 
     $data = [
