@@ -180,7 +180,7 @@ class ApartmentController extends Controller
         $result_messages = [];
 
         $var = 0;
-        for ($i = 0; $i < count($label_to_print); $i++) {
+        for ($i = 0; $i <= count($label_to_print); $i++) {
             for ($j = $var; $j < count($result_1); $j++) {
                 if ($label_to_print[$i] == $result_1[$j]->month) {
                     $result_messages[] = $result_1[$j]->data;
@@ -191,6 +191,10 @@ class ApartmentController extends Controller
                     $result_messages[] = 0;
                 }
             }
+        }
+
+        while (count($result_messages) < count($label_to_print)) {
+            $result_messages[] = 0;
         }
 
 
@@ -224,6 +228,10 @@ class ApartmentController extends Controller
                     $result_views[] = 0;
                 }
             }
+        }
+
+        while (count($result_views) < count($label_to_print)) {
+            $result_views[] = 0;
         }
 
         $data = [

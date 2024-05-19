@@ -98,6 +98,10 @@ class DashboardController extends Controller
       }
     }
 
+    while (count($result_messages) < count($label_to_print)) {
+      $result_messages[] = 0;
+    }
+
     // Visualizzazioni totali per mese
 
     $result_2 = DB::table('apartments')
@@ -130,6 +134,10 @@ class DashboardController extends Controller
           $result_views[] = 0;
         }
       }
+    }
+
+    while (count($result_views) < count($label_to_print)) {
+      $result_views[] = 0;
     }
 
     $data = [
