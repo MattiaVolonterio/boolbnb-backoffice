@@ -9,6 +9,7 @@ use App\Models\Apartment;
 use App\Models\Service;
 use App\Models\ApartmentImage;
 use App\Models\Sponsorship;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -140,68 +141,93 @@ class ApartmentController extends Controller
 
         // CHART
 
-        // Messaggi totali per mese
-        $result_1 = DB::select(DB::raw(
-            "SELECT 
-         SUM(DATE(messages.created_at) BETWEEN '2023-06-01' AND '2023-06-30') AS Giugno,
-         SUM(DATE(messages.created_at) BETWEEN '2023-07-01' AND '2023-07-31') AS Luglio,
-         SUM(DATE(messages.created_at) BETWEEN '2023-08-01' AND '2023-08-31') AS Agosto,
-         SUM(DATE(messages.created_at) BETWEEN '2023-09-01' AND '2023-09-30') AS Settembre,
-         SUM(DATE(messages.created_at) BETWEEN '2023-10-01' AND '2023-10-31') AS Ottobre,
-         SUM(DATE(messages.created_at) BETWEEN '2023-11-01' AND '2023-11-30') AS Novembre,
-         SUM(DATE(messages.created_at) BETWEEN '2023-12-01' AND '2023-12-31') AS Dicembre,
-         SUM(DATE(messages.created_at) BETWEEN '2024-01-01' AND '2024-01-31') AS Gennaio,
-         SUM(DATE(messages.created_at) BETWEEN '2024-02-01' AND '2024-02-28') AS Febbraio, 
-         SUM(DATE(messages.created_at) BETWEEN '2024-03-01' AND '2024-03-31') AS Marzo, 
-         SUM(DATE(messages.created_at) BETWEEN '2024-04-01' AND '2024-04-30') AS Aprile,
-         SUM(DATE(messages.created_at) BETWEEN '2024-05-01' AND '2024-05-31') AS Maggio
-        FROM apartments  
-        INNER JOIN messages ON messages.apartment_id = apartments.id
-        WHERE (apartments.id = $apartment->id) AND (DATE(messages.created_at) BETWEEN '2023-06-01' AND '2024-05-31')"
-        ));
+        $date = Carbon::parse('2018-03-16')->locale('it');
+        $todayDate = Carbon::now();
 
+        //Create a months array
+        $totalArray = [];
+        $label_to_print = [];
+
+        //Get start and end of all months
+        for ($i = 0; $i <= 12; $i++) {
+            $startDate = Carbon::now()->subYear();
+            $totalArray[] = $startDate->addMonths($i)->firstOfMonth()->format('Y-m-d');
+            $totalArray[] = $startDate->endOfMonth()->format('Y-m-d');
+            $month_base = $startDate->format('F');
+            $month_translated = ucfirst(Carbon::translateTimeString($month_base, 'en', 'it'));
+            $label_to_print[] = $month_translated;
+        }
+
+        $date_of_start_char = $totalArray[0];
+
+
+        // Array dei messaggi
+        $result_1 = DB::table('messages')
+            ->selectRaw('year(created_at) year, month(created_at) month, count(*) data')
+            ->where('messages.apartment_id', '=', $apartment->id)
+            ->whereBetween('messages.created_at', [date($date_of_start_char), date($todayDate)])
+            ->groupBy('year', 'month')
+            ->orderBy('year', 'ASC')
+            ->orderBy('month', 'ASC')
+            ->get()->toArray();
+
+
+        foreach ($result_1 as $result) {
+            $month_name = date("F", mktime(0, 0, 0, $result->month, 10));
+            $result->month = ucfirst(Carbon::translateTimeString($month_name, 'en', 'it'));
+        }
+
+        $result_messages = [];
+
+        $var = 0;
+        for ($i = 0; $i < count($label_to_print); $i++) {
+            for ($j = $var; $j < count($result_1); $j++) {
+                if ($label_to_print[$i] == $result_1[$j]->month) {
+                    $result_messages[] = $result_1[$j]->data;
+                    $var = $j + 1;
+                    break;
+                }
+                if ($j == count($result_1) - 1) {
+                    $result_messages[] = 0;
+                }
+            }
+        }
 
 
         // Visualizzazioni totali per mese
-        $result_2 = DB::select(DB::raw(
-            "SELECT 
-         SUM(DATE(visits.created_at) BETWEEN '2023-06-01' AND '2023-06-30') AS Giugno,
-         SUM(DATE(visits.created_at) BETWEEN '2023-07-01' AND '2023-07-31') AS Luglio,
-         SUM(DATE(visits.created_at) BETWEEN '2023-08-01' AND '2023-08-31') AS Agosto,
-         SUM(DATE(visits.created_at) BETWEEN '2023-09-01' AND '2023-09-30') AS Settembre,
-         SUM(DATE(visits.created_at) BETWEEN '2023-10-01' AND '2023-10-31') AS Ottobre,
-         SUM(DATE(visits.created_at) BETWEEN '2023-11-01' AND '2023-11-30') AS Novembre,
-         SUM(DATE(visits.created_at) BETWEEN '2023-12-01' AND '2023-12-31') AS Dicembre,
-         SUM(DATE(visits.created_at) BETWEEN '2024-01-01' AND '2024-01-31') AS Gennaio,
-         SUM(DATE(visits.created_at) BETWEEN '2024-02-01' AND '2024-02-28') AS Febbraio, 
-         SUM(DATE(visits.created_at) BETWEEN '2024-03-01' AND '2024-03-31') AS Marzo, 
-         SUM(DATE(visits.created_at) BETWEEN '2024-04-01' AND '2024-04-30') AS Aprile,
-         SUM(DATE(visits.created_at) BETWEEN '2024-05-01' AND '2024-05-31') AS Maggio
-        FROM apartments  
-        INNER JOIN visits ON visits.apartment_id = apartments.id
-        WHERE (apartments.id = $apartment->id) AND (DATE(visits.created_at) BETWEEN '2023-06-01' AND '2024-05-31')"
-        ));
 
-        // dd($result_1);
+        $result_2 = DB::table('visits')
+            ->selectRaw('year(created_at) year, month(created_at) month, count(*) data')
+            ->where('visits.apartment_id', '=', $apartment->id)
+            ->whereBetween('visits.created_at', [date($date_of_start_char), date($todayDate)])
+            ->groupBy('year', 'month')
+            ->orderBy('year', 'ASC')
+            ->orderBy('month', 'ASC')
+            ->get()->toArray();
 
-        // etichette mesi e dati
-        $labels = [];
-        // array dei messaggi
-        $result_messages = [];
-        // array delle views
-        $result_views = [];
-
-        foreach ($result_1[0] as $key => $result) {
-            $labels[] = $key;
-            $result_messages[] = $result;
+        foreach ($result_2 as $result) {
+            $month_name = date("F", mktime(0, 0, 0, $result->month, 10));
+            $result->month = ucfirst(Carbon::translateTimeString($month_name, 'en', 'it'));
         }
 
-        foreach ($result_2[0] as $key => $result) {
-            $result_views[] = $result;
+        $result_views = [];
+
+        $var_2 = 0;
+        for ($i = 0; $i < count($label_to_print); $i++) {
+            for ($j = $var_2; $j < count($result_2); $j++) {
+                if ($label_to_print[$i] == $result_2[$j]->month) {
+                    $result_views[] = $result_2[$j]->data;
+                    $var_2 = $j + 1;
+                    break;
+                }
+                if ($j == count($result_2) - 1) {
+                    $result_views[] = 0;
+                }
+            }
         }
 
         $data = [
-            'labels' => $labels,
+            'labels' => $label_to_print,
             'messages' => $result_messages,
             'views' => $result_views,
         ];
