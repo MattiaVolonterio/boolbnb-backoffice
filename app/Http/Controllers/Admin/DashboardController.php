@@ -53,8 +53,8 @@ class DashboardController extends Controller
     $label_to_print = [];
 
     //Get start and end of all months
-    for ($i = 0; $i <= 12; $i++) {
-      $startDate = Carbon::now()->subYear();
+    for ($i = 0; $i <= 6; $i++) {
+      $startDate = Carbon::now()->subMonths(6);
       $totalArray[] = $startDate->addMonths($i)->firstOfMonth()->format('Y-m-d');
       $totalArray[] = $startDate->endOfMonth()->format('Y-m-d');
       $month_base = $startDate->format('F');
@@ -97,6 +97,7 @@ class DashboardController extends Controller
         }
       }
     }
+
 
     while (count($result_messages) < count($label_to_print)) {
       $result_messages[] = 0;
