@@ -11,6 +11,8 @@
     @vite('resources/js/app.js')
 
     @yield('css')
+
+
 </head>
 
 <body>
@@ -22,6 +24,7 @@
         </main>
 
         @include('layouts.partials.footer')
+        @yield('modal')
     </div>
 
     @auth
@@ -37,6 +40,7 @@
     @endauth
 
     @yield('js')
+
 </body>
 
 </html>

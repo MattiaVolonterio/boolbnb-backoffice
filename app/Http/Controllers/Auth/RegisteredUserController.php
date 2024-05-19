@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Carbon\Carbon;
 
 class RegisteredUserController extends Controller
 {
@@ -31,13 +32,33 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'name' => ['nullable', 'string', 'max:50'],
+            'surname' => ['nullable', 'string', 'max:50'],
+            'birthday' => ['nullable', 'date', 'before:' . Carbon::now()->subYears(18)->format('Y-m-d')],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ], [
+            'name.max' => "Il nome dev'essere di 50 caratteri",
+            'surname.max' => "Il cognome dev'essere di 50 caratteri",
+            'birthday.before' => "La data inserita dev'essere precedente al " . Carbon::now()->subYears(18)->format('Y-m-d'),
+            'email.required' => "L'e-mail è obbligatoria",
+            'email.email' => "Inserire un'e-mail valida",
+            'email.max' => "l'e-mail non può essere più lunga di 255 caratteri",
+            'email.unique' => "l'e-mail inserita è già presente",
+            'password.min' => "La password dev'essere minimo di 8 caratteri",
+            'password.confirmed' => "La password inserita non corrisponde",
         ]);
 
+        if ($request->name) {
+            $name_to_save = $request->name;
+        } else {
+            $name_to_save = explode('@', $request->email)[0];
+        }
+
         $user = User::create([
-            'name' => $request->name,
+            'name' => $name_to_save,
+            'surname' => $request->surname,
+            'birthday' => $request->birthday,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);

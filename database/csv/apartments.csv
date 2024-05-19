@@ -1,21 +1,21 @@
-name,n_room,n_bathroom,n_bed,square_meters,floor,address,lat,lon
-Loggia degli Osii,11,3,11,90,0,Piazza dei Mercanti 9 Milano,45.4645,9.18758
-Casa dei Morigi,4,3,6,150,1,via Morigi 8 Milano,45.46403,9.18094
-Palazzo Taverna,5,3,5,300,4,via Bigli 9 Milano,45.468301,9.191743
-Palazzo Cusani,3,4,5,140,6,via Brera 13-15 Milano,45.471003,9.187303
-Palazzo dell'Ambrosiana,9,4,9,80,0,Piazza Pio XI 2 Milano,45.4634,9.185725
-Palazzo Dal Pozzo Benni,12,4,20,350,10,corso Venezia 53 Milano,45.471735,9.199849
-Palazzo Litta Cusini Modignani,7,3,7,240,3,corso Europa 16 Milano,45.464551,9.197092
-Casa Cavalli,4,3,4,110,1,via Dante 6 Milano,45.466728,9.183902
-Palazzo Brentani,3,3,3,120,4,via Manzoni 6 Milano,45.467835,9.190696
-Casa Dugnani,7,4,7,300,8,via Saffi 9 Milano,45.468677,9.169026
-Casa Milanese,5,5,5,220,2,corso Vittorio Emanuele II 8 Milano,45.465013,9.193859
-Palazzo Argentina,12,5,19,450,2,corso Buenos Aires 36 Milano,45.478632,9.209815
-Casa Lentati,3,3,3,100,1,via Telesio 2 Milano,45.468849,9.165392
-Villino Maria Luisa,11,11,22,400,0,via Tamburini 8 Milano,45.469701,9.167795
-Palazzo Mezzanotte,8,4,10,340,5,piazza degli Affari 6 Milano,45.465203,9.1833
-Casa Galimberti,4,3,8,250,0,via Malpighi 3 Milano,45.474686,9.207017
-Palazzo Turati,8,4,12,250,3,via Meravigli 7 Milano,45.465664,9.183837
-Castello Cova,5,3,12,150,0,via Carducci 36 Milano,45.4629,9.173487
-Casa Candiani,8,3,8,260,0,via Bandello 14-20 Milano,45.4634,9.166
-Palazzo Chiesa,7,7,12,190,2,corso Venezia 36 Milano,45.471256,9.20182
+name,n_room,n_bathroom,n_bed,square_meters,floor,address,lat,lon,cover_img
+Loggia degli Osii,11,3,11,90,0,Piazza dei Mercanti 9 Milano,45.4645,9.18758,01_Loggia_degli_Osii.jpeg
+Casa dei Morigi,4,3,6,150,1,Via Morigi 8 Milano,45.46403,9.18094,02_Torre_dei_Moriggia.jpeg
+Palazzo Taverna,5,3,5,300,4,Via Bigli 9 Milano,45.468301,9.191743,03_Via_Bigli.jpeg
+Palazzo Cusani,3,4,5,140,6,Via Brera 13-15 Milano,45.471003,9.187303,04_Palazzo_Cusani.jpeg
+Palazzo dell'Ambrosiana,9,4,9,80,0,Piazza Pio XI 2 Milano,45.4634,9.185725,05_Ambrosiana_-_Facciata.jpeg
+Palazzo Dal Pozzo Benni,12,4,20,350,10,Corso Venezia 53 Milano,45.471735,9.199849,06_palazzo_del_Pozzo_Benni.jpeg
+Palazzo Litta Cusini Modignani,7,3,7,240,3,Corso Europa 16 Milano,45.464551,9.197092,07_Palazzo_Litta_Cusini_Modignani.jpeg
+Casa Cavalli,4,3,4,110,1,Via Dante 6 Milano,45.466728,9.183902,08_Casa_Cavalli.jpeg
+Palazzo Brentani,3,3,3,120,4,Via Manzoni 6 Milano,45.467835,9.190696,09_Palazzo_Brentani.jpeg
+Casa Dugnani,7,4,7,300,8,Via Saffi 9 Milano,45.468677,9.169026,10_Casa_Dugnani_1.jpeg
+Casa Milanese,5,5,5,220,2,Corso Vittorio Emanuele II 8 Milano,45.465013,9.193859,11_Magazzini_Bonomi_3.jpeg
+Palazzo Argentina,12,5,19,450,2,Corso Buenos Aires 36 Milano,45.478632,9.209815,12_palazzo_Argentina.jpeg
+Casa Lentati,3,3,3,100,1,Via Telesio 2 Milano,45.468849,9.165392,13_Casa_Lentati.jpeg
+Villino Maria Luisa,11,11,22,400,0,Via Tamburini 8 Milano,45.469701,9.167795,14_Villino_Maria_Luisa.jpeg
+Palazzo Mezzanotte,8,4,10,340,5,Piazza degli Affari 6 Milano,45.465203,9.1833,15_Palazzo_mezzanotte_Milan_Stock_Exchange.jpeg
+Casa Galimberti,4,3,8,250,0,Via Malpighi 3 Milano,45.474686,9.207017,16_Malpighi3_3.jpeg
+Palazzo Turati,8,4,12,250,3,Via Meravigli 7 Milano,45.465664,9.183837,17_Palazzo_Turati.jpeg
+Castello Cova,5,3,12,150,0,Via Carducci 36 Milano,45.4629,9.173487,18_Casa_Cova_-_panoramio_-_MarkusMark.jpeg
+Casa Candiani,8,3,8,260,0,Via Bandello 14-20 Milano,45.4634,9.166,19_Luigi_Broggi.jpeg
+Palazzo Chiesa,7,7,12,190,2,Corso Venezia 36 Milano,45.471256,9.20182,20_Palazzo_al_n._36.jpeg

@@ -1,7 +1,8 @@
 <header>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
-            <a class="navbar-brand" href="#">Bool BnB</a>
+            <a class="navbar-brand" href="{{ Auth::user() ? url('admin/dashboard') : route('login') }}">Bool
+                BnB</a>
             <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
                 class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
                 <span class="navbar-toggler-icon"></span>
@@ -9,7 +10,11 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mb-2 mb-lg-0 w-100">
                     <li class="nav-item flex-grow-1">
-                        <a @class(['nav-link', 'active' => Route::currentRouteName() == 'home']) aria-current="page" href="{{ route('home') }}">Home</a>
+                        <a @class([
+                            'nav-link',
+                            'active' => Route::currentRouteName() == 'admin.apartments.index',
+                        ]) aria-current="page"
+                            href="{{ route('admin.apartments.index') }}">Appartamenti</a>
                     </li>
 
                     @guest
@@ -30,7 +35,7 @@
 
                             <div aria-labelledby="navbarDropdown" class="dropdown-menu dropdown-menu-right">
                                 <a class="dropdown-item" href="{{ route('admin.dashboard') }}"> Dashboard</a>
-                                <a class="dropdown-item" href="{{ url('profile') }}"> Profilo</a>
+                                <a class="dropdown-item text-danger" href="{{ url('profile') }}"> Elimina Profilo</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}" id="logout-link">
                                     Logout
                                 </a>

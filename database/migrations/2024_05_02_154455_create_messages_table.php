@@ -24,9 +24,10 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->string('customer_email');
-            $table->string('content');
+            $table->text('content');
             $table->string('name', 100)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

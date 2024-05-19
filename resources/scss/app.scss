@@ -2,6 +2,7 @@
 
 .wrapper {
     min-height: 100vh;
+    min-width: 455px;
     display: flex;
     flex-direction: column;
 
@@ -9,3 +10,38 @@
         flex-grow: 1;
     }
 }
+
+.search-container {
+    position: relative;
+
+    #suggestion {
+        background-color: white;
+        width: 100%;
+        box-shadow: 0 15px 15px 0 grey;
+        position: absolute;
+
+        .suggested-address {
+            padding-left: 10px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+
+            cursor: pointer;
+        }
+    }
+}
+
+#index-apartment .card-img-top{
+    height: 215px;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+//Carousel
+.ms_carousel-inner, .ms_carousel-item { height: 400px; }
+
+//Sponsorships badge
+.badge{ 
+    font-size: 0.9rem;
+}
+
