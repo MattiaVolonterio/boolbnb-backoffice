@@ -56,7 +56,7 @@
 
                 {{-- ricordami --}}
                 <div class="mb-4 row">
-                    <div class="col-md-10 offset-6 offset-sm-7 offset-md-8">
+                    <div class="col-11 d-flex justify-content-end pe-4">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="remember" id="remember"
                                 {{ old('remember') ? 'checked' : '' }}>

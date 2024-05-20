@@ -1,9 +1,11 @@
 @import "~bootstrap/scss/bootstrap";
 
 .wrapper {
-    min-height: 100vh;
+    height: 100vh;
+    width: 100%;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 
     main {
         flex-grow: 1;
@@ -29,7 +31,7 @@
     }
 }
 
-#index-apartment .card-img-top{
+#index-apartment .card-img-top {
     height: 215px;
     width: 100%;
     object-fit: cover;
@@ -37,10 +39,12 @@
 }
 
 //Carousel
-.ms_carousel-inner, .ms_carousel-item { height: 400px; }
-
-//Sponsorships badge
-.badge{ 
-    font-size: 0.9rem;
+.ms_carousel-inner,
+.ms_carousel-item {
+    height: 400px;
 }
 
+//Sponsorships badge
+.badge {
+    font-size: 0.9rem;
+}
