@@ -222,7 +222,7 @@
                 @if (!empty($apartment->cover_img))
                     <div class="card">
                         <img src="{{ asset('storage/uploads/cover/' . $apartment->cover_img) }}"
-                            class="card-img-top img-fluid rounded" style="width: 100%; height: auto;"
+                            class="card-img-top img-fluid rounded" style="width: 100%; height: 400px;"
                             alt="apartment cover img" style="width: 200px;">
                     </div>
                 @endif
