@@ -127,7 +127,7 @@
                                 <div><strong>Lon: </strong>{{ $apartment->lon }}</div>
                             </li>
                             <li>
-                                <div><strong>visibile: </strong>{{ $apartment->visible }}</div>
+                                <div><strong>Visibile: </strong>{{ $apartment->visible ? 'SI' : 'NO' }}</div>
                             </li>
                         </ul>
                     </div>
