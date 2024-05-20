@@ -137,7 +137,7 @@
                     <a @class([
                         'nav-link',
                         'active' => Route::currentRouteName() == 'admin.messages.index',
-                    ]) aria-current="page" href="#">
+                    ]) aria-current="page" href="{{ route('admin.messages.index') }}">
                         <i class="fa-solid fa-message me-2 fs-5"></i>
                         <span class="ms-1">Messaggi</span>
                     </a>
