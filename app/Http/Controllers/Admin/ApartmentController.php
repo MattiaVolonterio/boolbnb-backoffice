@@ -285,14 +285,9 @@ class ApartmentController extends Controller
         $data = $request->all();
 
 
-        //creo slug dal nome 
-        $apartment->slug = Str::slug($data['name']);
-
-
-        $slug_found = false;
-        $slug_index = 0;
-
-        $apartment->slug = $this->generateUniqueSlug($data['slug']);
+        if(isset($data['name'])){
+            $apartment->slug = $this->generateUniqueSlug($data['name']);
+        }
 
         // Riassegno l'essere visibile o meno
         $data['visible'] = Arr::exists($data, 'visible');
