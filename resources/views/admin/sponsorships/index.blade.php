@@ -121,7 +121,7 @@
                         <p class="mt-2 mb-0 text-success">Il prezzo è di &euro;{{ $sponsorship->price }}</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
                         @if (!empty($apartments))
                             <button type="submit" class="btn btn-primary">Vai al pagamento</button>
                         @endif
