@@ -233,13 +233,13 @@
 
                 {{-- GRAFICO STATISTICHE --}}
 
-                <h2 class="h1 mt-4">Le tue statistiche</h2>
-                <div>
-                    <canvas id="myChart"></canvas>
-                </div>
 
             </div>
         @endif
+        <h2 class="h1 mt-4">Le tue statistiche</h2>
+        <div>
+            <canvas id="myChart"></canvas>
+        </div>
 
     </section>
 @endsection
